@@ -1,0 +1,84 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/modified/ALIGN LEFT.svg</file>
+        <file>icons/modified/ALIGN MIDDLE.svg</file>
+        <file>icons/modified/ALIGN RIGHT.svg</file>
+        <file>icons/modified/ARROW.svg</file>
+        <file>icons/modified/BATTERY.svg</file>
+        <file>icons/modified/BELL.svg</file>
+        <file>icons/modified/BLANK.svg</file>
+        <file>icons/modified/BLUETOOTH.svg</file>
+        <file>icons/modified/BROWSER.svg</file>
+        <file>icons/modified/CAMERA.svg</file>
+        <file>icons/modified/CART.svg</file>
+        <file>icons/modified/CHAT.svg</file>
+        <file>icons/modified/CHECK MARK.svg</file>
+        <file>icons/modified/CLOCK.svg</file>
+        <file>icons/modified/CLOSE.svg</file>
+        <file>icons/modified/COCKTAIL.svg</file>
+        <file>icons/modified/COMPASS.svg</file>
+        <file>icons/modified/CONNECTION.svg</file>
+        <file>icons/modified/CURSOR.svg</file>
+        <file>icons/modified/DISPLAY.svg</file>
+        <file>icons/modified/DOWNLOAD.svg</file>
+        <file>icons/modified/DROP.svg</file>
+        <file>icons/modified/EMPTY BLANK.svg</file>
+        <file>icons/modified/FLAG.svg</file>
+        <file>icons/modified/FORWARD.svg</file>
+        <file>icons/modified/FORWARD 2.svg</file>
+        <file>icons/modified/GIFT.svg</file>
+        <file>icons/modified/GRAPHIC.svg</file>
+        <file>icons/modified/GRID.svg</file>
+        <file>icons/modified/HAMBURGER MENU.svg</file>
+        <file>icons/modified/HEADPHONES.svg</file>
+        <file>icons/modified/HEART.svg</file>
+        <file>icons/modified/HOME.svg</file>
+        <file>icons/modified/HYPERLINK.svg</file>
+        <file>icons/modified/JUSTIFY ALL.svg</file>
+        <file>icons/modified/KEY.svg</file>
+        <file>icons/modified/LABEL.svg</file>
+        <file>icons/modified/LAUNCH.svg</file>
+        <file>icons/modified/LOCK CLOSED.svg</file>
+        <file>icons/modified/LOCK OPEN.svg</file>
+        <file>icons/modified/MAGNET.svg</file>
+        <file>icons/modified/MAGNIFYING GLASS.svg</file>
+        <file>icons/modified/MAGNIFYING GLASS 2.svg</file>
+        <file>icons/modified/MAGNIFYING GLASS MINUS.svg</file>
+        <file>icons/modified/MAGNIFYING GLASS PLUS.svg</file>
+        <file>icons/modified/MAIL.svg</file>
+        <file>icons/modified/MAP.svg</file>
+        <file>icons/modified/MAP PIN.svg</file>
+        <file>icons/modified/MAXIMIZE.svg</file>
+        <file>icons/modified/MICROPHONE.svg</file>
+        <file>icons/modified/MINIMIZE.svg</file>
+        <file>icons/modified/MINUS.svg</file>
+        <file>icons/modified/MOUSE.svg</file>
+        <file>icons/modified/MUSIC.svg</file>
+        <file>icons/modified/NAVIGATION.svg</file>
+        <file>icons/modified/NOTIFICATIONS.svg</file>
+        <file>icons/modified/PAUSE.svg</file>
+        <file>icons/modified/PENCIL.svg</file>
+        <file>icons/modified/PLAY.svg</file>
+        <file>icons/modified/PLUS.svg</file>
+        <file>icons/modified/POWER.svg</file>
+        <file>icons/modified/PRINT.svg</file>
+        <file>icons/modified/REPEAT.svg</file>
+        <file>icons/modified/RULE.svg</file>
+        <file>icons/modified/SELECTION.svg</file>
+        <file>icons/modified/SETTINGS.svg</file>
+        <file>icons/modified/SHARE.svg</file>
+        <file>icons/modified/SHUFFLE.svg</file>
+        <file>icons/modified/SOUND MINUS.svg</file>
+        <file>icons/modified/SOUND PLUS.svg</file>
+        <file>icons/modified/SPEAKER.svg</file>
+        <file>icons/modified/STAR.svg</file>
+        <file>icons/modified/STATISTICS.svg</file>
+        <file>icons/modified/STOP.svg</file>
+        <file>icons/modified/SUN.svg</file>
+        <file>icons/modified/TRASH BIN.svg</file>
+        <file>icons/modified/UMBRELLA.svg</file>
+        <file>icons/modified/UPLOAD.svg</file>
+        <file>icons/modified/VIDEO CAMERA.svg</file>
+        <file>icons/modified/WIFI.svg</file>
+    </qresource>
+</RCC>
