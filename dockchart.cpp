@@ -58,3 +58,8 @@ void DockChart::highlight(bool state)
         chart->setBackgroundBrush(QBrush(Theme::BackGround2.lighter()));
     }
 }
+
+void DockChart::mousePressEvent(QMouseEvent* event)
+{
+    qDebug() << "Mouse Press Detected";
+}

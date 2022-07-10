@@ -24,10 +24,12 @@ public slots:
     void highlight(bool);
 
 private:
+    void mousePressEvent ( QMouseEvent * event );
+
     Ui::DockChart *ui;
-     QLineSeries *series;
-     QChart *chart;
-     QChartView *chartView;
+    QLineSeries *series;
+    QChart *chart;
+    QChartView *chartView;
 };
 
 #endif // DOCKCHART_H
