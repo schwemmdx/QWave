@@ -21,8 +21,9 @@ int main(int argc, char *argv[])
         }
     }
 
-    /*
-    QFile styleSheet("./SyNet.qss");
+
+/*
+    QFile styleSheet("../test.qss");
 
     if (!styleSheet.exists())   {
         qDebug() << ("Unable to set stylesheet, file not found\n");
@@ -33,7 +34,7 @@ int main(int argc, char *argv[])
         qApp->setStyleSheet(ts.readAll());
 
     }
-    */
+*/
 /*
     QPalette darkpalette;
     darkpalette.setColor(QPalette::Window, Theme::BackGround);
