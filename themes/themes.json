@@ -1,0 +1,32 @@
+{
+	"sublime-light": {
+		"name": "sublime-light",
+		"highlight": "#24c3a9",
+		"background1": "#ffffff",
+		"background2": "#ebedef",
+		"background3": "#c7cbd1",
+		"red": "#e46767",
+		"blue": "#45bdd2",
+		"green": "#30d5c7"
+	},
+	"monokai": {
+		"name": "monokai",
+		"highlight": "#F8F8F2",
+		"background1": "#272822",
+		"background2": "#F8F8F2",
+		"background3": "#75715E",
+		"red": "#F92672",
+		"blue": "#66D9EF",
+		"green": "#A6E22E"
+	},
+	"dracula": {
+		"name": "dracula",
+		"highlight": "#44475a",
+		"background1": "#282a36",
+		"background2": "#44475a",
+		"background3": "#6272a4",
+		"red": "#F92672",
+		"blue": "#66D9EF",
+		"green": "#50fa7b"
+	}
+}

@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(QWave VERSION 0.1 LANGUAGES CXX)
 
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
@@ -23,9 +24,12 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        dockchart.h
-        dockchart.cpp
-        dockchart.ui
+        chartcontainer.h
+        chartcontainer.cpp
+        #chartcontainer.ui
+        #dockchart.h
+        #dockchart.cpp
+        #dockchart.ui
         theme_colors.h
         qwave.qrc
         ${TS_FILES}
