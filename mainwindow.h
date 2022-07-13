@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "dockchart.h"
+#include "chartcontainer.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,6 +18,7 @@ public:
 
 private slots:
     void on_actionTest_triggered();
+    void switchSelectedChart(QVector<ChartContainer*>);
 
 private:
     Ui::MainWindow *ui;
