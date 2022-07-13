@@ -8,17 +8,40 @@
 
 #include "theme_colors.h"
 
+
+#include <random>
+
 ChartContainer::ChartContainer(QWidget *parent)
 {
     series = new QLineSeries();
-    //series->setPen(QPen(Theme::Red,3));
-    series->append(0, 6);
-    series->append(2, 4);
-    series->append(3, 8);
-    series->append(7, 4);
-    series->append(10, 5);
-    *series << QPointF(11, 1) << QPointF(13, 3) << QPointF(17, 6) << QPointF(18, 3) << QPointF(20, 2);
-    //chart object
+
+    std::random_device rd;
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<int> uni(0,3);
+
+    switch(uni(rng))
+    {
+    case 0:
+        //pFun = cos;
+        series->setPen(QPen(Theme::Red,1));
+        break;
+    case 1:
+        //pFun = cos;
+        series->setPen(QPen(Theme::Green,1));
+        break;
+    case 2:
+        //pFun = cos;
+        series->setPen(QPen(Theme::Blue,1));
+        break;
+   default:
+        break;
+    }
+    for(int i=0;i<50;i++)
+    {
+
+        *series<< QPointF(i,rand()%10);
+    }
+
     chart = new QChart();
     chart->legend()->hide();
     chart->addSeries(series);
@@ -47,10 +70,16 @@ void ChartContainer::mousePressEvent(QMouseEvent* event)
 {
     //current chart selected.
     setFocus();
+
     QFont font;
     font.setWeight(QFont::Weight::Bold);
     chart->setBackgroundBrush(QBrush(Theme::ForeGround.lighter()));
     chart->setTitleFont(font);
+    QLineSeries* line = (QLineSeries*)chart->series()[0];
+    QPen p = line->pen();
+    p.setWidth(3);
+    line->setPen(p);
+
     emit chartSelected(this);
 }
 void ChartContainer::deselect()
