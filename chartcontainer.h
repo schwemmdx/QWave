@@ -6,6 +6,7 @@
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
 
+#include "customseries.h"
 
 class ChartContainer : public QChartView
 {
@@ -17,21 +18,21 @@ public:
     void setTitle(QString);
     void deselect(void);
 
+    QList<CustomSeries*> tracies;
+
 signals:
     void chartSelected(ChartContainer*);
+    void seriesSelectionChanged(CustomSeries*);
+
+public slots:
+    void selectedSeriesChanged(CustomSeries*);
 
 private:
-    QLineSeries *series;
+    CustomSeries *series;
     QChart *chart;
 
-    void mousePressEvent ( QMouseEvent * event );
-    /*
-    for(auto &chartContainer: pDockedCharts)
-    {
-         ChartContainer* chart = static_cast<ChartContainer*>(chartContainer);
-         chart->deselect();
-    }
-    */
+
+
 };
 
 #endif // CHARTCONTAINER_H

@@ -26,10 +26,8 @@ set(PROJECT_SOURCES
         mainwindow.ui
         chartcontainer.h
         chartcontainer.cpp
-        #chartcontainer.ui
-        #dockchart.h
-        #dockchart.cpp
-        #dockchart.ui
+        customseries.h
+        customseries.cpp
         theme_colors.h
         qwave.qrc
         ${TS_FILES}

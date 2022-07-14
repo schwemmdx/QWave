@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "customseries.h"
 #include "chartcontainer.h"
 
 QT_BEGIN_NAMESPACE
@@ -16,12 +17,23 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void selectedSeriesChanged(CustomSeries*);
+
+signals:
+
+
 private slots:
     void on_actionTest_triggered();
-    void switchSelectedChart(QVector<ChartContainer*>);
+   // void switchSelectedChart(QVector<ChartContainer*>);
+    void keyPressEvent(QKeyEvent*);
+    void updateFocusTraceDetails(CustomSeries*);
+    void on_actionImportData_triggered();
 
 private:
     Ui::MainWindow *ui;
-    QVector<QWidget*> pDockedCharts{};
+    QVector<ChartContainer*> pDockedCharts{};
+
+
+
 };
 #endif // MAINWINDOW_H
