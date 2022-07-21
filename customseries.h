@@ -6,7 +6,6 @@
 #include <QLineSeries>
 
 #include <QMainWindow>
-#include "theme_colors.h"
 
 
 #include <random>
@@ -17,12 +16,15 @@ class CustomSeries: public QLineSeries
 public:
     CustomSeries(QObject* parent=nullptr);
     void unselect(void);
+    void select(void);
 
 signals:
     void seriesSelected(CustomSeries*);
+    void newStatusMessage(QString);
 
 private:
-    void clicked(void);
+    bool isSelected;
+    void mouseHover(const QPointF,bool);
 
 
 

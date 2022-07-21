@@ -4,6 +4,8 @@
 
 #include "chartcontainer.h"
 #include <QtCharts/QtCharts>
+#include <QStatusBar>
+
 
 
 
@@ -12,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    statusBar()->showMessage("Ready for Operation");
 
 }
 
@@ -28,45 +30,46 @@ void MainWindow::on_actionTest_triggered()
 
         ChartContainer*  chartContainer = new ChartContainer(this);
         connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
-
+        connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
         pDockedCharts.append(chartContainer);
 
 
         ui->centralwidget->adjustSize();
         ui->mainLayout->addWidget(chartContainer,1);
-        chartContainer->setFocus();
+
         ChartContainer* chart = static_cast<ChartContainer*>(chartContainer);
         chart->setTitle(tr("Datenreihe %1").arg(i+1));
 }
 
-//void MainWindow::switchSelectedChart(QVector<ChartContainer*>)
-
-    //Do shit
 
 void MainWindow::selectedSeriesChanged(CustomSeries* traceClicked)
 {
-    QPen defaultPen;
-    for(auto &container: pDockedCharts)
+
+    unselectExcept(traceClicked);
+
+    focusTrace = traceClicked;
+    updateFocusTraceDetails(traceClicked);
+}
+
+void MainWindow::unselectExcept(CustomSeries* traceClicked)
+{
+    if(focusTrace != nullptr)
     {
-        for(auto &ser: container->tracies)
+        for(auto &container: pDockedCharts)
         {
-            if(ser != traceClicked)
+            for(auto &ser: container->tracies)
             {
-                defaultPen = ser->pen();
-                defaultPen.setWidth(1);
-                ser->setPen(defaultPen);
+                if(ser != traceClicked)
+                {
+                      ser->unselect();
+                }
+
             }
         }
     }
-    defaultPen = traceClicked->pen();
-    defaultPen.setWidth(defaultPen.width()+1);
-    traceClicked->setPen(defaultPen);
-
-
-    updateFocusTraceDetails(traceClicked);
-
-
 }
+
+
 
 void MainWindow::on_actionImportData_triggered()
 {
@@ -79,8 +82,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 {
     if( event->key() == Qt::Key_Escape )
     {
-        qDebug() << "ESC Pressed!";
-
+        unselectExcept(nullptr);
     }
 }
 
@@ -88,5 +90,10 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 void MainWindow::updateFocusTraceDetails(CustomSeries* trace)
 {
     ui->numPts->setText(QString::number(trace->points().length()));
+}
+
+void MainWindow::updateStatusBar(QString msg)
+{
+    statusBar()->showMessage(msg);
 }
 

@@ -23,6 +23,7 @@ public:
 signals:
     void chartSelected(ChartContainer*);
     void seriesSelectionChanged(CustomSeries*);
+    void newStatusMessage(QString);
 
 public slots:
     void selectedSeriesChanged(CustomSeries*);
@@ -30,6 +31,10 @@ public slots:
 private:
     CustomSeries *series;
     QChart *chart;
+
+private slots:
+    void newMsgFromSeries(QString);
+
 
 
 

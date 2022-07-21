@@ -23,15 +23,20 @@ signals:
 
 
 private slots:
-    void on_actionTest_triggered();
+
    // void switchSelectedChart(QVector<ChartContainer*>);
     void keyPressEvent(QKeyEvent*);
     void updateFocusTraceDetails(CustomSeries*);
     void on_actionImportData_triggered();
+    void on_actionTest_triggered();
+    void updateStatusBar(QString);
 
 private:
+
+    void unselectExcept(CustomSeries*);
     Ui::MainWindow *ui;
     QVector<ChartContainer*> pDockedCharts{};
+    CustomSeries* focusTrace{nullptr};
 
 
 

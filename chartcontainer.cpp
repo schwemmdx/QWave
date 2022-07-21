@@ -18,6 +18,8 @@ ChartContainer::ChartContainer(QWidget *parent)
 {
     series = new CustomSeries(this);
     connect(series,&CustomSeries::seriesSelected,this,&ChartContainer::selectedSeriesChanged);
+    connect(series,&CustomSeries::newStatusMessage,this,&ChartContainer::newMsgFromSeries);
+
 
     chart = new QChart();
     chart->legend()->hide();
@@ -50,4 +52,9 @@ void ChartContainer::setTitle(QString title)
 void ChartContainer::selectedSeriesChanged(CustomSeries* trace)
 {
  emit seriesSelectionChanged(trace);
+}
+
+void ChartContainer::newMsgFromSeries(QString msg)
+{
+    emit newStatusMessage(msg);
 }
