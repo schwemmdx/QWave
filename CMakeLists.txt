@@ -29,6 +29,9 @@ set(PROJECT_SOURCES
         customseries.h
         customseries.cpp
         theme_colors.h
+        dataimporter.h
+        dataimporter.cpp
+        third-party/rapidcsv.h
         qwave.qrc
         ${TS_FILES}
 )

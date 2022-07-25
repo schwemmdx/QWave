@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    statusBar()->showMessage("Ready for Operation");
+    statusBar()->showMessage("Ready");
 
 }
 
