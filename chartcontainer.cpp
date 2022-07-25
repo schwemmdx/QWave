@@ -30,6 +30,7 @@ ChartContainer::ChartContainer(QWidget *parent)
     chart->setMargins(QMargins(8,8,8,8));
     chart->setBackgroundRoundness(8);
     setChart(chart);
+    //setRubberBand(QChartView::RectangleRubberBand);
     setRenderHint(QPainter::Antialiasing);
     setAlignment(Qt::AlignLeft);
 
@@ -57,4 +58,50 @@ void ChartContainer::selectedSeriesChanged(CustomSeries* trace)
 void ChartContainer::newMsgFromSeries(QString msg)
 {
     emit newStatusMessage(msg);
+}
+
+void ChartContainer::wheelEvent(QWheelEvent* event)
+{
+    if(isSelectedContainer())
+    {
+        int zStep = 10;
+        float dir = 0;
+        QRectF rect = chart->plotArea();
+        QPoint numSteps;
+        QPoint numDegrees = event->angleDelta()/8;
+        if (!numDegrees.isNull()) {
+             numSteps = numDegrees/15;
+        }
+         if(event->modifiers().testFlag(Qt::ControlModifier))
+         {
+            zoomFactor = event->angleDelta().y() > 0 ? 0.5 : 2;
+            QPointF c = chart->plotArea().center();
+            rect.setWidth(zoomFactor*rect.width());
+            rect.moveCenter(c);
+            chart->zoomIn(rect);
+         }
+         else if (event->modifiers().testFlag(Qt::ShiftModifier))
+         {
+             chart->scroll(10*numSteps.y(),0);
+         }
+         else
+         {
+             chart->scroll(125*numSteps.y(),0);
+         }
+
+        event->accept();
+    }
+}
+
+bool ChartContainer::isSelectedContainer(void)
+{
+    bool selectionState = false;
+    foreach (auto &trace, chart->series()) {
+        if(reinterpret_cast<CustomSeries*>(trace)->isSelected())
+        {
+            selectionState =  true;
+            break;
+        }
+    }
+    return selectionState;
 }

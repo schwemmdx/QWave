@@ -15,7 +15,7 @@ CustomSeries::CustomSeries(QObject* parent)
     connect(this, &QXYSeries::clicked, this, &CustomSeries::select);
     connect(this, &QXYSeries::hovered,this,&CustomSeries::mouseHover);
 
-    isSelected = false;
+    selectionState = false;
 
     std::random_device rd;
     std::mt19937 rng(rd());
@@ -51,7 +51,7 @@ CustomSeries::CustomSeries(QObject* parent)
 
 void CustomSeries::unselect()
 {
-    isSelected = false;
+    selectionState = false;
     QPen usedPen = pen();
     usedPen.setWidth(1);
     setPen(usedPen);
@@ -62,7 +62,7 @@ void CustomSeries::unselect()
 
 void CustomSeries::select(void)
 {
-    isSelected = true;
+    selectionState = true;
     QPen usedPen = pen();
     usedPen.setWidth(3);
     setPen(usedPen);
@@ -73,12 +73,12 @@ void CustomSeries::select(void)
 
 void CustomSeries::mouseHover(const QPointF point,bool state)
 {
-    if(isSelected){
+    if(isSelected()){
         QPalette pal;
         pal.setColor(QPalette::ToolTipBase, Theme::BackGround2);
         pal.setColor(QPalette::ToolTipText, Theme::ForeGround);
         QPoint pos = QCursor::pos();
-        qDebug() << state;
+
         QToolTip* info;
         QToolTip::setPalette(pal);
         info->showText(pos,
@@ -93,5 +93,10 @@ void CustomSeries::mouseHover(const QPointF point,bool state)
 
 
 
+}
+
+bool CustomSeries::isSelected(void)
+{
+    return selectionState;
 }
 

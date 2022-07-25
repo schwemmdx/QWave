@@ -24,16 +24,22 @@ signals:
     void chartSelected(ChartContainer*);
     void seriesSelectionChanged(CustomSeries*);
     void newStatusMessage(QString);
+    void zoomApplied(int);
+    void scrollApplied(int);
 
 public slots:
     void selectedSeriesChanged(CustomSeries*);
+    bool isSelectedContainer();
 
 private:
     CustomSeries *series;
     QChart *chart;
+    qreal zoomFactor{1.0};
+    qreal scrollFactor{1.0};
 
 private slots:
     void newMsgFromSeries(QString);
+    void wheelEvent(QWheelEvent*);
 
 
 

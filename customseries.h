@@ -17,13 +17,14 @@ public:
     CustomSeries(QObject* parent=nullptr);
     void unselect(void);
     void select(void);
+    bool isSelected(void);
 
 signals:
     void seriesSelected(CustomSeries*);
     void newStatusMessage(QString);
 
 private:
-    bool isSelected;
+    bool selectionState;
     void mouseHover(const QPointF,bool);
 
 
