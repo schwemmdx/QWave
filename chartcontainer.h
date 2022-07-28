@@ -36,6 +36,7 @@ private:
     QChart *chart;
     qreal zoomFactor{1.0};
     qreal scrollFactor{1.0};
+    qreal stepModifier {1.0};
 
 private slots:
     void newMsgFromSeries(QString);

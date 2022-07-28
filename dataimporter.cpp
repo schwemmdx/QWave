@@ -9,13 +9,15 @@ DataImporter::DataImporter()
 
 }
 
-void DataImporter::readCSV(QString path)
+QString DataImporter::readRawTxt(QString path)
 {
    QString content;
-    QFile file(path);
+   QFile file(path);
+
    if(file.open(QIODevice::ReadOnly | QIODevice::Text))
    {
        content = file.readAll();
+       file.close();
    }
    else
    {
@@ -23,6 +25,10 @@ void DataImporter::readCSV(QString path)
        msgBox.setText("Die Datei "+path + " konnte nicht geöffnet werden!");
        msgBox.exec();
    }
+   return content;
+}
 
+void DataImporter::toQTree(QString*)
+{
 
 }

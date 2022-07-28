@@ -10,7 +10,12 @@ class DataImporter
 public:
     DataImporter();
 private:
-    static void readCSV(QString);
+    static QString readRawTxt(QString);
+    static void toQTable(QString*);
+    static void toQTree(QString*);
+    static void toHF5(QString*);
+    static void toJSON(QString*);
+
     QVector<QVector<QString>> rawTable;
 };
 

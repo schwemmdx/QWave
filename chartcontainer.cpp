@@ -72,7 +72,17 @@ void ChartContainer::wheelEvent(QWheelEvent* event)
         if (!numDegrees.isNull()) {
              numSteps = numDegrees/15;
         }
-         if(event->modifiers().testFlag(Qt::ControlModifier))
+
+        if(event->modifiers().testFlag(Qt::ShiftModifier))
+        {   //speed up zooming and scrolling by the same factor
+            stepModifier = 5;
+        }
+        else
+        {
+            stepModifier = 1;
+        }
+
+        if(event->modifiers().testFlag(Qt::ControlModifier))
          {
             zoomFactor = event->angleDelta().y() > 0 ? 0.5 : 2;
             QPointF c = chart->plotArea().center();
@@ -80,13 +90,9 @@ void ChartContainer::wheelEvent(QWheelEvent* event)
             rect.moveCenter(c);
             chart->zoomIn(rect);
          }
-         else if (event->modifiers().testFlag(Qt::ShiftModifier))
-         {
-             chart->scroll(10*numSteps.y(),0);
-         }
          else
          {
-             chart->scroll(125*numSteps.y(),0);
+             chart->scroll(10*pow(2,stepModifier)*numSteps.y(),0);
          }
 
         event->accept();
