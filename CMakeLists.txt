@@ -31,10 +31,13 @@ set(PROJECT_SOURCES
         theme_colors.h
         dataimporter.h
         dataimporter.cpp
+        csvdatalayout.h
+        csvdatalayout.cpp
         third-party/rapidcsv.h
         qwave.qrc
         ${TS_FILES}
 )
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(QWave

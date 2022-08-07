@@ -7,6 +7,8 @@
 #include <QStatusBar>
 
 
+#include "dataimporter.h"
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -23,22 +25,22 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
+//! this function is going to be removed later on
 void MainWindow::on_actionTest_triggered()
 {
     int i = ui->mainLayout->count();
 
-        ChartContainer*  chartContainer = new ChartContainer(this);
-        connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
-        connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
-        pDockedCharts.append(chartContainer);
+    ChartContainer*  chartContainer = new ChartContainer(this);
+    connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
+    connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
+    pDockedCharts.append(chartContainer);
 
 
-        ui->centralwidget->adjustSize();
-        ui->mainLayout->addWidget(chartContainer,1);
+    ui->centralwidget->adjustSize();
+    ui->mainLayout->addWidget(chartContainer,1);
 
-        ChartContainer* chart = static_cast<ChartContainer*>(chartContainer);
-        chart->setTitle(tr("Datenreihe %1").arg(i+1));
+    ChartContainer* chart = static_cast<ChartContainer*>(chartContainer);
+    chart->setTitle(tr("Datenreihe %1").arg(i+1));
 }
 
 
@@ -73,8 +75,15 @@ void MainWindow::unselectExcept(CustomSeries* traceClicked)
 
 void MainWindow::on_actionImportData_triggered()
 {
-    QStringList files =  QFileDialog::getOpenFileNames();
+    QString file =  QFileDialog::getOpenFileName();
     //qDebug() << files;
+    if(file.isEmpty())
+    {
+        return;
+    }
+    DataImporter::fromCSV(file);
+
+
 }
 
 

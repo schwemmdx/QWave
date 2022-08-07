@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="qwave.qrc">
-    <normaloff>:/icons/icons/modified/GRAPHIC.svg</normaloff>:/icons/icons/modified/GRAPHIC.svg</iconset>
+    <normaloff>:/icons/72/window.png</normaloff>:/icons/72/window.png</iconset>
   </property>
   <property name="dockNestingEnabled">
    <bool>true</bool>
@@ -43,7 +43,7 @@
   <widget class="QToolBar" name="toolBar">
    <property name="maximumSize">
     <size>
-     <width>50</width>
+     <width>40</width>
      <height>16777215</height>
     </size>
    </property>
@@ -62,7 +62,7 @@
    <property name="iconSize">
     <size>
      <width>32</width>
-     <height>32</height>
+     <height>24</height>
     </size>
    </property>
    <property name="toolButtonStyle">
@@ -96,6 +96,10 @@
    </property>
    <property name="contextMenuPolicy">
     <enum>Qt::CustomContextMenu</enum>
+   </property>
+   <property name="windowIcon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/72/apps.png</normaloff>:/icons/72/apps.png</iconset>
    </property>
    <property name="allowedAreas">
     <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
@@ -310,7 +314,7 @@
   <action name="actionTest">
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icons/modified/UPLOAD.svg</normaloff>:/icons/icons/modified/UPLOAD.svg</iconset>
+     <normaloff>:/icons/72/diskette.png</normaloff>:/icons/72/diskette.png</iconset>
    </property>
    <property name="text">
     <string>Test</string>
@@ -319,7 +323,7 @@
   <action name="actionModify">
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icons/modified/SETTINGS.svg</normaloff>:/icons/icons/modified/SETTINGS.svg</iconset>
+     <normaloff>:/icons/72/tools.png</normaloff>:/icons/72/tools.png</iconset>
    </property>
    <property name="text">
     <string>Modify</string>
@@ -328,7 +332,7 @@
   <action name="actionImportData">
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icons/modified/PLUS.svg</normaloff>:/icons/icons/modified/PLUS.svg</iconset>
+     <normaloff>:/icons/72/file.png</normaloff>:/icons/72/file.png</iconset>
    </property>
    <property name="text">
     <string>ImportData</string>

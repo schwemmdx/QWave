@@ -5,16 +5,28 @@
 #include "QVector2D"
 #include "QString"
 
+#include "csvdatalayout.h"
+
+
 class DataImporter
 {
 public:
     DataImporter();
+    static void fromCSV(QString path, QString colDelimiter = ",", QString rowDelimiter = "\n"); //>! Main function to parse a new data object and represent it as QTreeObject
+
 private:
+    CSVDataLayout csvLayout;
     static QString readRawTxt(QString);
-    static void toQTable(QString*);
-    static void toQTree(QString*);
-    static void toHF5(QString*);
+    static void toQTable(QString*); // useful ?
+    static void toQTree(QString*); // useful ?
+    static void toHF5(QString*);  // to much work ?
     static void toJSON(QString*);
+    static void csvWizardDlg(CSVDataLayout*);
+    static double sciStringtoDouble(const QString*);
+
+
+
+
 
     QVector<QVector<QString>> rawTable;
 };

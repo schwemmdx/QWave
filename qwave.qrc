@@ -1,84 +1,147 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>icons/modified/ALIGN LEFT.svg</file>
-        <file>icons/modified/ALIGN MIDDLE.svg</file>
-        <file>icons/modified/ALIGN RIGHT.svg</file>
-        <file>icons/modified/ARROW.svg</file>
-        <file>icons/modified/BATTERY.svg</file>
-        <file>icons/modified/BELL.svg</file>
-        <file>icons/modified/BLANK.svg</file>
-        <file>icons/modified/BLUETOOTH.svg</file>
-        <file>icons/modified/BROWSER.svg</file>
-        <file>icons/modified/CAMERA.svg</file>
-        <file>icons/modified/CART.svg</file>
-        <file>icons/modified/CHAT.svg</file>
-        <file>icons/modified/CHECK MARK.svg</file>
-        <file>icons/modified/CLOCK.svg</file>
-        <file>icons/modified/CLOSE.svg</file>
-        <file>icons/modified/COCKTAIL.svg</file>
-        <file>icons/modified/COMPASS.svg</file>
-        <file>icons/modified/CONNECTION.svg</file>
-        <file>icons/modified/CURSOR.svg</file>
-        <file>icons/modified/DISPLAY.svg</file>
-        <file>icons/modified/DOWNLOAD.svg</file>
-        <file>icons/modified/DROP.svg</file>
-        <file>icons/modified/EMPTY BLANK.svg</file>
-        <file>icons/modified/FLAG.svg</file>
-        <file>icons/modified/FORWARD.svg</file>
-        <file>icons/modified/FORWARD 2.svg</file>
-        <file>icons/modified/GIFT.svg</file>
-        <file>icons/modified/GRAPHIC.svg</file>
-        <file>icons/modified/GRID.svg</file>
-        <file>icons/modified/HAMBURGER MENU.svg</file>
-        <file>icons/modified/HEADPHONES.svg</file>
-        <file>icons/modified/HEART.svg</file>
-        <file>icons/modified/HOME.svg</file>
-        <file>icons/modified/HYPERLINK.svg</file>
-        <file>icons/modified/JUSTIFY ALL.svg</file>
-        <file>icons/modified/KEY.svg</file>
-        <file>icons/modified/LABEL.svg</file>
-        <file>icons/modified/LAUNCH.svg</file>
-        <file>icons/modified/LOCK CLOSED.svg</file>
-        <file>icons/modified/LOCK OPEN.svg</file>
-        <file>icons/modified/MAGNET.svg</file>
-        <file>icons/modified/MAGNIFYING GLASS.svg</file>
-        <file>icons/modified/MAGNIFYING GLASS 2.svg</file>
-        <file>icons/modified/MAGNIFYING GLASS MINUS.svg</file>
-        <file>icons/modified/MAGNIFYING GLASS PLUS.svg</file>
-        <file>icons/modified/MAIL.svg</file>
-        <file>icons/modified/MAP.svg</file>
-        <file>icons/modified/MAP PIN.svg</file>
-        <file>icons/modified/MAXIMIZE.svg</file>
-        <file>icons/modified/MICROPHONE.svg</file>
-        <file>icons/modified/MINIMIZE.svg</file>
-        <file>icons/modified/MINUS.svg</file>
-        <file>icons/modified/MOUSE.svg</file>
-        <file>icons/modified/MUSIC.svg</file>
-        <file>icons/modified/NAVIGATION.svg</file>
-        <file>icons/modified/NOTIFICATIONS.svg</file>
-        <file>icons/modified/PAUSE.svg</file>
-        <file>icons/modified/PENCIL.svg</file>
-        <file>icons/modified/PLAY.svg</file>
-        <file>icons/modified/PLUS.svg</file>
-        <file>icons/modified/POWER.svg</file>
-        <file>icons/modified/PRINT.svg</file>
-        <file>icons/modified/REPEAT.svg</file>
-        <file>icons/modified/RULE.svg</file>
-        <file>icons/modified/SELECTION.svg</file>
-        <file>icons/modified/SETTINGS.svg</file>
-        <file>icons/modified/SHARE.svg</file>
-        <file>icons/modified/SHUFFLE.svg</file>
-        <file>icons/modified/SOUND MINUS.svg</file>
-        <file>icons/modified/SOUND PLUS.svg</file>
-        <file>icons/modified/SPEAKER.svg</file>
-        <file>icons/modified/STAR.svg</file>
-        <file>icons/modified/STATISTICS.svg</file>
-        <file>icons/modified/STOP.svg</file>
-        <file>icons/modified/SUN.svg</file>
-        <file>icons/modified/TRASH BIN.svg</file>
-        <file>icons/modified/UMBRELLA.svg</file>
-        <file>icons/modified/UPLOAD.svg</file>
-        <file>icons/modified/VIDEO CAMERA.svg</file>
-        <file>icons/modified/WIFI.svg</file>
+        <file>72/accesibility.png</file>
+        <file>72/access_point.png</file>
+        <file>72/add.png</file>
+        <file>72/address_book.png</file>
+        <file>72/administrator.png</file>
+        <file>72/apps.png</file>
+        <file>72/arrow_down.png</file>
+        <file>72/arrow_left.png</file>
+        <file>72/arrow_right.png</file>
+        <file>72/arrow_up.png</file>
+        <file>72/bell.png</file>
+        <file>72/binoculars.png</file>
+        <file>72/book.png</file>
+        <file>72/book2.png</file>
+        <file>72/brush.png</file>
+        <file>72/calendar.png</file>
+        <file>72/calendar_day.png</file>
+        <file>72/calendar_week.png</file>
+        <file>72/calendar_year.png</file>
+        <file>72/camera.png</file>
+        <file>72/cancel.png</file>
+        <file>72/checkbox_circle.png</file>
+        <file>72/checkbox_cross.png</file>
+        <file>72/checkbox_empty.png</file>
+        <file>72/checkmark.png</file>
+        <file>72/circled_equal.png</file>
+        <file>72/clip.png</file>
+        <file>72/clipboard.png</file>
+        <file>72/clock.png</file>
+        <file>72/close.png</file>
+        <file>72/cloud.png</file>
+        <file>72/copy.png</file>
+        <file>72/cross.png</file>
+        <file>72/currency_dollar_sign.png</file>
+        <file>72/currency_euro_sign.png</file>
+        <file>72/currency_yen_sign.png</file>
+        <file>72/delete.png</file>
+        <file>72/dish.png</file>
+        <file>72/diskette.png</file>
+        <file>72/divide.png</file>
+        <file>72/document.png</file>
+        <file>72/download.png</file>
+        <file>72/download_2.png</file>
+        <file>72/eject.png</file>
+        <file>72/emoji.png</file>
+        <file>72/emoji_angry.png</file>
+        <file>72/emoji_grin.png</file>
+        <file>72/emoji_in_love.png</file>
+        <file>72/emoji_sad.png</file>
+        <file>72/external_link.png</file>
+        <file>72/file.png</file>
+        <file>72/flash.png</file>
+        <file>72/flash_automatic.png</file>
+        <file>72/flash_off.png</file>
+        <file>72/folder.png</file>
+        <file>72/fountain_pen.png</file>
+        <file>72/games_control.png</file>
+        <file>72/gear.png</file>
+        <file>72/group.png</file>
+        <file>72/hand_point.png</file>
+        <file>72/hand_thumbsdown.png</file>
+        <file>72/hand_thumbsup.png</file>
+        <file>72/headphones.png</file>
+        <file>72/heart.png</file>
+        <file>72/help.png</file>
+        <file>72/history.png</file>
+        <file>72/home.png</file>
+        <file>72/hourglass.png</file>
+        <file>72/info.png</file>
+        <file>72/key.png</file>
+        <file>72/light_bulb_off.png</file>
+        <file>72/light_bulb_on.png</file>
+        <file>72/lighting_bolt.png</file>
+        <file>72/lock_closed.png</file>
+        <file>72/lock_open.png</file>
+        <file>72/mail.png</file>
+        <file>72/mail_open.png</file>
+        <file>72/man.png</file>
+        <file>72/metrics1.png</file>
+        <file>72/metrics2.png</file>
+        <file>72/metrics3.png</file>
+        <file>72/metrics4.png</file>
+        <file>72/metrics5.png</file>
+        <file>72/mic.png</file>
+        <file>72/monitor.png</file>
+        <file>72/more_horizontal.png</file>
+        <file>72/more_vertical.png</file>
+        <file>72/mouse_pointer.png</file>
+        <file>72/music_beamed_note.png</file>
+        <file>72/navicon.png</file>
+        <file>72/network.png</file>
+        <file>72/next.png</file>
+        <file>72/overlapping_squares.png</file>
+        <file>72/paper_plane.png</file>
+        <file>72/paste.png</file>
+        <file>72/pause.png</file>
+        <file>72/pencil.png</file>
+        <file>72/phone.png</file>
+        <file>72/phone_vintage.png</file>
+        <file>72/play.png</file>
+        <file>72/preview2.png</file>
+        <file>72/previous.png</file>
+        <file>72/print.png</file>
+        <file>72/pyramid.png</file>
+        <file>72/random.png</file>
+        <file>72/record.png</file>
+        <file>72/reload.png</file>
+        <file>72/repeat.png</file>
+        <file>72/round.png</file>
+        <file>72/scissors.png</file>
+        <file>72/security.png</file>
+        <file>72/shopping_cart.png</file>
+        <file>72/sms.png</file>
+        <file>72/software.png</file>
+        <file>72/spam.png</file>
+        <file>72/speaker.png</file>
+        <file>72/speech_ballon.png</file>
+        <file>72/star.png</file>
+        <file>72/stats_pie_chart.png</file>
+        <file>72/stop.png</file>
+        <file>72/synchronize.png</file>
+        <file>72/thecnical_wrench.png</file>
+        <file>72/toogle_off.png</file>
+        <file>72/toogle_on.png</file>
+        <file>72/tools.png</file>
+        <file>72/trash_can.png</file>
+        <file>72/upload.png</file>
+        <file>72/video.png</file>
+        <file>72/view_mode_average_icons.png</file>
+        <file>72/view_mode_details.png</file>
+        <file>72/view_mode_list.png</file>
+        <file>72/view_mode_small_icons.png</file>
+        <file>72/webcam.png</file>
+        <file>72/window.png</file>
+        <file>72/windows.png</file>
+        <file>72/wizard.png</file>
+        <file>72/woman.png</file>
+        <file>72/world.png</file>
+        <file>72/world2.png</file>
+        <file>72/world3.png</file>
+        <file>72/zoom.png</file>
+        <file>72/zoom_in.png</file>
+        <file>72/zoom_out.png</file>
     </qresource>
 </RCC>
