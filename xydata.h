@@ -1,29 +1,40 @@
 #ifndef XYDATA_H
 #define XYDATA_H
 
-#include <QList>
-#include <QSharedPointer>
-
+#include "QString"
+#include "QVector"
 
 class XYData
 {
 public:
-    XYData(QVector<qreal> x,QVector<qreal> y);
-    XYData(QSharedDataPointer<QVector<qreal>>,QVector<qreal> y);
+    XYData();
 
-    int getLength(void);
-    bool isXYLenValid(void);
-    size_t getSize(void);
+    QVector<double>* getY(void);
+    QVector<double>* getX(void);
+    void setName(QString);
+    void setSourceFileName(QString);
+    void setUnit(QString);
 
-    void setXRadix(int radix);
-    void setYRadix(int radix);
+    void setAsXData(void);
+    bool isXData(void);
+    void clear(void);
+    int len(void);
+    int size(void);
 
-    void setX(QVector<qreal> x);
-    void setY(QVector<qreal> y);
+    //would be better to work with pointers and copy the data afterwards ?
+    void setData(QVector<double>);
+    void setDataFromSciStr(std::vector<std::string>);
+    void setDataFromNumStr(std::vector<std::string>);
+
 
 private:
-    QVector<qreal> x{};
-    QVector<qreal> y{};
+    QString fileName{""};
+    QString name{"Signal"};
+    QString unit{"N/A"};
+    XYData* pXData{nullptr};
+    QVector<double> data;
+
+
 
 };
 

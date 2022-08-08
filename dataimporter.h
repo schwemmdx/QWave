@@ -5,6 +5,8 @@
 #include "QVector2D"
 #include "QString"
 
+
+#include "xydata.h"
 #include "csvdatalayout.h"
 
 
@@ -12,7 +14,7 @@ class DataImporter
 {
 public:
     DataImporter();
-    static void fromCSV(QString path, QString colDelimiter = ",", QString rowDelimiter = "\n"); //>! Main function to parse a new data object and represent it as QTreeObject
+    static QVector<XYData> fromCSV(QString path, QString colDelimiter = ",", QString rowDelimiter = "\n"); //>! Main function to parse a new data object and represent it as QTreeObject
 
 private:
     CSVDataLayout csvLayout;

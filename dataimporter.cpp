@@ -6,6 +6,8 @@
 
 #include "third-party/rapidcsv.h"
 
+#include "xydata.h"
+
 DataImporter::DataImporter()
 {
 
@@ -35,43 +37,32 @@ void DataImporter::toQTree(QString*)
 
 }
 
-void DataImporter::fromCSV(QString path,QString colDelimiter,QString rowDelimiter)
+QVector<XYData> DataImporter::fromCSV(QString path,QString colDelimiter,QString rowDelimiter)
 {
 
     //> FEATURE ADD IN: Import Wizard with live VIEW
     //Currently hard coded layout (see .h file) (Agilent Oscilloscopes)
 
     CSVDataLayout csvLayout;
-
-    QMap<QString,std::vector<std::string>> csvData;
-    QMap<QString,QString> csvUnits;
+    QVector<XYData> csvData;
 
     rapidcsv::Document csvFile(path.toStdString());
-
+    XYData dataBuf;
     foreach (auto &name, csvFile.GetColumnNames())
     {
-        auto dataBuf(csvFile.GetColumn<std::string>(name));
-        auto unit(csvFile.GetCell<std::string>(name,0));
-        dataBuf.erase(dataBuf.begin());
-        csvUnits.insert(QString::fromStdString(name),QString::fromStdString(unit));
-        csvData.insert(QString::fromStdString(name),dataBuf);
+        dataBuf.clear();
+        dataBuf.setSourceFileName(path);
+        dataBuf.setName(QString::fromStdString(name));
+        dataBuf.setUnit(QString::fromStdString(csvFile.GetCell<std::string>(name,0)));
+        //Chekc wheater the formatting e.g. .1234E-3 or 0.001234
+        dataBuf.setDataFromNumStr(csvFile.GetColumn<std::string>(name));
+        csvData.append(dataBuf);
     }
-
-
-
-
-
-
-
-
-
-
-
+    return csvData;
 
 }
 
 double DataImporter::sciStringtoDouble(const QString*)
 {
-
     return 0.0;
 }

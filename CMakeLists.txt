@@ -33,6 +33,8 @@ set(PROJECT_SOURCES
         dataimporter.cpp
         csvdatalayout.h
         csvdatalayout.cpp
+        xydata.h
+        xydata.cpp
         third-party/rapidcsv.h
         qwave.qrc
         ${TS_FILES}
