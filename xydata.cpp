@@ -1,4 +1,5 @@
 #include "xydata.h"
+#include "QDebug"
 
 XYData::XYData()
 {
@@ -16,7 +17,7 @@ double XYData::parseSciString(std::string point)
     return mantissa*pow(10,exponent);
 }
 
-void XYData::setDataFromSciStr(std::vector<std::string> xData,std::vector<std::string> yData)
+void XYData::setDataFromStr(std::vector<std::string> xData,std::vector<std::string> yData)
 {
     QString pointStr;
     QStringList ptParts;
@@ -27,26 +28,35 @@ void XYData::setDataFromSciStr(std::vector<std::string> xData,std::vector<std::s
     //erase first item because its the units
     xData.erase(xData.begin());
     yData.erase(yData.begin());
-    for(int i = 0;i<xData.size();i++)
-    {
+    double x,y;
 
-        pointStr = QString::fromStdString(point);
-        ptParts = pointStr.split("E");
-        mantissa = ptParts[0].toDouble();
-        exponent = ptParts[1].toInt();
-        result = mantissa*pow(10,exponent);
-        this->data.append(result);
+    for(int i = 0;i<yData.size();i++)
+    {
+       if(QString::fromStdString(xData[i]).contains('E'))
+       {
+           ptBuf.setX(XYData::parseSciString(xData[i]));
+       }
+       else
+       {
+           ptBuf.setX(QString::fromStdString(xData[i]).toDouble());
+       }
+       if(QString::fromStdString(yData[i]).contains('E'))
+       {
+           ptBuf.setY(XYData::parseSciString(yData[i]));
+       }
+       else
+       {
+           ptBuf.setY(QString::fromStdString(yData[i]).toDouble());
+       }
+       points.append(ptBuf);
     }
+
+
 }
 
-void XYData::setDataFromNumStr(std::vector<std::string> dataVec)
+QVector<QPointF> XYData::getPoints(void)
 {
-    dataVec.erase(dataVec.begin());
-
-    foreach(auto &point,dataVec)
-    {
-        this->data.append(QString::fromStdString(point).toDouble());
-    }
+    return points;
 }
 
 void XYData::setName(QString n)
@@ -61,7 +71,7 @@ void XYData::setUnit(QString u)
 
 void XYData::clear(void)
 {
-    data.clear();
+    points.clear();
 }
 
 void XYData::setSourceFileName(QString path)

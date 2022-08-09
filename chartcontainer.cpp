@@ -52,6 +52,7 @@ void ChartContainer::addDataSeries(QVector<QPointF> data)
 {
     series = new CustomSeries(this);
     series->setData(data);
+    chart->addSeries(series);
 
 }
 

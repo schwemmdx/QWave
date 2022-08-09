@@ -48,6 +48,7 @@ QVector<XYData> DataImporter::fromCSV(QString path,QString colDelimiter,QString 
     QVector<XYData> csvData;
     rapidcsv::Document csvFile(path.toStdString());
     XYData dataBuf;
+    auto xVec = csvFile.GetColumn<std::string>("x-axis");
     foreach (auto &name, csvFile.GetColumnNames())
     {
         dataBuf.clear();
@@ -55,7 +56,7 @@ QVector<XYData> DataImporter::fromCSV(QString path,QString colDelimiter,QString 
         dataBuf.setName(QString::fromStdString(name));
         dataBuf.setUnit(QString::fromStdString(csvFile.GetCell<std::string>(name,0)));
         //Chekc wheater the formatting e.g. .1234E-3 or 0.001234
-        dataBuf.setDataFromNumStr(csvFile.GetColumn<std::string>(name));
+        dataBuf.setDataFromStr(xVec,csvFile.GetColumn<std::string>(name));
         csvData.append(dataBuf);
     }
 

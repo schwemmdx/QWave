@@ -93,7 +93,7 @@ void MainWindow::on_actionImportData_triggered()
     }
     auto data = DataImporter::fromCSV(file);
 
-    pDockedCharts[0]->addDataSeries(data[0]);
+    pDockedCharts[0]->addDataSeries(data[0].getPoints());
 
 
 }

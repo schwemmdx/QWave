@@ -24,8 +24,9 @@ public:
     //would be better to work with pointers and copy the data afterwards ?
     void setData(QVector<QPointF>);
     void setData(QVector<double>,QVector<double>);
-    void setDataFromSciStr(std::vector<std::string>,std::vector<std::string>);
-    void setDataFromNumStr(std::vector<std::string>,std::vector<std::string>);
+    void setDataFromStr(std::vector<std::string>,std::vector<std::string>);
+
+    QVector<QPointF> getPoints(void);
 
 
 private:
