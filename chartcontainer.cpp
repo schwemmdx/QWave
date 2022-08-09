@@ -46,9 +46,14 @@ ChartContainer::~ChartContainer()
 void ChartContainer::setTitle(QString title)
 {
     chart->setTitle(title);
-
 }
 
+void ChartContainer::addDataSeries(QVector<QPointF> data)
+{
+    series = new CustomSeries(this);
+    series->setData(data);
+
+}
 
 void ChartContainer::selectedSeriesChanged(CustomSeries* trace)
 {

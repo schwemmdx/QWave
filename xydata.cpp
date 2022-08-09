@@ -6,18 +6,30 @@ XYData::XYData()
 }
 
 
-void XYData::setDataFromSciStr(std::vector<std::string> dataVec)
+double XYData::parseSciString(std::string point)
+{
+    double mantissa{0},exponent{1.0};
+    QString pointStr = QString::fromStdString(point);
+    QStringList ptParts = pointStr.split("E");
+    mantissa = ptParts[0].toDouble();
+    exponent = ptParts[1].toInt();
+    return mantissa*pow(10,exponent);
+}
+
+void XYData::setDataFromSciStr(std::vector<std::string> xData,std::vector<std::string> yData)
 {
     QString pointStr;
     QStringList ptParts;
-
+    QPointF ptBuf;
     int exponent;
     double mantissa,result;
 
     //erase first item because its the units
-    dataVec.erase(dataVec.begin());
-    foreach(auto &point,dataVec)
+    xData.erase(xData.begin());
+    yData.erase(yData.begin());
+    for(int i = 0;i<xData.size();i++)
     {
+
         pointStr = QString::fromStdString(point);
         ptParts = pointStr.split("E");
         mantissa = ptParts[0].toDouble();

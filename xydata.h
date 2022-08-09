@@ -3,14 +3,14 @@
 
 #include "QString"
 #include "QVector"
+#include "QPointF"
 
 class XYData
 {
 public:
     XYData();
 
-    QVector<double>* getY(void);
-    QVector<double>* getX(void);
+
     void setName(QString);
     void setSourceFileName(QString);
     void setUnit(QString);
@@ -22,17 +22,19 @@ public:
     int size(void);
 
     //would be better to work with pointers and copy the data afterwards ?
-    void setData(QVector<double>);
-    void setDataFromSciStr(std::vector<std::string>);
-    void setDataFromNumStr(std::vector<std::string>);
+    void setData(QVector<QPointF>);
+    void setData(QVector<double>,QVector<double>);
+    void setDataFromSciStr(std::vector<std::string>,std::vector<std::string>);
+    void setDataFromNumStr(std::vector<std::string>,std::vector<std::string>);
 
 
 private:
     QString fileName{""};
     QString name{"Signal"};
     QString unit{"N/A"};
-    XYData* pXData{nullptr};
-    QVector<double> data;
+    QVector<QPointF> points;
+
+    double parseSciString(std::string);
 
 
 

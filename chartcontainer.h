@@ -16,6 +16,7 @@ public:
     explicit ChartContainer(QWidget *parent = nullptr);
     ~ChartContainer();
     void setTitle(QString);
+    void addDataSeries(QVector<QPointF> data);
     void deselect(void);
 
     QList<CustomSeries*> tracies;

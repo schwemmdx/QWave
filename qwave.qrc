@@ -1,147 +1,120 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>72/accesibility.png</file>
-        <file>72/access_point.png</file>
-        <file>72/add.png</file>
-        <file>72/address_book.png</file>
-        <file>72/administrator.png</file>
-        <file>72/apps.png</file>
-        <file>72/arrow_down.png</file>
-        <file>72/arrow_left.png</file>
-        <file>72/arrow_right.png</file>
-        <file>72/arrow_up.png</file>
-        <file>72/bell.png</file>
-        <file>72/binoculars.png</file>
-        <file>72/book.png</file>
-        <file>72/book2.png</file>
-        <file>72/brush.png</file>
-        <file>72/calendar.png</file>
-        <file>72/calendar_day.png</file>
-        <file>72/calendar_week.png</file>
-        <file>72/calendar_year.png</file>
-        <file>72/camera.png</file>
-        <file>72/cancel.png</file>
-        <file>72/checkbox_circle.png</file>
-        <file>72/checkbox_cross.png</file>
-        <file>72/checkbox_empty.png</file>
-        <file>72/checkmark.png</file>
-        <file>72/circled_equal.png</file>
-        <file>72/clip.png</file>
-        <file>72/clipboard.png</file>
-        <file>72/clock.png</file>
-        <file>72/close.png</file>
-        <file>72/cloud.png</file>
-        <file>72/copy.png</file>
-        <file>72/cross.png</file>
-        <file>72/currency_dollar_sign.png</file>
-        <file>72/currency_euro_sign.png</file>
-        <file>72/currency_yen_sign.png</file>
-        <file>72/delete.png</file>
-        <file>72/dish.png</file>
-        <file>72/diskette.png</file>
-        <file>72/divide.png</file>
-        <file>72/document.png</file>
-        <file>72/download.png</file>
-        <file>72/download_2.png</file>
-        <file>72/eject.png</file>
-        <file>72/emoji.png</file>
-        <file>72/emoji_angry.png</file>
-        <file>72/emoji_grin.png</file>
-        <file>72/emoji_in_love.png</file>
-        <file>72/emoji_sad.png</file>
-        <file>72/external_link.png</file>
-        <file>72/file.png</file>
-        <file>72/flash.png</file>
-        <file>72/flash_automatic.png</file>
-        <file>72/flash_off.png</file>
-        <file>72/folder.png</file>
-        <file>72/fountain_pen.png</file>
-        <file>72/games_control.png</file>
-        <file>72/gear.png</file>
-        <file>72/group.png</file>
-        <file>72/hand_point.png</file>
-        <file>72/hand_thumbsdown.png</file>
-        <file>72/hand_thumbsup.png</file>
-        <file>72/headphones.png</file>
-        <file>72/heart.png</file>
-        <file>72/help.png</file>
-        <file>72/history.png</file>
-        <file>72/home.png</file>
-        <file>72/hourglass.png</file>
-        <file>72/info.png</file>
-        <file>72/key.png</file>
-        <file>72/light_bulb_off.png</file>
-        <file>72/light_bulb_on.png</file>
-        <file>72/lighting_bolt.png</file>
-        <file>72/lock_closed.png</file>
-        <file>72/lock_open.png</file>
-        <file>72/mail.png</file>
-        <file>72/mail_open.png</file>
-        <file>72/man.png</file>
-        <file>72/metrics1.png</file>
-        <file>72/metrics2.png</file>
-        <file>72/metrics3.png</file>
-        <file>72/metrics4.png</file>
-        <file>72/metrics5.png</file>
-        <file>72/mic.png</file>
-        <file>72/monitor.png</file>
-        <file>72/more_horizontal.png</file>
-        <file>72/more_vertical.png</file>
-        <file>72/mouse_pointer.png</file>
-        <file>72/music_beamed_note.png</file>
-        <file>72/navicon.png</file>
-        <file>72/network.png</file>
-        <file>72/next.png</file>
-        <file>72/overlapping_squares.png</file>
-        <file>72/paper_plane.png</file>
-        <file>72/paste.png</file>
-        <file>72/pause.png</file>
-        <file>72/pencil.png</file>
-        <file>72/phone.png</file>
-        <file>72/phone_vintage.png</file>
-        <file>72/play.png</file>
-        <file>72/preview2.png</file>
-        <file>72/previous.png</file>
-        <file>72/print.png</file>
-        <file>72/pyramid.png</file>
-        <file>72/random.png</file>
-        <file>72/record.png</file>
-        <file>72/reload.png</file>
-        <file>72/repeat.png</file>
-        <file>72/round.png</file>
-        <file>72/scissors.png</file>
-        <file>72/security.png</file>
-        <file>72/shopping_cart.png</file>
-        <file>72/sms.png</file>
-        <file>72/software.png</file>
-        <file>72/spam.png</file>
-        <file>72/speaker.png</file>
-        <file>72/speech_ballon.png</file>
-        <file>72/star.png</file>
-        <file>72/stats_pie_chart.png</file>
-        <file>72/stop.png</file>
-        <file>72/synchronize.png</file>
-        <file>72/thecnical_wrench.png</file>
-        <file>72/toogle_off.png</file>
-        <file>72/toogle_on.png</file>
-        <file>72/tools.png</file>
-        <file>72/trash_can.png</file>
-        <file>72/upload.png</file>
-        <file>72/video.png</file>
-        <file>72/view_mode_average_icons.png</file>
-        <file>72/view_mode_details.png</file>
-        <file>72/view_mode_list.png</file>
-        <file>72/view_mode_small_icons.png</file>
-        <file>72/webcam.png</file>
-        <file>72/window.png</file>
-        <file>72/windows.png</file>
-        <file>72/wizard.png</file>
-        <file>72/woman.png</file>
-        <file>72/world.png</file>
-        <file>72/world2.png</file>
-        <file>72/world3.png</file>
-        <file>72/zoom.png</file>
-        <file>72/zoom_in.png</file>
-        <file>72/zoom_out.png</file>
+        <file>icon_data/1 (1).png</file>
+        <file>icon_data/1 (2).png</file>
+        <file>icon_data/1 (3).png</file>
+        <file>icon_data/1 (4).png</file>
+        <file>icon_data/1 (5).png</file>
+        <file>icon_data/1 (6).png</file>
+        <file>icon_data/1 (7).png</file>
+        <file>icon_data/1 (8).png</file>
+        <file>icon_data/1 (9).png</file>
+        <file>icon_data/1 (10).png</file>
+        <file>icon_data/1 (11).png</file>
+        <file>icon_data/1 (12).png</file>
+        <file>icon_data/1 (13).png</file>
+        <file>icon_data/1 (14).png</file>
+        <file>icon_data/1 (15).png</file>
+        <file>icon_data/1 (16).png</file>
+        <file>icon_data/1 (17).png</file>
+        <file>icon_data/1 (18).png</file>
+        <file>icon_data/1 (19).png</file>
+        <file>icon_data/1 (20).png</file>
+        <file>icon_data/1 (21).png</file>
+        <file>icon_data/1 (22).png</file>
+        <file>icon_data/1 (23).png</file>
+        <file>icon_data/1 (24).png</file>
+        <file>icon_data/1 (25).png</file>
+        <file>icon_data/1 (26).png</file>
+        <file>icon_data/1 (27).png</file>
+        <file>icon_data/1 (28).png</file>
+        <file>icon_data/1 (29).png</file>
+        <file>icon_data/1 (30).png</file>
+        <file>icon_data/1 (31).png</file>
+        <file>icon_data/1 (32).png</file>
+        <file>icon_data/1 (33).png</file>
+        <file>icon_data/1 (34).png</file>
+        <file>icon_data/1 (35).png</file>
+        <file>icon_data/1 (36).png</file>
+        <file>icon_data/1 (37).png</file>
+        <file>icon_data/1 (38).png</file>
+        <file>icon_data/1 (39).png</file>
+        <file>icon_data/1 (40).png</file>
+        <file>icon_data/1 (41).png</file>
+        <file>icon_data/1 (42).png</file>
+        <file>icon_data/1 (43).png</file>
+        <file>icon_data/1 (44).png</file>
+        <file>icon_data/1 (45).png</file>
+        <file>icon_data/1 (46).png</file>
+        <file>icon_data/1 (47).png</file>
+        <file>icon_data/1 (48).png</file>
+        <file>icon_data/1 (49).png</file>
+        <file>icon_data/1 (50).png</file>
+        <file>icon_data/1 (51).png</file>
+        <file>icon_data/1 (52).png</file>
+        <file>icon_data/1 (53).png</file>
+        <file>icon_data/1 (54).png</file>
+        <file>icon_data/1 (55).png</file>
+        <file>icon_data/1 (56).png</file>
+        <file>icon_data/1 (57).png</file>
+        <file>icon_data/1 (58).png</file>
+        <file>icon_data/1 (59).png</file>
+        <file>icon_data/1 (60).png</file>
+        <file>icon_data/1 (61).png</file>
+        <file>icon_data/1 (62).png</file>
+        <file>icon_data/1 (63).png</file>
+        <file>icon_data/1 (64).png</file>
+        <file>icon_data/1 (65).png</file>
+        <file>icon_data/1 (66).png</file>
+        <file>icon_data/1 (67).png</file>
+        <file>icon_data/1 (68).png</file>
+        <file>icon_data/1 (69).png</file>
+        <file>icon_data/1 (70).png</file>
+        <file>icon_data/1 (71).png</file>
+        <file>icon_data/1 (72).png</file>
+        <file>icon_data/1 (73).png</file>
+        <file>icon_data/1 (74).png</file>
+        <file>icon_data/1 (75).png</file>
+        <file>icon_data/1 (76).png</file>
+        <file>icon_data/1 (77).png</file>
+        <file>icon_data/1 (78).png</file>
+        <file>icon_data/1 (79).png</file>
+        <file>icon_data/1 (80).png</file>
+        <file>icon_data/1 (81).png</file>
+        <file>icon_data/1 (82).png</file>
+        <file>icon_data/1 (83).png</file>
+        <file>icon_data/1 (84).png</file>
+        <file>icon_data/1 (85).png</file>
+        <file>icon_data/1 (86).png</file>
+        <file>icon_data/1 (87).png</file>
+        <file>icon_data/1 (88).png</file>
+        <file>icon_data/1 (89).png</file>
+        <file>icon_data/1 (90).png</file>
+        <file>icon_data/1 (91).png</file>
+        <file>icon_data/1 (92).png</file>
+        <file>icon_data/1 (93).png</file>
+        <file>icon_data/1 (94).png</file>
+        <file>icon_data/1 (95).png</file>
+        <file>icon_data/1 (96).png</file>
+        <file>icon_data/1 (97).png</file>
+        <file>icon_data/1 (98).png</file>
+        <file>icon_data/1 (99).png</file>
+        <file>icon_data/1 (100).png</file>
+        <file>icon_data/1 (101).png</file>
+        <file>icon_data/1 (102).png</file>
+        <file>icon_data/1 (103).png</file>
+        <file>icon_data/1 (104).png</file>
+        <file>icon_data/1 (105).png</file>
+        <file>icon_data/1 (106).png</file>
+        <file>icon_data/1 (107).png</file>
+        <file>icon_data/1 (108).png</file>
+        <file>icon_data/1 (109).png</file>
+        <file>icon_data/1 (110).png</file>
+        <file>icon_data/1 (111).png</file>
+        <file>icon_data/1 (112).png</file>
+        <file>icon_data/1 (113).png</file>
+        <file>icon_data/1 (114).png</file>
+        <file>icon_data/1 (115).png</file>
+        <file>icon_data/1 (116).png</file>
     </qresource>
 </RCC>

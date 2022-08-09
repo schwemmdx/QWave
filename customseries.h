@@ -18,6 +18,7 @@ public:
     void unselect(void);
     void select(void);
     bool isSelected(void);
+    void setData(QVector<QPointF> data);
 
 signals:
     void seriesSelected(CustomSeries*);

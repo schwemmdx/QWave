@@ -51,11 +51,10 @@ int main(int argc, char *argv[])
     darkpalette.setColor(QPalette::Highlight, Theme::Green);
     darkpalette.setColor(QPalette::HighlightedText,Theme::Red);
 
-*/
-    //QFile stylesheet("../../QWave/SyNet.qss");
+    */
 
 
-  //  a.setPalette(darkpalette);
+    //a.setPalette(darkpalette);
     MainWindow w;
     //w.setWindowState(Qt::WindowMaximized);
     w.show();

@@ -44,8 +44,8 @@ QVector<XYData> DataImporter::fromCSV(QString path,QString colDelimiter,QString 
     //Currently hard coded layout (see .h file) (Agilent Oscilloscopes)
 
     CSVDataLayout csvLayout;
-    QVector<XYData> csvData;
 
+    QVector<XYData> csvData;
     rapidcsv::Document csvFile(path.toStdString());
     XYData dataBuf;
     foreach (auto &name, csvFile.GetColumnNames())
@@ -58,6 +58,7 @@ QVector<XYData> DataImporter::fromCSV(QString path,QString colDelimiter,QString 
         dataBuf.setDataFromNumStr(csvFile.GetColumn<std::string>(name));
         csvData.append(dataBuf);
     }
+
     return csvData;
 
 }
