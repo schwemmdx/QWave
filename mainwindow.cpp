@@ -16,6 +16,16 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    //main chart container
+    ChartContainer*  chartContainer = new ChartContainer(this);
+    ChartContainer* chart = static_cast<ChartContainer*>(chartContainer);
+    connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
+    connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
+    pDockedCharts.append(chartContainer);
+    ui->centralwidget->adjustSize();
+    ui->mainLayout->addWidget(chartContainer,1);
+    chart->setTitle(tr("No Data"));
+
     statusBar()->showMessage("Ready");
 
 }
@@ -81,7 +91,9 @@ void MainWindow::on_actionImportData_triggered()
     {
         return;
     }
-    DataImporter::fromCSV(file);
+    auto data = DataImporter::fromCSV(file);
+
+    pDockedCharts[0]->addDataSeries(data[0]);
 
 
 }

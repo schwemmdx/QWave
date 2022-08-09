@@ -16,39 +16,14 @@ CustomSeries::CustomSeries(QObject* parent)
     connect(this, &QXYSeries::hovered,this,&CustomSeries::mouseHover);
 
     selectionState = false;
-
-    std::random_device rd;
-    std::mt19937 rng(rd());
-    std::uniform_int_distribution<int> uni(0,3);
-
-    switch(uni(rng))
-    {
-    case 0:
-        //pFun = cos;
-        setPen(QPen(Theme::Red,1));
-        break;
-    case 1:
-        //pFun = cos;
-        setPen(QPen(Theme::Green,1));
-        break;
-    case 2:
-        //pFun = cos;
-        setPen(QPen(Theme::Blue,1));
-        break;
-   default:
-        setPen(QPen(Qt::black,1));
-        break;
-    }
-    for(int i=0;i<500;i++)
-    {
-
-        *this<< QPointF(i,rand()%10);
-    }
     setPointsVisible();
-
-
 }
 
+void CustomSeries::setData(QVector<QPointF> data)
+{
+    this->clear();
+    *this << data;
+}
 void CustomSeries::unselect()
 {
     selectionState = false;
