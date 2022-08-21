@@ -12,8 +12,10 @@ public:
 
 
     void setName(QString);
+    QString getName();
     void setSourceFileName(QString);
     void setUnit(QString);
+    QString getUnit();
 
     void setAsXData(void);
     bool isXData(void);

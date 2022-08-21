@@ -86,14 +86,39 @@ void MainWindow::unselectExcept(CustomSeries* traceClicked)
 void MainWindow::on_actionImportData_triggered()
 {
     QString file =  QFileDialog::getOpenFileName();
-    //qDebug() << files;
     if(file.isEmpty())
     {
         return;
     }
     auto data = DataImporter::fromCSV(file);
 
-    pDockedCharts[0]->addDataSeries(data[0].getPoints());
+
+    QStandardItemModel* csvFile = new QStandardItemModel();
+
+    csvFile->setColumnCount(2);
+
+    QList<QStandardItem*> unit;
+    foreach(auto sig, data)
+    {
+
+        QStandardItem* signal =  new QStandardItem(sig.getName());
+        unit.clear();
+        unit.append(new QStandardItem("Unit"));
+        unit.append(new QStandardItem(sig.getUnit()));
+        signal->appendRow(unit);
+        csvFile->appendRow(signal);
+
+    }
+
+
+    ui->treeView->setModel(csvFile);
+    ui->treeView->setAlternatingRowColors(true);
+
+
+    ui->treeView->expandAll();
+
+
+    pDockedCharts[0]->addDataSeries(data[1].getPoints());
 
 
 }

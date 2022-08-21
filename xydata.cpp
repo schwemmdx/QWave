@@ -19,8 +19,6 @@ double XYData::parseSciString(std::string point)
 
 void XYData::setDataFromStr(std::vector<std::string> xData,std::vector<std::string> yData)
 {
-    QString pointStr;
-    QStringList ptParts;
     QPointF ptBuf;
     int exponent;
     double mantissa,result;
@@ -56,25 +54,34 @@ void XYData::setDataFromStr(std::vector<std::string> xData,std::vector<std::stri
 
 QVector<QPointF> XYData::getPoints(void)
 {
-    return points;
+    return this->points;
 }
 
 void XYData::setName(QString n)
 {
-    name = n;
+    this->name = n;
 }
 
 void XYData::setUnit(QString u)
 {
-    unit = u;
+    this->unit = u;
 }
 
 void XYData::clear(void)
 {
-    points.clear();
+    this->points.clear();
 }
 
 void XYData::setSourceFileName(QString path)
 {
     fileName = path;
+}
+
+ QString XYData::getUnit()
+{
+    return unit;
+}
+ QString XYData::getName()
+{
+    return name;
 }
