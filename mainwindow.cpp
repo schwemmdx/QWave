@@ -8,9 +8,6 @@
 #include "dataview.h"
 
 
-#include "treedock.h"
-
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -26,13 +23,15 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainLayout->addWidget(chartContainer,1);
 
     pDataDock = new QDockWidget(this);
+
     pDataView = new DataView();
     addDockWidget(Qt::LeftDockWidgetArea,pDataDock);
     pDataDock->setWidget(pDataView);
+    setMinimumWidth(300);
 
 
     connect(this,&MainWindow::loadFromFile,pDataView,&DataView::loadData);
-
+    connect(pDataView,&DataView::appendData,this,&MainWindow::appendDataToChart);
     chart->setTitle(tr("No Data"));
     statusBar()->showMessage("Ready");
 
@@ -131,3 +130,7 @@ void MainWindow::updateStatusBar(QString msg)
     statusBar()->showMessage(msg);
 }
 
+void MainWindow::appendDataToChart(QVector<QPointF> data,int axis)
+{
+    pDockedCharts[0]->addDataSeries(data);
+}

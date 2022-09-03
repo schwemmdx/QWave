@@ -38,6 +38,7 @@ private:
     QDockWidget* pDataDock;
     DataView* pDataView;
 
+    void appendDataToChart(QVector<QPointF>,int);
     void unselectExcept(CustomSeries*);
     Ui::MainWindow *ui;
     QVector<ChartContainer*> pDockedCharts{};

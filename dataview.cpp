@@ -1,8 +1,10 @@
 #include "dataview.h"
 #include "dataimporter.h"
 #include "detailsdialog.h"
+
 #include <QDockWidget>
 #include <QMenu>
+#include <QVariant>
 
 DataView::DataView(QDockWidget *parent)
     : QTreeView{parent}
@@ -16,9 +18,16 @@ DataView::DataView(QDockWidget *parent)
     contextMenu->addAction("Statistical Analysis", this, &DataView::actionStatistics);
     contextMenu->addAction("Compute FFT", this, &DataView::actionFFT);
     contextMenu->addAction("Apply Filtering", this, &DataView::actionApplyFilter);
+    connect(this, &DataView::doubleClicked, this, &DataView::addToLeftYByDoubleClick);
 
     connect(this, &DataView::customContextMenuRequested,
             this, &DataView::onCustomContextMenu);
+
+}
+
+DataView::~DataView()
+{
+
 }
 
 void DataView::onCustomContextMenu(const QPoint &point)
@@ -37,10 +46,13 @@ void DataView::loadData(QString file)
 
     auto data = DataImporter::fromCSV(file);
     QStandardItem* csvFile =  new QStandardItem(fileName);
+    csvFile->setEditable(false);
     csvFile->setIcon(QIcon(":/icon_data/csv.png"));
 
     QStandardItemModel* importContent = new QStandardItemModel();
-    importContent->setColumnCount(3);
+    importContent->setColumnCount(2);
+
+
 
     QList<QStandardItem*> unit;
     QList<QStandardItem*> length;
@@ -50,17 +62,22 @@ void DataView::loadData(QString file)
     QList<QStandardItem*> rms;
     QList<QStandardItem*> median;
 
-    QList<QStandardItem*> path;
-    path.append(new QStandardItem("Path"));
-    path.append(new QStandardItem(file));
+    //QList<QStandardItem*> path;
+    //path.append(new QStandardItem("Path"));
+    //path.append(new QStandardItem(file));
 
-    csvFile->appendRow(path);
+    //csvFile->appendRow(path);
+
     foreach(auto sig, data)
     {
         QStandardItem* signal =  new QStandardItem(sig.getName());
+
+        signal->setData(QVariant::fromValue(sig.getPoints()),Qt::UserRole+1);
+
         unit.clear();
         unit.append(new QStandardItem("Unit"));
         unit.append(new QStandardItem(sig.getUnit()));
+
         length.clear();
         length.append(new QStandardItem("Meas. Count"));
         length.append(new QStandardItem(QString::number(sig.len())));
@@ -99,13 +116,27 @@ void DataView::loadData(QString file)
     importContent->appendRow(csvFile);
 
     setModel(importContent);
+    setHeaderHidden(true);
+    setColumnWidth(0,160);
+    setColumnWidth(1,100);
     expandToDepth(0);
 
+
+}
+
+
+void DataView::addToLeftYByDoubleClick(const QModelIndex &idx)
+{
+    if(idx.isValid()& !idx.parent().parent().isValid() )
+    {
+       emit appendData(idx.data(Qt::UserRole+1).value<QVector<QPointF>>(),APPEND_LEFT);
+    }
 }
 
 
 void DataView::actionSetItemAsX()
 {
+
     qDebug() << "Selecting Index" << selectedIndex << "as X Axis";
 }
 
