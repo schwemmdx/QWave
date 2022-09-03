@@ -5,10 +5,10 @@
 #include "chartcontainer.h"
 #include <QtCharts/QtCharts>
 #include <QStatusBar>
+#include "dataview.h"
 
 
-#include "dataimporter.h"
-
+#include "treedock.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -24,8 +24,18 @@ MainWindow::MainWindow(QWidget *parent)
     pDockedCharts.append(chartContainer);
     ui->centralwidget->adjustSize();
     ui->mainLayout->addWidget(chartContainer,1);
-    chart->setTitle(tr("No Data"));
 
+    pDataDock = new QDockWidget(this);
+    QVBoxLayout* layout = new QVBoxLayout();
+    pDataDock->setLayout(layout);
+    pDataView = new DataView();
+    addDockWidget(Qt::LeftDockWidgetArea,pDataDock);
+    pDataDock->setWidget(pDataView);
+
+
+    //connect(this,&MainWindow::loadFromFile,pTreeDock,&TreeDock::loadData);
+
+    chart->setTitle(tr("No Data"));
     statusBar()->showMessage("Ready");
 
 }
@@ -90,39 +100,19 @@ void MainWindow::on_actionImportData_triggered()
     {
         return;
     }
-    auto data = DataImporter::fromCSV(file);
+    emit loadFromFile(file);
 
 
-    QStandardItemModel* csvFile = new QStandardItemModel();
-
-    csvFile->setColumnCount(2);
-
-    QList<QStandardItem*> unit;
-    foreach(auto sig, data)
-    {
-
-        QStandardItem* signal =  new QStandardItem(sig.getName());
-        unit.clear();
-        unit.append(new QStandardItem("Unit"));
-        unit.append(new QStandardItem(sig.getUnit()));
-        signal->appendRow(unit);
-        csvFile->appendRow(signal);
-
-    }
-
-
-    ui->treeView->setModel(csvFile);
-    ui->treeView->setAlternatingRowColors(true);
-
-
-    ui->treeView->expandAll();
-
-
-    pDockedCharts[0]->addDataSeries(data[1].getPoints());
+   // pDockedCharts[0]->addDataSeries(data[1].getPoints());
+   // pDockedCharts[0]->setTitle(data[1].getName());
 
 
 }
 
+void MainWindow::Ondoubleclicktree(int QModelIndex)
+{
+    qDebug() << QModelIndex;
+}
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
@@ -135,7 +125,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 
 void MainWindow::updateFocusTraceDetails(CustomSeries* trace)
 {
-    ui->numPts->setText(QString::number(trace->points().length()));
+   // ui->numPts->setText(QString::number(trace->points().length()));
 }
 
 void MainWindow::updateStatusBar(QString msg)

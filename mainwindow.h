@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "customseries.h"
 #include "chartcontainer.h"
+#include "dataview.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,11 +21,13 @@ public:
     void selectedSeriesChanged(CustomSeries*);
 
 signals:
+    void loadFromFile(QString);
 
 
 private slots:
 
    // void switchSelectedChart(QVector<ChartContainer*>);
+    void Ondoubleclicktree(int);
     void keyPressEvent(QKeyEvent*);
     void updateFocusTraceDetails(CustomSeries*);
     void on_actionImportData_triggered();
@@ -32,6 +35,8 @@ private slots:
     void updateStatusBar(QString);
 
 private:
+    QDockWidget* pDataDock;
+    DataView* pDataView;
 
     void unselectExcept(CustomSeries*);
     Ui::MainWindow *ui;

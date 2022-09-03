@@ -116,5 +116,8 @@
         <file>icon_data/1 (114).png</file>
         <file>icon_data/1 (115).png</file>
         <file>icon_data/1 (116).png</file>
+        <file>icon_data/sound-wave.png</file>
+        <file>icon_data/radio-waves.png</file>
+        <file>icon_data/csv.png</file>
     </qresource>
 </RCC>
