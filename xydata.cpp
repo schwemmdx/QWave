@@ -85,3 +85,38 @@ void XYData::setSourceFileName(QString path)
 {
     return name;
 }
+
+ int XYData::len()
+ {
+     return points.length();
+ }
+
+ double XYData::getMin()
+ {
+     return 0.0;
+ }
+
+ double XYData::getMax()
+ {
+     return 0.1;
+ }
+
+ double XYData::getAVG()
+ {
+     double sum =0;
+     for(auto &pt: points)
+     {
+         sum+=pt.y();
+     }
+     sum/=points.length();
+     return sum;
+ }
+ double XYData::getMedian()
+ {
+     return 0.123;
+ }
+
+ double XYData::getRMS()
+ {
+     return 120.02;
+ }

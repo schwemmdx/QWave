@@ -22,6 +22,11 @@ public:
     void clear(void);
     int len(void);
     int size(void);
+    double getMin(void);
+    double getMax(void);
+    double getMedian(void);
+    double getAVG(void);
+    double getRMS(void);
 
     //would be better to work with pointers and copy the data afterwards ?
     void setData(QVector<QPointF>);

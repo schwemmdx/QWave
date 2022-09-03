@@ -33,9 +33,9 @@ set(PROJECT_SOURCES
         dataimporter.cpp
         csvdatalayout.h
         csvdatalayout.cpp
-        #treedock.h
-        #treedock.cpp
-        #treedock.ui
+        detailsdialog.h
+        detailsdialog.cpp
+        detailsdialog.ui
         dataview.h
         dataview.cpp
         xydata.h
