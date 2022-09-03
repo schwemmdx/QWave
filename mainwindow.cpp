@@ -26,14 +26,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainLayout->addWidget(chartContainer,1);
 
     pDataDock = new QDockWidget(this);
-    QVBoxLayout* layout = new QVBoxLayout();
-    pDataDock->setLayout(layout);
     pDataView = new DataView();
     addDockWidget(Qt::LeftDockWidgetArea,pDataDock);
     pDataDock->setWidget(pDataView);
 
 
-    //connect(this,&MainWindow::loadFromFile,pTreeDock,&TreeDock::loadData);
+    connect(this,&MainWindow::loadFromFile,pDataView,&DataView::loadData);
 
     chart->setTitle(tr("No Data"));
     statusBar()->showMessage("Ready");
