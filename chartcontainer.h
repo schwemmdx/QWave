@@ -5,6 +5,7 @@
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
+#include <QMenu>
 
 #include "customseries.h"
 
@@ -31,17 +32,29 @@ signals:
 public slots:
     void selectedSeriesChanged(CustomSeries*);
     bool isSelectedContainer();
+    void changeRubberBandBehaviour(QChartView::RubberBand);
 
 private:
+    QMenu* contextMenu;
     CustomSeries *series;
     QChart *chart;
     qreal zoomFactor{1.0};
     qreal scrollFactor{1.0};
     qreal stepModifier {1.0};
 
+
+
 private slots:
+
     void newMsgFromSeries(QString);
     void wheelEvent(QWheelEvent*);
+    void onCustomContextMenu(const QPoint &);
+    //Context Menu Entries
+    void clearSelectedSeries(void);
+    void clearAllSeries(void);
+    void resetZoom(void);
+    void setLimits(void);
+
 
 
 

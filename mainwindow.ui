@@ -78,8 +78,15 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionImportData"/>
-   <addaction name="actionTest"/>
-   <addaction name="actionModify"/>
+   <addaction name="actionsaveScene"/>
+   <addaction name="separator"/>
+   <addaction name="actionMeasure"/>
+   <addaction name="actionModifySelected"/>
+   <addaction name="actioncreateData"/>
+   <addaction name="separator"/>
+   <addaction name="actionZoomHorizontally"/>
+   <addaction name="actionzoomVertically"/>
+   <addaction name="actionzoomROI"/>
   </widget>
   <action name="actionTest">
    <property name="icon">
@@ -90,13 +97,16 @@
     <string>Test</string>
    </property>
   </action>
-  <action name="actionModify">
+  <action name="actionMeasure">
    <property name="icon">
     <iconset resource="qwave.qrc">
      <normaloff>:/icons/icon_data/1 (71).png</normaloff>:/icons/icon_data/1 (71).png</iconset>
    </property>
    <property name="text">
-    <string>Modify</string>
+    <string>Measure</string>
+   </property>
+   <property name="toolTip">
+    <string>Measure Signal(s)</string>
    </property>
   </action>
   <action name="actionImportData">
@@ -107,8 +117,104 @@
    <property name="text">
     <string>ImportData</string>
    </property>
+   <property name="toolTip">
+    <string>Open File for inspection</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionZoomHorizontally">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icon_data/1 (14).png</normaloff>:/icons/icon_data/1 (14).png</iconset>
+   </property>
+   <property name="text">
+    <string>ZoomHorizontally</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom Behaviour Horizontally</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+H</string>
+   </property>
+  </action>
+  <action name="actionzoomVertically">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icon_data/1 (52).png</normaloff>:/icons/icon_data/1 (52).png</iconset>
+   </property>
+   <property name="text">
+    <string>zoomVertically</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom Behaviour vertically</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+V</string>
+   </property>
+  </action>
+  <action name="actionzoomROI">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icon_data/1 (86).png</normaloff>:/icons/icon_data/1 (86).png</iconset>
+   </property>
+   <property name="text">
+    <string>zoomROI</string>
+   </property>
+   <property name="toolTip">
+    <string>Zoom Behaviour ROI</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+R</string>
+   </property>
+  </action>
+  <action name="actionsaveScene">
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icon_data/1 (89).png</normaloff>:/icons/icon_data/1 (89).png</iconset>
+   </property>
+   <property name="text">
+    <string>saveScene</string>
+   </property>
+   <property name="toolTip">
+    <string>Save the current Scene to different formats.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionModifySelected">
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icon_data/1 (9).png</normaloff>:/icons/icon_data/1 (9).png</iconset>
+   </property>
+   <property name="text">
+    <string>ModifySelected</string>
+   </property>
+   <property name="toolTip">
+    <string>Modify Selection</string>
+   </property>
+  </action>
+  <action name="actioncreateData">
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icon_data/1 (40).png</normaloff>:/icons/icon_data/1 (40).png</iconset>
+   </property>
+   <property name="text">
+    <string>createData</string>
+   </property>
+   <property name="toolTip">
+    <string>Create Data from scratch</string>
    </property>
   </action>
  </widget>

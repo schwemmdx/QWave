@@ -22,6 +22,7 @@ public:
 
 signals:
     void loadFromFile(QString);
+    void rubberBandChangeRequest(QChartView::RubberBand);
 
 
 private slots:
@@ -33,6 +34,14 @@ private slots:
     void on_actionImportData_triggered();
     void on_actionTest_triggered();
     void updateStatusBar(QString);
+
+    void on_actioncreateData_triggered();
+
+    void on_actionzoomVertically_triggered();
+
+    void on_actionzoomROI_triggered();
+
+    void on_actionZoomHorizontally_triggered();
 
 private:
     QDockWidget* pDataDock;

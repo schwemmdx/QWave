@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ChartContainer* chart = static_cast<ChartContainer*>(chartContainer);
     connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
     connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
+    connect(this,&MainWindow::rubberBandChangeRequest,chartContainer,&ChartContainer::changeRubberBandBehaviour);
     pDockedCharts.append(chartContainer);
     ui->centralwidget->adjustSize();
     ui->mainLayout->addWidget(chartContainer,1);
@@ -25,9 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
     pDataDock = new QDockWidget(this);
 
     pDataView = new DataView();
+    pDataView->setEditTriggers(QAbstractItemView::EditKeyPressed);
     addDockWidget(Qt::LeftDockWidgetArea,pDataDock);
     pDataDock->setWidget(pDataView);
-    setMinimumWidth(300);
+    pDataDock->setMinimumWidth(300);
 
 
     connect(this,&MainWindow::loadFromFile,pDataView,&DataView::loadData);
@@ -134,3 +136,48 @@ void MainWindow::appendDataToChart(QVector<QPointF> data,int axis)
 {
     pDockedCharts[0]->addDataSeries(data);
 }
+
+void MainWindow::on_actioncreateData_triggered()
+{
+
+}
+
+
+void MainWindow::on_actionzoomVertically_triggered()
+{
+    auto rb = QChartView::NoRubberBand;
+    if(ui->actionzoomVertically->isChecked())
+    {
+        ui->actionzoomROI->setChecked(false);
+        ui->actionZoomHorizontally->setChecked(false);
+        rb = QChartView::VerticalRubberBand;
+    }
+    emit rubberBandChangeRequest(rb);
+}
+
+
+void MainWindow::on_actionzoomROI_triggered()
+{
+    auto rb = QChartView::NoRubberBand;
+    if(ui->actionzoomROI->isChecked())
+    {
+        rb = QChartView::RectangleRubberBand;
+        ui->actionZoomHorizontally->setChecked(false);
+        ui->actionzoomVertically->setChecked(false);
+    }
+    emit rubberBandChangeRequest(rb);
+}
+
+
+void MainWindow::on_actionZoomHorizontally_triggered()
+{
+    auto rb = QChartView::NoRubberBand;
+    if(ui->actionzoomVertically->isChecked())
+    {
+        ui->actionzoomROI->setChecked(false);
+        ui->actionzoomVertically->setChecked(false);
+        rb = QChartView::VerticalRubberBand;
+    }
+    emit rubberBandChangeRequest(rb);
+}
+

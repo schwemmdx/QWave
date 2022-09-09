@@ -22,6 +22,7 @@ DataView::DataView(QDockWidget *parent)
 
     connect(this, &DataView::customContextMenuRequested,
             this, &DataView::onCustomContextMenu);
+    setExpandsOnDoubleClick(false);
 
 }
 
