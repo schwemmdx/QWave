@@ -21,14 +21,19 @@ class DataView : public QTreeView
 public:
     explicit DataView(QDockWidget *parent = nullptr);
     ~DataView();
+
 signals:
-    void xAxisChanged(QModelIndex*);
+    void xAxisChanged(QVector<double>*);
     void appendData(QVector<QPointF>,int);
 
 public slots:
     void loadData(QString file);
 
 private:
+
+    QVector<double> xData;
+
+    //void selectionChanged(const QItemSelection &, const QItemSelection &);
     DetailsDialog* details;
     QModelIndex selectedIndex;
     QStandardItemModel importData;

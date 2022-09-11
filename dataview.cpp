@@ -18,6 +18,9 @@ DataView::DataView(QDockWidget *parent)
     contextMenu->addAction("Statistical Analysis", this, &DataView::actionStatistics);
     contextMenu->addAction("Compute FFT", this, &DataView::actionFFT);
     contextMenu->addAction("Apply Filtering", this, &DataView::actionApplyFilter);
+
+    setSelectionBehavior(QAbstractItemView::SelectRows);
+
     connect(this, &DataView::doubleClicked, this, &DataView::addToLeftYByDoubleClick);
 
     connect(this, &DataView::customContextMenuRequested,
@@ -47,8 +50,8 @@ void DataView::loadData(QString file)
 
     auto data = DataImporter::fromCSV(file);
     QStandardItem* csvFile =  new QStandardItem(fileName);
-    csvFile->setEditable(false);
-    csvFile->setIcon(QIcon(":/icon_data/csv.png"));
+    //csvFile->setEditable(false);
+    csvFile->setIcon(QIcon(":./icons//icon_data/csv.png"));
 
     QStandardItemModel* importContent = new QStandardItemModel();
     importContent->setColumnCount(2);
@@ -71,9 +74,11 @@ void DataView::loadData(QString file)
 
     foreach(auto sig, data)
     {
-        QStandardItem* signal =  new QStandardItem(sig.getName());
+        QStandardItem* signal =  new QStandardItem();
+        signal->setText(sig.getName());
+        signal->setIcon(QIcon(":/icons/icon_data/radio-waves.png"));
 
-        signal->setData(QVariant::fromValue(sig.getPoints()),Qt::UserRole+1);
+        signal->setData(QVariant::fromValue(sig.getPointVec()),Qt::UserRole+1);
 
         unit.clear();
         unit.append(new QStandardItem("Unit"));
@@ -109,27 +114,36 @@ void DataView::loadData(QString file)
         signal->appendRow(avg);
         signal->appendRow(rms);
         signal->appendRow(median);
-        csvFile->appendRow(signal);
+        importContent->appendRow(signal);
     }
     // Path Information
 
 
-    importContent->appendRow(csvFile);
+    //importContent->appendRow(csvFile);
 
     setModel(importContent);
     setHeaderHidden(true);
     setColumnWidth(0,160);
     setColumnWidth(1,100);
-    expandToDepth(0);
+    //expandToDepth();
 
 
 }
-
+/*
+void DataView::selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
+{
+    if(!selected.empty())
+    {
+        selectedIndex = selected.indexes().constFirst();
+    }
+}
+*/
 
 void DataView::addToLeftYByDoubleClick(const QModelIndex &idx)
 {
     if(idx.isValid()& !idx.parent().parent().isValid() )
     {
+
        emit appendData(idx.data(Qt::UserRole+1).value<QVector<QPointF>>(),APPEND_LEFT);
     }
 }
@@ -138,7 +152,24 @@ void DataView::addToLeftYByDoubleClick(const QModelIndex &idx)
 void DataView::actionSetItemAsX()
 {
 
-    qDebug() << "Selecting Index" << selectedIndex << "as X Axis";
+        qDebug() << selectedIndexes().first();
+        auto idx = (selectedIndexes().first());
+        auto numChildren = idx.model()->rowCount();
+        auto item = static_cast<QStandardItem*>(idx.internalPointer())->child(idx.row());
+        QString txt;
+        for(int i = 0;i<numChildren;i++)
+        {
+           //txt =  static_cast<QStandardItem*>(idx.internalPointer())->child(i)->text();
+           //txt = txt.remove(" @ X");
+           static_cast<QStandardItem*>(idx.internalPointer())->child(i)->setIcon(QIcon(":/icons/icon_data/radio-waves.png"));
+           //static_cast<QStandardItem*>(idx.internalPointer())->child(i)->setText(txt);
+        }
+        //QString currTxt = item->text();
+        //item->setText(currTxt+ " @ X");
+
+        item->setIcon(QIcon(":/icons/icon_data/1 (107).png"));
+        xData =  idx.data(Qt::UserRole+1).value<QVector<double>>();
+        qDebug() << xData;
 }
 
 void DataView::actionDetails()

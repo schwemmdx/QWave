@@ -17,7 +17,7 @@ public:
     void setUnit(QString);
     QString getUnit();
 
-    void setAsXData(void);
+    void setAsXData(bool);
     bool isXData(void);
     void clear(void);
     int len(void);
@@ -29,22 +29,19 @@ public:
     double getRMS(void);
 
     //would be better to work with pointers and copy the data afterwards ?
-    void setData(QVector<QPointF>);
-    void setData(QVector<double>,QVector<double>);
-    void setDataFromStr(std::vector<std::string>,std::vector<std::string>);
-
-    QVector<QPointF> getPoints(void);
+    void setData(QVector<double>);
+    void setDataFromStr(std::vector<std::string>);
+    QVector<double> getPointVec(void);
 
 
 private:
     QString fileName{""};
     QString name{"Signal"};
     QString unit{"N/A"};
-    QVector<QPointF> points;
+    bool isX{false};
 
+    QVector<double> points{};
     double parseSciString(std::string);
-
-
 
 };
 

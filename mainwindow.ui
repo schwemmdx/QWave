@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1236</width>
-    <height>695</height>
+    <width>1431</width>
+    <height>773</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -22,6 +22,9 @@
   <property name="windowIcon">
    <iconset resource="qwave.qrc">
     <normaloff>:/icons/icon_data/1 (15).png</normaloff>:/icons/icon_data/1 (15).png</iconset>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
   </property>
   <property name="dockNestingEnabled">
    <bool>true</bool>

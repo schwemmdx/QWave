@@ -17,42 +17,34 @@ double XYData::parseSciString(std::string point)
     return mantissa*pow(10,exponent);
 }
 
-void XYData::setDataFromStr(std::vector<std::string> xData,std::vector<std::string> yData)
+void XYData::setDataFromStr(std::vector<std::string> data)
 {
-    QPointF ptBuf;
+    double val;
     int exponent;
     double mantissa,result;
 
     //erase first item because its the units
-    xData.erase(xData.begin());
-    yData.erase(yData.begin());
+    data.erase(data.begin());
+
     double x,y;
 
-    for(int i = 0;i<yData.size();i++)
+    for(int i = 0;i<data.size();i++)
     {
-       if(QString::fromStdString(xData[i]).contains('E'))
+       if(QString::fromStdString(data[i]).contains('E'))
        {
-           ptBuf.setX(XYData::parseSciString(xData[i]));
+           val = XYData::parseSciString(data[i]);
        }
        else
        {
-           ptBuf.setX(QString::fromStdString(xData[i]).toDouble());
+           val = QString::fromStdString(data[i]).toDouble();
        }
-       if(QString::fromStdString(yData[i]).contains('E'))
-       {
-           ptBuf.setY(XYData::parseSciString(yData[i]));
-       }
-       else
-       {
-           ptBuf.setY(QString::fromStdString(yData[i]).toDouble());
-       }
-       points.append(ptBuf);
+       points.append(val);
     }
 
 
 }
 
-QVector<QPointF> XYData::getPoints(void)
+QVector<double> XYData::getPointVec(void)
 {
     return this->points;
 }
@@ -60,6 +52,7 @@ QVector<QPointF> XYData::getPoints(void)
 void XYData::setName(QString n)
 {
     this->name = n;
+
 }
 
 void XYData::setUnit(QString u)
@@ -93,12 +86,12 @@ void XYData::setSourceFileName(QString path)
 
  double XYData::getMin()
  {
-     return 0.0;
+     return *std::min(points.cbegin(),points.cend());
  }
 
  double XYData::getMax()
  {
-     return 0.1;
+     return *std::max(points.cbegin(),points.cend());
  }
 
  double XYData::getAVG()
@@ -106,17 +99,25 @@ void XYData::setSourceFileName(QString path)
      double sum =0;
      for(auto &pt: points)
      {
-         sum+=pt.y();
+         sum+=pt;
      }
      sum/=points.length();
      return sum;
  }
+
  double XYData::getMedian()
  {
-     return 0.123;
+     return -1;
  }
 
  double XYData::getRMS()
  {
-     return 120.02;
+    double sum=0;
+    foreach (auto &elem, points) {
+        sum+=std::pow(elem,2);
+    }
+
+    sum/=points.length();
+    return std::sqrt(sum);
+
  }
