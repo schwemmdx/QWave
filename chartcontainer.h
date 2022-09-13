@@ -16,10 +16,7 @@ class ChartContainer : public QChartView
 public:
     explicit ChartContainer(QWidget *parent = nullptr);
     ~ChartContainer();
-    void setTitle(QString);
-    void addDataSeries(QVector<QPointF> data);
     void deselect(void);
-
     QList<CustomSeries*> tracies;
 
 signals:
@@ -33,6 +30,10 @@ public slots:
     void selectedSeriesChanged(CustomSeries*);
     bool isSelectedContainer();
     void changeRubberBandBehaviour(QChartView::RubberBand);
+    void setTitle(QString);
+    void addDataSeries(QVector<QPointF> data);
+    void addDataSeries(QVector<double> ,QVector<double> ,QString ,QString );
+
 
 private:
     QMenu* contextMenu;

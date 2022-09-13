@@ -24,9 +24,15 @@ signals:
     void seriesSelected(CustomSeries*);
     void newStatusMessage(QString);
 
+public slots:
+    void setXLimits(float,float);
+    void setYLimitsL(float,float);
+    void setYLimitsR(float,float);
+
 private:
     bool selectionState;
     void mouseHover(const QPointF,bool);
+
 
 
 

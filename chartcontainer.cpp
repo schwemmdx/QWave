@@ -6,6 +6,7 @@
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
 #include <QMessageBox>
+#include <QValueAxis>
 
 
 #include "theme_colors.h"
@@ -23,16 +24,17 @@ ChartContainer::ChartContainer(QWidget *parent)
 
     chart = new QChart();
     chart->legend()->hide();
-    chart->addSeries(series);
-    tracies.append(series);
+    //chart->addSeries(series);
+    //tracies.append(series);
 
     chart->createDefaultAxes();
     chart->setMargins(QMargins(8,8,8,8));
     chart->setBackgroundRoundness(8);
+
     setChart(chart);
 
     setRenderHint(QPainter::Antialiasing);
-    chart->setAnimationDuration(250);
+
     setAlignment(Qt::AlignLeft);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setRubberBand(QChartView::NoRubberBand);
@@ -46,7 +48,7 @@ ChartContainer::ChartContainer(QWidget *parent)
     contextMenu->addAction("Clear Chart",this,&ChartContainer::clearAllSeries);
 
 
-
+    chart->setAnimationDuration(250);
 
 
     connect(series,&CustomSeries::seriesSelected,this,&ChartContainer::selectedSeriesChanged);
@@ -66,10 +68,83 @@ void ChartContainer::setTitle(QString title)
 
 void ChartContainer::addDataSeries(QVector<QPointF> data)
 {
+
+
+
+
+
+
+}
+
+void ChartContainer::addDataSeries(QVector<double> x,QVector<double> y, QString xUnit,QString yUnit)
+{
+
     series = new CustomSeries(this);
-    series->setData(data);
-    tracies.append(series);
+
+    auto xMin = std::min(x.begin(),x.end());
+    auto xMax = std::max(x.begin(),x.end());
+    double yMin = std::numeric_limits<double>::max();
+    double yMax = std::numeric_limits<double>::min();
+    foreach(auto &p,y)
+    {
+        if(p < yMin)
+        {
+            yMin=p;
+        }
+        if(p> yMax)
+        {
+            yMax=p;
+        }
+    }
+
+
+    qDebug()<< "min: " << yMin << "max: " << yMax;
+    QPointF ptBuf;
+    QVector<QPointF> dataBuf;
+    for(uint i=0;i<x.count();i++)
+    {
+        ptBuf.setX(x[i]);
+        ptBuf.setY(y[i]);
+        dataBuf.append(ptBuf);
+    }
+
+
+    chart->update();
+    auto area= chart->plotArea();
+
+    //chart->setPlotArea(area);
+
+    QValueAxis* axisY = new QValueAxis;
+    QValueAxis* axisX = new QValueAxis;
+
+    axisY->setRange(yMin,yMax);
+    axisX->setRange(*xMin,*xMax);
+
+
+    series->setData(dataBuf);
     chart->addSeries(series);
+    QPen pen;
+    QBrush txtBrush;
+    pen.setColor(series->pen().color());
+    txtBrush.setColor(pen.color());
+
+    pen.setWidth(2);
+    axisY->setLinePen(pen);
+    axisY->setTitleText(yUnit);
+    axisX->setTitleText(xUnit);
+    axisY->setTitleBrush(txtBrush);
+    axisY->applyNiceNumbers();
+    axisX->applyNiceNumbers();
+    //axisY->setLinePen(pen);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    chart->addAxis(axisX,Qt::AlignBottom);
+
+    series->attachAxis(axisX);
+    series->attachAxis(axisY);
+    tracies.append(series);
+
+
+
 
 }
 
@@ -155,7 +230,11 @@ bool ChartContainer::isSelectedContainer(void)
 
 void ChartContainer::onCustomContextMenu(const QPoint &point)
 {
-    contextMenu->exec(this->viewport()->mapToGlobal(point));
+    if(rubberBand() == QChartView::NoRubberBand)
+    {
+        contextMenu->exec(this->viewport()->mapToGlobal(point));
+    }
+
 }
 
 void ChartContainer::clearSelectedSeries(void)
@@ -184,7 +263,7 @@ void ChartContainer::clearAllSeries(void)
 
 void ChartContainer::resetZoom(void)
 {
-    chart->resetTransform();
+    chart->zoomReset();
 }
 void ChartContainer::setLimits(void)
 {

@@ -75,3 +75,15 @@ bool CustomSeries::isSelected(void)
     return selectionState;
 }
 
+void CustomSeries::setXLimits(float xmin,float xmax)
+{
+
+}
+void CustomSeries::setYLimitsL(float ymin,float ymax)
+{
+
+}
+void CustomSeries::setYLimitsR(float ymin,float ymax)
+{
+
+}

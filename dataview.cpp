@@ -143,16 +143,26 @@ void DataView::addToLeftYByDoubleClick(const QModelIndex &idx)
 {
     if(idx.isValid()& !idx.parent().parent().isValid() )
     {
-
-       emit appendData(idx.data(Qt::UserRole+1).value<QVector<QPointF>>(),APPEND_LEFT);
-    }
+        auto y = idx.data(Qt::UserRole+1).value<QVector<double>>();
+        QVector<QPointF> data;
+        QPointF ptBuf;
+        if(y.length() == xData.length())
+        {
+            for (int i =0;i<y.length();i++)
+            {
+                ptBuf.setX(xData[i]);
+                ptBuf.setY(y[i]);
+                data.append(ptBuf);
+            }
+            emit appendData(xData,y,xUnit,static_cast<QStandardItem*>(idx.internalPointer())->child(idx.row())->child(0,1)->text());
+        }
+     }
 }
+
 
 
 void DataView::actionSetItemAsX()
 {
-
-        qDebug() << selectedIndexes().first();
         auto idx = (selectedIndexes().first());
         auto numChildren = idx.model()->rowCount();
         auto item = static_cast<QStandardItem*>(idx.internalPointer())->child(idx.row());
@@ -169,7 +179,8 @@ void DataView::actionSetItemAsX()
 
         item->setIcon(QIcon(":/icons/icon_data/1 (107).png"));
         xData =  idx.data(Qt::UserRole+1).value<QVector<double>>();
-        qDebug() << xData;
+        xUnit = item->child(0,1)->text();
+
 }
 
 void DataView::actionDetails()

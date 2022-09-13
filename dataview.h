@@ -24,7 +24,7 @@ public:
 
 signals:
     void xAxisChanged(QVector<double>*);
-    void appendData(QVector<QPointF>,int);
+    void appendData(QVector<double>,QVector<double>,QString,QString);
 
 public slots:
     void loadData(QString file);
@@ -32,6 +32,7 @@ public slots:
 private:
 
     QVector<double> xData;
+    QString xUnit;
 
     //void selectionChanged(const QItemSelection &, const QItemSelection &);
     DetailsDialog* details;
