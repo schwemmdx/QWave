@@ -76,9 +76,9 @@ void MainWindow::unselectExcept(CustomSeries* traceClicked)
 {
     if(focusTrace != nullptr)
     {
-        for(auto &container: pDockedCharts)
-        {
-            for(auto &ser: container->tracies)
+        //for(auto &container: pDockedCharts)
+        //{
+            for(auto &ser: pDockedCharts[0]->tracies)
             {
                 if(ser != traceClicked)
                 {
@@ -86,7 +86,7 @@ void MainWindow::unselectExcept(CustomSeries* traceClicked)
                 }
 
             }
-        }
+        //}
     }
 }
 
@@ -115,6 +115,7 @@ void MainWindow::Ondoubleclicktree(int QModelIndex)
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
+    qDebug() << "ESC pressed";
     if( event->key() == Qt::Key_Escape )
     {
         unselectExcept(nullptr);
@@ -132,9 +133,9 @@ void MainWindow::updateStatusBar(QString msg)
     statusBar()->showMessage(msg);
 }
 
-void MainWindow::appendDataToChart(QVector<QPointF> data,int axis)
+void MainWindow::appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel)
 {
-    pDockedCharts[0]->addDataSeries(data);
+    pDockedCharts[0]->addDataSeries(xData,yData,xLabel,yLabel);
 }
 
 void MainWindow::on_actioncreateData_triggered()
