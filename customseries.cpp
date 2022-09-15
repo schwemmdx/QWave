@@ -49,13 +49,14 @@ void CustomSeries::select(void)
 void CustomSeries::mouseHover(const QPointF point,bool state)
 {
     if(isSelected()){
-        QPalette pal;
+        /*QPalette pal;
         pal.setColor(QPalette::ToolTipBase, Theme::BackGround2);
         pal.setColor(QPalette::ToolTipText, Theme::ForeGround);
+        */
         QPoint pos = QCursor::pos();
 
         QToolTip* info;
-        QToolTip::setPalette(pal);
+        //QToolTip::setPalette(pal);
         info->showText(pos,
                        "X: "
                        +QString::number(point.x())
