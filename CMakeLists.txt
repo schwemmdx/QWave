@@ -40,6 +40,8 @@ set(PROJECT_SOURCES
         dataview.cpp
         xydata.h
         xydata.cpp
+        chartcrosshair.h
+        chartcrosshair.cpp
         third-party/rapidcsv.h
         qwave.qrc
         ${TS_FILES}
