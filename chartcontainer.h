@@ -8,6 +8,7 @@
 #include <QMenu>
 
 #include "customseries.h"
+#include "chartcrosshair.h"
 
 class ChartContainer : public QChartView
 {
@@ -31,7 +32,6 @@ public slots:
     bool isSelectedContainer();
     void changeRubberBandBehaviour(QChartView::RubberBand);
     void setTitle(QString);
-    void addDataSeries(QVector<QPointF> data);
     void addDataSeries(QVector<double> ,QVector<double> ,QString ,QString );
 
 
@@ -42,6 +42,7 @@ private:
     qreal zoomFactor{1.0};
     qreal scrollFactor{1.0};
     qreal stepModifier {1.0};
+    ChartCrosshair* m_crosshair;
 
 
 
@@ -55,6 +56,7 @@ private slots:
     void clearAllSeries(void);
     void resetZoom(void);
     void setLimits(void);
+    void mouseMoveEvent(QMouseEvent*);
 
 
 

@@ -10,7 +10,7 @@
 
 
 #include "theme_colors.h"
-
+#include "chartcrosshair.h"
 #include "customseries.h"
 
 
@@ -50,6 +50,7 @@ ChartContainer::ChartContainer(QWidget *parent)
 
     chart->setAnimationDuration(250);
 
+    m_crosshair  = new ChartCrosshair(chart);
 
     connect(series,&CustomSeries::seriesSelected,this,&ChartContainer::selectedSeriesChanged);
     connect(series,&CustomSeries::newStatusMessage,this,&ChartContainer::newMsgFromSeries);
@@ -66,15 +67,7 @@ void ChartContainer::setTitle(QString title)
     chart->setTitle(title);
 }
 
-void ChartContainer::addDataSeries(QVector<QPointF> data)
-{
 
-
-
-
-
-
-}
 
 void ChartContainer::addDataSeries(QVector<double> x,QVector<double> y, QString xUnit,QString yUnit)
 {
@@ -110,7 +103,6 @@ void ChartContainer::addDataSeries(QVector<double> x,QVector<double> y, QString 
 
 
     chart->update();
-    auto area= chart->plotArea();
 
     //chart->setPlotArea(area);
 
@@ -133,11 +125,17 @@ void ChartContainer::addDataSeries(QVector<double> x,QVector<double> y, QString 
     axisY->setTitleText(yUnit);
     axisX->setTitleText(xUnit);
     axisY->setTitleBrush(txtBrush);
+    axisY->setLabelsAngle(45);
+    axisY->setLabelsBrush(txtBrush);
     axisY->applyNiceNumbers();
     axisX->applyNiceNumbers();
     //axisY->setLinePen(pen);
     chart->addAxis(axisY, Qt::AlignLeft);
-    chart->addAxis(axisX,Qt::AlignBottom);
+    if(chart->axes(Qt::Orientation::Horizontal).length()==0)
+    {
+      chart->addAxis(axisX,Qt::AlignBottom);
+    }
+
 
     series->attachAxis(axisX);
     series->attachAxis(axisY);
@@ -160,7 +158,7 @@ void ChartContainer::newMsgFromSeries(QString msg)
 
 void ChartContainer::wheelEvent(QWheelEvent* event)
 {
-    if(isSelectedContainer())
+    if(true)//isSelectedContainer())
     {
         int zStep = 10;
         float dir = 0;
@@ -273,4 +271,9 @@ void ChartContainer::setLimits(void)
 void ChartContainer::changeRubberBandBehaviour(QChartView::RubberBand rb)
 {
     setRubberBand(rb);
+}
+
+void ChartContainer::mouseMoveEvent(QMouseEvent* event)
+{
+    m_crosshair->updatePosition(event->pos());
 }
