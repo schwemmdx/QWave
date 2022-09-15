@@ -127,6 +127,9 @@ void DataView::loadData(QString file)
     setColumnWidth(1,100);
     //expandToDepth();
 
+    selectionModel()->select(model()->index(0,0), QItemSelectionModel::Select | QItemSelectionModel::Rows);
+    actionSetItemAsX();
+    selectionModel()->select(model()->index(0,0), QItemSelectionModel::Deselect | QItemSelectionModel::Rows);
 
 }
 /*
@@ -143,19 +146,8 @@ void DataView::addToLeftYByDoubleClick(const QModelIndex &idx)
 {
     if(idx.isValid()& !idx.parent().parent().isValid() )
     {
-        auto y = idx.data(Qt::UserRole+1).value<QVector<double>>();
-        QVector<QPointF> data;
-        QPointF ptBuf;
-        if(y.length() == xData.length())
-        {
-            for (int i =0;i<y.length();i++)
-            {
-                ptBuf.setX(xData[i]);
-                ptBuf.setY(y[i]);
-                data.append(ptBuf);
-            }
-            emit appendData(xData,y,xUnit,static_cast<QStandardItem*>(idx.internalPointer())->child(idx.row())->child(0,1)->text());
-        }
+        auto yData = idx.data(Qt::UserRole+1).value<QVector<double>>();
+        emit appendData(xData,yData,xUnit,static_cast<QStandardItem*>(idx.internalPointer())->child(idx.row())->child(0,1)->text());
      }
 }
 
@@ -169,14 +161,8 @@ void DataView::actionSetItemAsX()
         QString txt;
         for(int i = 0;i<numChildren;i++)
         {
-           //txt =  static_cast<QStandardItem*>(idx.internalPointer())->child(i)->text();
-           //txt = txt.remove(" @ X");
            static_cast<QStandardItem*>(idx.internalPointer())->child(i)->setIcon(QIcon(":/icons/icon_data/radio-waves.png"));
-           //static_cast<QStandardItem*>(idx.internalPointer())->child(i)->setText(txt);
         }
-        //QString currTxt = item->text();
-        //item->setText(currTxt+ " @ X");
-
         item->setIcon(QIcon(":/icons/icon_data/1 (107).png"));
         xData =  idx.data(Qt::UserRole+1).value<QVector<double>>();
         xUnit = item->child(0,1)->text();
