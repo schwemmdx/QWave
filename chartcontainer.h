@@ -33,9 +33,11 @@ public slots:
     void changeRubberBandBehaviour(QChartView::RubberBand);
     void setTitle(QString);
     void addDataSeries(QVector<double> ,QVector<double> ,QString ,QString );
+    void setCrosshairVisibility(bool);
 
 
 private:
+    QWidget* pParent;
     QMenu* contextMenu;
     CustomSeries *series;
     QChart *chart;
@@ -43,6 +45,9 @@ private:
     qreal scrollFactor{1.0};
     qreal stepModifier {1.0};
     ChartCrosshair* m_crosshair;
+
+    bool middleMousePressed;
+    QPoint middlePressStartPos,middlePressEndPos,fistVal;
 
 
 
@@ -57,6 +62,8 @@ private slots:
     void resetZoom(void);
     void setLimits(void);
     void mouseMoveEvent(QMouseEvent*);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent* event);
 
 
 

@@ -5,6 +5,7 @@
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
 #include <QMessageBox>
+#include <QApplication>
 #include <QValueAxis>
 
 #include "theme_colors.h"
@@ -15,17 +16,19 @@
 
 ChartContainer::ChartContainer(QWidget *parent)
 {
-    series = new CustomSeries(this);
 
+    pParent = parent;
+    series = new CustomSeries(this);
+    middleMousePressed = false;
     chart = new QChart();
     chart->legend()->hide();
-    QBrush bgBrush(Altium::BackGround2.lighter());
+    QBrush bgBrush(Altium::BackGround);
     chart->setBackgroundBrush(bgBrush);
 
     // chart->addSeries(series);
     // tracies.append(series);
 
-    chart->createDefaultAxes();
+    //chart->createDefaultAxes();
     chart->setMargins(QMargins(8, 8, 8, 8));
     chart->setBackgroundRoundness(8);
 
@@ -106,7 +109,8 @@ void ChartContainer::addDataSeries(QVector<double> x, QVector<double> y, QString
     series->setData(dataBuf);
     chart->addSeries(series);
     QPen pen;
-    QBrush txtBrush;
+    QBrush txtBrush,xBrush;
+    xBrush.setColor(Altium::LightText);
     pen.setColor(series->pen().color());
     txtBrush.setColor(pen.color());
 
@@ -119,8 +123,16 @@ void ChartContainer::addDataSeries(QVector<double> x, QVector<double> y, QString
     axisY->setLabelsBrush(txtBrush);
     axisY->applyNiceNumbers();
     axisX->applyNiceNumbers();
-    axisX->setGridLineVisible(false);
-    axisY->setGridLineVisible(false);
+    axisX->setTitleBrush(xBrush);
+    axisX->setLabelsBrush(xBrush);
+    axisY->setGridLineVisible();
+    axisX->setGridLineVisible();
+    axisX->setGridLineColor(Altium::BackGround.lighter());
+    axisY->setGridLineColor(Altium::BackGround.lighter());
+
+
+
+
     // axisY->setLinePen(pen);
     chart->addAxis(axisY, Qt::AlignLeft);
     if (chart->axes(Qt::Orientation::Horizontal).length() == 0)
@@ -148,7 +160,7 @@ void ChartContainer::wheelEvent(QWheelEvent *event)
     if (true) // isSelectedContainer())
     {
         int zStep = 10;
-        float dir = 0;
+        float dir  = 0;
         QRectF rect = chart->plotArea();
         QPoint numSteps;
         QPoint numDegrees = event->angleDelta() / 8;
@@ -258,6 +270,7 @@ void ChartContainer::resetZoom(void)
 }
 void ChartContainer::setLimits(void)
 {
+
 }
 
 void ChartContainer::changeRubberBandBehaviour(QChartView::RubberBand rb)
@@ -268,4 +281,50 @@ void ChartContainer::changeRubberBandBehaviour(QChartView::RubberBand rb)
 void ChartContainer::mouseMoveEvent(QMouseEvent *event)
 {
    m_crosshair->updatePosition(event); 
+}
+
+void ChartContainer::setCrosshairVisibility(bool vis)
+{
+    m_crosshair->setVisibilty(vis);
+}
+
+void ChartContainer::mousePressEvent(QMouseEvent* event)
+{
+    switch(event->button())
+    {
+        case Qt::MiddleButton:
+        {
+            middleMousePressed = true;
+            middlePressStartPos = event->pos();
+            QApplication::setOverrideCursor(Qt::ClosedHandCursor);
+            break;
+        }
+        default:
+        {
+        }
+    }
+    event->accept();
+    //setCursor(Qt::ArrowCursor);
+}
+
+void ChartContainer::mouseReleaseEvent(QMouseEvent* event)
+{
+    switch(event->button())
+    {
+        case Qt::MiddleButton:
+        {
+            middleMousePressed = false;
+            middlePressEndPos = event->pos();
+            auto dx = middlePressStartPos.x()-middlePressEndPos.x();
+            auto dy = middlePressEndPos.y()-middlePressStartPos.y();
+            chart->scroll(dx,dy);
+            QApplication::restoreOverrideCursor();
+            break;
+        }
+        default:
+        {
+        }
+    }
+    event->accept();
+    //setCursor(Qt::ArrowCursor);
 }

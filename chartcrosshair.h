@@ -3,6 +3,7 @@
 
 
 
+#include "qcursor.h"
 #include <QtCharts/QChartGlobal>
 #include <QChart>
 #include <QtWidgets/QGraphicsItem>
@@ -14,13 +15,17 @@ public:
     ChartCrosshair(QChart *chart);
     void updatePosition(QMouseEvent* event);
 
+    void setVisibilty(bool);
+
 private:
     QGraphicsLineItem *m_xLine, *m_yLine;
     QGraphicsTextItem *m_xText, *m_yText;
     QChart *m_chart;
     QLineF* xLine;
     QLineF* yLine;
-    bool ctrlPressed,shiftPressed;
+    QCursor crosshairCursor{(QPixmap(":/icons/icons/icons8-target-24.png"))};
+    bool visibility;
+
 
 };
 
