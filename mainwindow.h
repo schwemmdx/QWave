@@ -23,6 +23,7 @@ public:
 signals:
     void loadFromFile(QString);
     void rubberBandChangeRequest(QChartView::RubberBand);
+    void changeCrosshairVisibility(bool);
 
 
 private slots:
@@ -43,6 +44,12 @@ private slots:
 
     void on_actionZoomHorizontally_triggered();
 
+    void on_actionCrosshair_Mode_triggered();
+
+    void on_actionMeasure_triggered();
+
+    void on_actiontoggleDataView_triggered();
+
 private:
     QDockWidget* pDataDock;
     DataView* pDataView;
@@ -52,6 +59,8 @@ private:
     Ui::MainWindow *ui;
     QVector<ChartContainer*> pDockedCharts{};
     CustomSeries* focusTrace{nullptr};
+    QCursor measureCursor{QPixmap(":icons/icons/measure_cursor.png")};
+
 
 
 

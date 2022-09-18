@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ChartContainer*  chartContainer = new ChartContainer(this);
     ChartContainer* chart = static_cast<ChartContainer*>(chartContainer);
     connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
-    connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
+    //connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
     connect(this,&MainWindow::rubberBandChangeRequest,chartContainer,&ChartContainer::changeRubberBandBehaviour);
     pDockedCharts.append(chartContainer);
     ui->centralwidget->adjustSize();
@@ -26,16 +26,19 @@ MainWindow::MainWindow(QWidget *parent)
     pDataDock = new QDockWidget(this);
 
     pDataView = new DataView();
+    pDataDock->setFeatures(QDockWidget::DockWidgetMovable);
     pDataView->setEditTriggers(QAbstractItemView::EditKeyPressed);
     addDockWidget(Qt::LeftDockWidgetArea,pDataDock);
+
     pDataDock->setWidget(pDataView);
+
     pDataDock->setMinimumWidth(300);
 
 
     connect(this,&MainWindow::loadFromFile,pDataView,&DataView::loadData);
     connect(pDataView,&DataView::appendData,this,&MainWindow::appendDataToChart);
     chart->setTitle(tr("No Data"));
-    statusBar()->showMessage("Ready");
+    //statusBar()->showMessage("Ready");
 
 }
 
@@ -52,6 +55,7 @@ void MainWindow::on_actionTest_triggered()
     ChartContainer*  chartContainer = new ChartContainer(this);
     connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
     connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
+    //connect(this,&MainWindow::changeCrosshairVisibility,chartContainer,&ChartContainer::setCrosshairVisibility);
     pDockedCharts.append(chartContainer);
 
 
@@ -180,5 +184,50 @@ void MainWindow::on_actionZoomHorizontally_triggered()
         rb = QChartView::VerticalRubberBand;
     }
     emit rubberBandChangeRequest(rb);
+}
+
+
+void MainWindow::on_actionCrosshair_Mode_triggered()
+{
+    if(ui->actionCrosshair_Mode->isChecked())
+    {
+        pDockedCharts[0]->setCrosshairVisibility(true);
+        //emit changeCrosshairVisibility(true);
+        ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-location-off-80.png"));
+    }
+    else
+    {
+        pDockedCharts[0]->setCrosshairVisibility(false);
+        ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-target-80.png"));
+    }
+}
+
+
+void MainWindow::on_actionMeasure_triggered()
+{
+    if(ui->actionMeasure->isChecked())
+    {
+
+    }
+    else
+    {
+
+    }
+}
+
+
+
+
+void MainWindow::on_actiontoggleDataView_triggered()
+{
+    if(ui->actiontoggleDataView->isChecked())
+    {
+        this->pDataDock->show();
+    }
+    else
+    {
+        this->pDataDock->hide();
+    }
+
 }
 
