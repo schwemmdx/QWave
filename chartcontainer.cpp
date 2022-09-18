@@ -1,6 +1,5 @@
 #include "chartcontainer.h"
 
-
 #include <QColor>
 #include <QtCharts/QLineSeries>
 #include <QtCharts/QChart>
@@ -8,11 +7,9 @@
 #include <QMessageBox>
 #include <QValueAxis>
 
-
 #include "theme_colors.h"
 #include "chartcrosshair.h"
 #include "customseries.h"
-
 
 #include <random>
 
@@ -20,15 +17,16 @@ ChartContainer::ChartContainer(QWidget *parent)
 {
     series = new CustomSeries(this);
 
-
-
     chart = new QChart();
     chart->legend()->hide();
-    //chart->addSeries(series);
-    //tracies.append(series);
+    QBrush bgBrush(Altium::BackGround2.lighter());
+    chart->setBackgroundBrush(bgBrush);
+
+    // chart->addSeries(series);
+    // tracies.append(series);
 
     chart->createDefaultAxes();
-    chart->setMargins(QMargins(8,8,8,8));
+    chart->setMargins(QMargins(8, 8, 8, 8));
     chart->setBackgroundRoundness(8);
 
     setChart(chart);
@@ -39,27 +37,24 @@ ChartContainer::ChartContainer(QWidget *parent)
     setContextMenuPolicy(Qt::CustomContextMenu);
     setRubberBand(QChartView::NoRubberBand);
 
-
     contextMenu = new QMenu(this);
-    contextMenu->addAction("Set Limits",this,&ChartContainer::setLimits);
-    contextMenu->addAction("Reset Zoom",this,&ChartContainer::resetZoom);
+    contextMenu->addAction("Set Limits", this, &ChartContainer::setLimits);
+    contextMenu->addAction("Reset Zoom", this, &ChartContainer::resetZoom);
     contextMenu->addSeparator();
-    contextMenu->addAction("Remove Selected",this,&ChartContainer::clearSelectedSeries);
-    contextMenu->addAction("Clear Chart",this,&ChartContainer::clearAllSeries);
-
+    contextMenu->addAction("Remove Selected", this, &ChartContainer::clearSelectedSeries);
+    contextMenu->addAction("Clear Chart", this, &ChartContainer::clearAllSeries);
 
     chart->setAnimationDuration(250);
 
-    m_crosshair  = new ChartCrosshair(chart);
+    m_crosshair = new ChartCrosshair(chart);
 
-    connect(series,&CustomSeries::seriesSelected,this,&ChartContainer::selectedSeriesChanged);
-    connect(series,&CustomSeries::newStatusMessage,this,&ChartContainer::newMsgFromSeries);
-    connect(this,&ChartContainer::customContextMenuRequested,this,&ChartContainer::onCustomContextMenu);
+    connect(series, &CustomSeries::seriesSelected, this, &ChartContainer::selectedSeriesChanged);
+    connect(series, &CustomSeries::newStatusMessage, this, &ChartContainer::newMsgFromSeries);
+    connect(this, &ChartContainer::customContextMenuRequested, this, &ChartContainer::onCustomContextMenu);
 }
 
 ChartContainer::~ChartContainer()
 {
-
 }
 
 void ChartContainer::setTitle(QString title)
@@ -67,51 +62,46 @@ void ChartContainer::setTitle(QString title)
     chart->setTitle(title);
 }
 
-
-
-void ChartContainer::addDataSeries(QVector<double> x,QVector<double> y, QString xUnit,QString yUnit)
+void ChartContainer::addDataSeries(QVector<double> x, QVector<double> y, QString xUnit, QString yUnit)
 {
 
     series = new CustomSeries(this);
 
-    auto xMin = std::min(x.begin(),x.end());
-    auto xMax = std::max(x.begin(),x.end());
+    auto xMin = std::min(x.begin(), x.end());
+    auto xMax = std::max(x.begin(), x.end());
     double yMin = std::numeric_limits<double>::max();
     double yMax = std::numeric_limits<double>::min();
-    foreach(auto &p,y)
+    foreach (auto &p, y)
     {
-        if(p < yMin)
+        if (p < yMin)
         {
-            yMin=p;
+            yMin = p;
         }
-        if(p> yMax)
+        if (p > yMax)
         {
-            yMax=p;
+            yMax = p;
         }
     }
 
-
-    qDebug()<< "min: " << yMin << "max: " << yMax;
+    qDebug() << "min: " << yMin << "max: " << yMax;
     QPointF ptBuf;
     QVector<QPointF> dataBuf;
-    for(uint i=0;i<x.count();i++)
+    for (uint i = 0; i < x.count(); i++)
     {
         ptBuf.setX(x[i]);
         ptBuf.setY(y[i]);
         dataBuf.append(ptBuf);
     }
 
-
     chart->update();
 
-    //chart->setPlotArea(area);
+    // chart->setPlotArea(area);
 
-    QValueAxis* axisY = new QValueAxis;
-    QValueAxis* axisX = new QValueAxis;
+    QValueAxis *axisY = new QValueAxis;
+    QValueAxis *axisX = new QValueAxis;
 
-    axisY->setRange(yMin,yMax);
-    axisX->setRange(*xMin,*xMax);
-
+    axisY->setRange(yMin, yMax);
+    axisX->setRange(*xMin, *xMax);
 
     series->setData(dataBuf);
     chart->addSeries(series);
@@ -129,26 +119,23 @@ void ChartContainer::addDataSeries(QVector<double> x,QVector<double> y, QString 
     axisY->setLabelsBrush(txtBrush);
     axisY->applyNiceNumbers();
     axisX->applyNiceNumbers();
-    //axisY->setLinePen(pen);
+    axisX->setGridLineVisible(false);
+    axisY->setGridLineVisible(false);
+    // axisY->setLinePen(pen);
     chart->addAxis(axisY, Qt::AlignLeft);
-    if(chart->axes(Qt::Orientation::Horizontal).length()==0)
+    if (chart->axes(Qt::Orientation::Horizontal).length() == 0)
     {
-      chart->addAxis(axisX,Qt::AlignBottom);
+        chart->addAxis(axisX, Qt::AlignBottom);
     }
-
 
     series->attachAxis(axisX);
     series->attachAxis(axisY);
     tracies.append(series);
-
-
-
-
 }
 
-void ChartContainer::selectedSeriesChanged(CustomSeries* trace)
+void ChartContainer::selectedSeriesChanged(CustomSeries *trace)
 {
- emit seriesSelectionChanged(trace);
+    emit seriesSelectionChanged(trace);
 }
 
 void ChartContainer::newMsgFromSeries(QString msg)
@@ -156,21 +143,22 @@ void ChartContainer::newMsgFromSeries(QString msg)
     emit newStatusMessage(msg);
 }
 
-void ChartContainer::wheelEvent(QWheelEvent* event)
+void ChartContainer::wheelEvent(QWheelEvent *event)
 {
-    if(true)//isSelectedContainer())
+    if (true) // isSelectedContainer())
     {
         int zStep = 10;
         float dir = 0;
         QRectF rect = chart->plotArea();
         QPoint numSteps;
-        QPoint numDegrees = event->angleDelta()/8;
-        if (!numDegrees.isNull()) {
-             numSteps = numDegrees/15;
+        QPoint numDegrees = event->angleDelta() / 8;
+        if (!numDegrees.isNull())
+        {
+            numSteps = numDegrees / 15;
         }
 
-        if(event->modifiers().testFlag(Qt::ShiftModifier))
-        {   //speed up zooming and scrolling by the same factor
+        if (event->modifiers().testFlag(Qt::ShiftModifier))
+        { // speed up zooming and scrolling by the same factor
             stepModifier = 5;
         }
         else
@@ -178,36 +166,35 @@ void ChartContainer::wheelEvent(QWheelEvent* event)
             stepModifier = 1;
         }
 
-        if(event->modifiers().testFlag(Qt::ControlModifier))
+        if (event->modifiers().testFlag(Qt::ControlModifier))
         {
             zoomFactor = event->angleDelta().y() > 0 ? 0.5 : 2;
             QPointF c = chart->plotArea().center();
-            rect.setWidth(zoomFactor*rect.width());
+            rect.setWidth(zoomFactor * rect.width());
             rect.moveCenter(c);
             chart->zoomIn(rect);
-
         }
 
-        else if(event->modifiers().testFlag(Qt::AltModifier))
+        else if (event->modifiers().testFlag(Qt::AltModifier))
         {
             zoomFactor = event->angleDelta().x() > 0 ? 0.5 : 2;
 
             QPointF c = chart->plotArea().center();
             QPoint cursorPos(QCursor::pos());
             int dy = c.y() - cursorPos.y();
-            if(abs(dy) > 25 )
+            if (abs(dy) > 25)
             {
-                dy/=5;
+                dy /= 5;
             }
-            c.setY(c.y()-dy);
+            c.setY(c.y() - dy);
 
-            rect.setHeight(zoomFactor*rect.height());
+            rect.setHeight(zoomFactor * rect.height());
             rect.moveCenter(c);
             chart->zoomIn(rect);
         }
         else
         {
-            chart->scroll(10*pow(2,stepModifier)*numSteps.y(),0);
+            chart->scroll(10 * pow(2, stepModifier) * numSteps.y(), 0);
         }
         event->accept();
     }
@@ -216,10 +203,11 @@ void ChartContainer::wheelEvent(QWheelEvent* event)
 bool ChartContainer::isSelectedContainer(void)
 {
     bool selectionState = false;
-    foreach (auto &trace, chart->series()) {
-        if(reinterpret_cast<CustomSeries*>(trace)->isSelected())
+    foreach (auto &trace, chart->series())
+    {
+        if (reinterpret_cast<CustomSeries *>(trace)->isSelected())
         {
-            selectionState =  true;
+            selectionState = true;
             break;
         }
     }
@@ -228,33 +216,38 @@ bool ChartContainer::isSelectedContainer(void)
 
 void ChartContainer::onCustomContextMenu(const QPoint &point)
 {
-    if(rubberBand() == QChartView::NoRubberBand)
+    if (rubberBand() == QChartView::NoRubberBand)
     {
         contextMenu->exec(this->viewport()->mapToGlobal(point));
     }
-
 }
 
 void ChartContainer::clearSelectedSeries(void)
 {
     int i = 0;
-    foreach(auto trace,tracies)
+    foreach (auto trace, tracies)
     {
-        if(trace->isSelected())
+        if (trace->isSelected())
         {
             chart->removeSeries(trace);
             tracies.removeAt(i);
         }
         i++;
-
     }
 }
 void ChartContainer::clearAllSeries(void)
 {
-    auto answer = QMessageBox::question(this,"Clear Entire Chart?",
-                          "Are you sure to remove all tracies from the chart ?");
-    if(QMessageBox::Yes == answer)
+    auto answer = QMessageBox::question(this, "Clear Entire Chart?",
+                                        "Are you sure to remove all tracies from the chart ?");
+    if (QMessageBox::Yes == answer)
     {
+        foreach (auto &ser, chart->series())
+        {
+            foreach (auto &ax, ser->attachedAxes())
+            {
+                chart->removeAxis(ax);
+            }
+        }
         chart->removeAllSeries();
     }
 }
@@ -265,7 +258,6 @@ void ChartContainer::resetZoom(void)
 }
 void ChartContainer::setLimits(void)
 {
-
 }
 
 void ChartContainer::changeRubberBandBehaviour(QChartView::RubberBand rb)
@@ -273,7 +265,7 @@ void ChartContainer::changeRubberBandBehaviour(QChartView::RubberBand rb)
     setRubberBand(rb);
 }
 
-void ChartContainer::mouseMoveEvent(QMouseEvent* event)
+void ChartContainer::mouseMoveEvent(QMouseEvent *event)
 {
-    m_crosshair->updatePosition(event->pos());
+   m_crosshair->updatePosition(event); 
 }

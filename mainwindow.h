@@ -29,7 +29,7 @@ private slots:
 
    // void switchSelectedChart(QVector<ChartContainer*>);
     void Ondoubleclicktree(int);
-    void keyPressEvent(QKeyEvent*);
+    //void keyPressEvent(QKeyEvent*);
     void updateFocusTraceDetails(CustomSeries*);
     void on_actionImportData_triggered();
     void on_actionTest_triggered();

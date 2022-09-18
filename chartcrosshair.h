@@ -12,12 +12,15 @@ class ChartCrosshair
 {
 public:
     ChartCrosshair(QChart *chart);
-    void updatePosition(QPointF position);
+    void updatePosition(QMouseEvent* event);
 
 private:
     QGraphicsLineItem *m_xLine, *m_yLine;
     QGraphicsTextItem *m_xText, *m_yText;
     QChart *m_chart;
+    QLineF* xLine;
+    QLineF* yLine;
+    bool ctrlPressed,shiftPressed;
 
 };
 

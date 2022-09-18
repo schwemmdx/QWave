@@ -112,16 +112,16 @@ void MainWindow::Ondoubleclicktree(int QModelIndex)
 {
     qDebug() << QModelIndex;
 }
-
+/*
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    qDebug() << "ESC pressed";
+    
     if( event->key() == Qt::Key_Escape )
     {
         unselectExcept(nullptr);
     }
 }
-
+*/
 
 void MainWindow::updateFocusTraceDetails(CustomSeries* trace)
 {
