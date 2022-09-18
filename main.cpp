@@ -35,26 +35,26 @@ int main(int argc, char *argv[])
 
     }
 */
-/*
+
     QPalette darkpalette;
-    darkpalette.setColor(QPalette::Window, Theme::BackGround);
-    darkpalette.setColor(QPalette::Text,Theme::ForeGround);
-    darkpalette.setColor(QPalette::WindowText, Theme::ForeGround);
-    darkpalette.setColor(QPalette::Base,Theme::BackGround2);
-    darkpalette.setColor(QPalette::AlternateBase, Theme::BackGround2);
-    darkpalette.setColor(QPalette::ToolTipBase, Theme::BackGround.lighter());
-    darkpalette.setColor(QPalette::ToolTipText, Theme::ForeGround),
-    darkpalette.setColor(QPalette::Text, Theme::ForeGround);
-    darkpalette.setColor(QPalette::Button, Theme::BackGround.lighter());
-    darkpalette.setColor(QPalette::ButtonText, Theme::ForeGround);
-    darkpalette.setColor(QPalette::BrightText, Theme::ForeGround.lighter());
-    darkpalette.setColor(QPalette::Highlight, Theme::Green);
-    darkpalette.setColor(QPalette::HighlightedText,Theme::Red);
+    darkpalette.setColor(QPalette::Window, Altium::BackGround);
+    darkpalette.setColor(QPalette::Text,Altium::LightText);
+    darkpalette.setColor(QPalette::WindowText, Altium::LightText);
+    darkpalette.setColor(QPalette::Base,Altium::BackGround);
+    darkpalette.setColor(QPalette::AlternateBase, Altium::BackGround2);
+    darkpalette.setColor(QPalette::ToolTipBase, Altium::BackGround.lighter());
+    darkpalette.setColor(QPalette::ToolTipText, Altium::LightText),
+    darkpalette.setColor(QPalette::Text, Altium::LightText);
+    darkpalette.setColor(QPalette::Button, Altium::BackGround.lighter());
+    darkpalette.setColor(QPalette::ButtonText, Altium::LightText);
+    darkpalette.setColor(QPalette::BrightText, Altium::LightText.lighter());
+    darkpalette.setColor(QPalette::Highlight, Altium::Highlight);
+    darkpalette.setColor(QPalette::HighlightedText,Altium::LightText);
 
-    */
+    
 
 
-    //a.setPalette(darkpalette);
+    a.setPalette(darkpalette);
     MainWindow w;
     //w.setWindowState(Qt::WindowMaximized);
     w.show();

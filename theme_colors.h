@@ -30,4 +30,15 @@ public:
 
 };
 
+class Altium
+{
+        public:
+        static constexpr QColor BackGround{QColor(66,66,66)};
+        static constexpr QColor BackGround2{QColor(50,50,50)};
+        static constexpr QColor Highlight{QColor(100,130,160)};
+        static constexpr QColor LightText{QColor(224,224,224)};
+        static constexpr QColor LightGreen{QColor(162,212,153)};
+        static constexpr QColor HighLight2{QColor(205,181,123)};
+};
+
 #endif // THEME_COLORS_H
