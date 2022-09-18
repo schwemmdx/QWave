@@ -5,7 +5,6 @@
 #include "QVector2D"
 #include "QString"
 
-
 #include "xydata.h"
 #include "csvdatalayout.h"
 
@@ -25,6 +24,9 @@ private:
     static void toJSON(QString*);
     static void csvWizardDlg(CSVDataLayout*);
     static double sciStringtoDouble(const QString*);
+
+
+
 
 
 
