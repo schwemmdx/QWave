@@ -51,7 +51,7 @@ void DataView::loadData(QString file)
     auto data = DataImporter::fromCSV(file);
     QStandardItem* csvFile =  new QStandardItem(fileName);
     //csvFile->setEditable(false);
-    csvFile->setIcon(QIcon(":./icons//icon_data/csv.png"));
+    csvFile->setIcon(csvIcon);
 
     QStandardItemModel* importContent = new QStandardItemModel();
     importContent->setColumnCount(2);
@@ -76,7 +76,7 @@ void DataView::loadData(QString file)
     {
         QStandardItem* signal =  new QStandardItem();
         signal->setText(sig.getName());
-        signal->setIcon(QIcon(":/icons/icon_data/radio-waves.png"));
+        signal->setIcon(yIcon);
 
         signal->setData(QVariant::fromValue(sig.getPointVec()),Qt::UserRole+1);
 
@@ -126,7 +126,7 @@ void DataView::loadData(QString file)
     setColumnWidth(0,160);
     setColumnWidth(1,100);
     //expandToDepth();
-
+    this->setIconSize(QSize(16,16));
     selectionModel()->select(model()->index(0,0), QItemSelectionModel::Select | QItemSelectionModel::Rows);
     actionSetItemAsX();
     selectionModel()->select(model()->index(0,0), QItemSelectionModel::Deselect | QItemSelectionModel::Rows);
@@ -161,9 +161,9 @@ void DataView::actionSetItemAsX()
         QString txt;
         for(int i = 0;i<numChildren;i++)
         {
-           static_cast<QStandardItem*>(idx.internalPointer())->child(i)->setIcon(QIcon(":/icons/icon_data/radio-waves.png"));
+           static_cast<QStandardItem*>(idx.internalPointer())->child(i)->setIcon(yIcon);
         }
-        item->setIcon(QIcon(":/icons/icon_data/1 (107).png"));
+        item->setIcon(xIcon);
         xData =  idx.data(Qt::UserRole+1).value<QVector<double>>();
         xUnit = item->child(0,1)->text();
 

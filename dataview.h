@@ -9,6 +9,7 @@
 #include <QStandardItem>
 #include <QMouseEvent>
 #include <QModelIndex>
+#include <QIcon>
 
 
 #define APPEND_LEFT 0
@@ -44,6 +45,11 @@ private:
     QAction* setAsYRData;
     QAction* remove;
     QAction* inspect;
+
+
+    const QIcon xIcon{":/icons/icons/x-coord.png"};
+    const QIcon yIcon{":/icons/icons/y-coord.png"};
+    const QIcon csvIcon{":/icons/icons/icons8-csv-80.png"};
 
     //void mouseDoubleClickEvent(QMouseEvent * event);
 
