@@ -37,10 +37,10 @@ int main(int argc, char *argv[])
 */
 
     QPalette darkpalette;
-    darkpalette.setColor(QPalette::Window, Altium::BackGround);
+    darkpalette.setColor(QPalette::Window, Altium::BackGround2);
     darkpalette.setColor(QPalette::Text,Altium::LightText);
     darkpalette.setColor(QPalette::WindowText, Altium::LightText);
-    darkpalette.setColor(QPalette::Base,Altium::BackGround);
+    darkpalette.setColor(QPalette::Base,Altium::BackGround2);
     darkpalette.setColor(QPalette::AlternateBase, Altium::BackGround2);
     darkpalette.setColor(QPalette::ToolTipBase, Altium::BackGround.lighter());
     darkpalette.setColor(QPalette::ToolTipText, Altium::LightText),
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
     a.setPalette(darkpalette);
     MainWindow w;
-    //w.setWindowState(Qt::WindowMaximized);
+    w.setWindowState(Qt::WindowMaximized);
     w.show();
     return a.exec();
 }
