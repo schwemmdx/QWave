@@ -20,7 +20,7 @@
    <string>QWave - Data Visualizer</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="qwave.qrc">
+   <iconset>
     <normaloff>:/icons/icon_data/1 (15).png</normaloff>:/icons/icon_data/1 (15).png</iconset>
   </property>
   <property name="toolButtonStyle">
@@ -42,7 +42,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
    <property name="maximumSize">
     <size>
@@ -83,9 +82,49 @@
    <addaction name="actionImportData"/>
    <addaction name="actionsaveScene"/>
    <addaction name="separator"/>
-   <addaction name="actionMeasure"/>
+   <addaction name="separator"/>
    <addaction name="actionModifySelected"/>
    <addaction name="actioncreateData"/>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
+   <property name="windowTitle">
+    <string>DataViewToolbar</string>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actiontoggleDataView"/>
+   <addaction name="separator"/>
+   <addaction name="actionMeasure"/>
+   <addaction name="actionCrosshair_Mode"/>
    <addaction name="separator"/>
    <addaction name="actionZoomHorizontally"/>
    <addaction name="actionzoomVertically"/>
@@ -93,7 +132,7 @@
   </widget>
   <action name="actionTest">
    <property name="icon">
-    <iconset resource="qwave.qrc">
+    <iconset>
      <normaloff>:/icons/icon_data/1 (63).png</normaloff>:/icons/icon_data/1 (63).png</iconset>
    </property>
    <property name="text">
@@ -101,9 +140,12 @@
    </property>
   </action>
   <action name="actionMeasure">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icon_data/1 (71).png</normaloff>:/icons/icon_data/1 (71).png</iconset>
+     <normaloff>:/icons/icons/icons8-length-80.png</normaloff>:/icons/icons/icons8-length-80.png</iconset>
    </property>
    <property name="text">
     <string>Measure</string>
@@ -111,11 +153,14 @@
    <property name="toolTip">
     <string>Measure Signal(s)</string>
    </property>
+   <property name="shortcut">
+    <string>M</string>
+   </property>
   </action>
   <action name="actionImportData">
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icon_data/1 (79).png</normaloff>:/icons/icon_data/1 (79).png</iconset>
+     <normaloff>:/icons/icons/icons8-export-80.png</normaloff>:/icons/icons/icons8-export-80.png</iconset>
    </property>
    <property name="text">
     <string>ImportData</string>
@@ -133,7 +178,7 @@
    </property>
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icon_data/1 (14).png</normaloff>:/icons/icon_data/1 (14).png</iconset>
+     <normaloff>:/icons/icons/icons8-height-80.png</normaloff>:/icons/icons/icons8-height-80.png</iconset>
    </property>
    <property name="text">
     <string>ZoomHorizontally</string>
@@ -151,7 +196,7 @@
    </property>
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icon_data/1 (52).png</normaloff>:/icons/icon_data/1 (52).png</iconset>
+     <normaloff>:/icons/icons/icons8-width-80.png</normaloff>:/icons/icons/icons8-width-80.png</iconset>
    </property>
    <property name="text">
     <string>zoomVertically</string>
@@ -169,7 +214,7 @@
    </property>
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icon_data/1 (86).png</normaloff>:/icons/icon_data/1 (86).png</iconset>
+     <normaloff>:/icons/icons/icons8-enlarge-80.png</normaloff>:/icons/icons/icons8-enlarge-80.png</iconset>
    </property>
    <property name="text">
     <string>zoomROI</string>
@@ -184,7 +229,7 @@
   <action name="actionsaveScene">
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icon_data/1 (89).png</normaloff>:/icons/icon_data/1 (89).png</iconset>
+     <normaloff>:/icons/icons/icons8-save-80.png</normaloff>:/icons/icons/icons8-save-80.png</iconset>
    </property>
    <property name="text">
     <string>saveScene</string>
@@ -199,7 +244,7 @@
   <action name="actionModifySelected">
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icon_data/1 (9).png</normaloff>:/icons/icon_data/1 (9).png</iconset>
+     <normaloff>:/icons/icons/icons8-edit-80.png</normaloff>:/icons/icons/icons8-edit-80.png</iconset>
    </property>
    <property name="text">
     <string>ModifySelected</string>
@@ -211,13 +256,52 @@
   <action name="actioncreateData">
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icon_data/1 (40).png</normaloff>:/icons/icon_data/1 (40).png</iconset>
+     <normaloff>:/icons/icons/icons8-add-file-80.png</normaloff>:/icons/icons/icons8-add-file-80.png</iconset>
    </property>
    <property name="text">
     <string>createData</string>
    </property>
    <property name="toolTip">
     <string>Create Data from scratch</string>
+   </property>
+  </action>
+  <action name="actiontoggleDataView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icons/icons8-tree-structure-80.png</normaloff>:/icons/icons/icons8-tree-structure-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>toggleDataView</string>
+   </property>
+   <property name="toolTip">
+    <string>Hide/Show Data View</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionCrosshair_Mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icons/icons8-target-80.png</normaloff>:/icons/icons/icons8-target-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>Crosshair Mode </string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toggles Crosshair-Mode for data inspection&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>#</string>
    </property>
   </action>
  </widget>
