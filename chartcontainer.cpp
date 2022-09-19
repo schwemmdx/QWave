@@ -21,16 +21,16 @@ ChartContainer::ChartContainer(QWidget *parent)
     series = new CustomSeries(this);
     middleMousePressed = false;
     chart = new QChart();
-    chart->legend()->hide();
-    QBrush bgBrush(Altium::BackGround);
+    //chart->legend()->hide();
+    QBrush bgBrush(Altium::BackGround2);
     chart->setBackgroundBrush(bgBrush);
 
     // chart->addSeries(series);
     // tracies.append(series);
 
     //chart->createDefaultAxes();
-    chart->setMargins(QMargins(8, 8, 8, 8));
-    chart->setBackgroundRoundness(8);
+    chart->setMargins(QMargins(5, 5, 5, 5));
+    chart->setBackgroundRoundness(5);
 
     setChart(chart);
 
@@ -127,8 +127,8 @@ void ChartContainer::addDataSeries(QVector<double> x, QVector<double> y, QString
     axisX->setLabelsBrush(xBrush);
     axisY->setGridLineVisible();
     axisX->setGridLineVisible();
-    axisX->setGridLineColor(Altium::BackGround.lighter());
-    axisY->setGridLineColor(Altium::BackGround.lighter());
+    axisX->setGridLineColor(Altium::BackGround.lighter(300));
+    axisY->setGridLineColor(Altium::BackGround.lighter(300));
 
 
 
