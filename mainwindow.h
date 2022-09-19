@@ -50,6 +50,8 @@ private slots:
 
     void on_actiontoggleDataView_triggered();
 
+    void on_actionToggleTools_triggered();
+
 private:
     QDockWidget* pDataDock;
     DataView* pDataView;
