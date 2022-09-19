@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1431</width>
-    <height>773</height>
+    <width>1079</width>
+    <height>610</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -49,6 +49,11 @@
      <height>16777215</height>
     </size>
    </property>
+   <property name="font">
+    <font>
+     <strikeout>false</strikeout>
+    </font>
+   </property>
    <property name="mouseTracking">
     <bool>true</bool>
    </property>
@@ -57,6 +62,9 @@
    </property>
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
    </property>
    <property name="movable">
     <bool>false</bool>
@@ -80,16 +88,25 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionImportData"/>
+   <addaction name="actiontoggleDataView"/>
    <addaction name="actionsaveScene"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="actionModifySelected"/>
    <addaction name="actioncreateData"/>
    <addaction name="separator"/>
+   <addaction name="actionToggleTools"/>
   </widget>
   <widget class="QToolBar" name="toolBar_2">
    <property name="enabled">
     <bool>true</bool>
+   </property>
+   <property name="font">
+    <font>
+     <bold>false</bold>
+     <stylestrategy>PreferAntialias</stylestrategy>
+     <kerning>true</kerning>
+    </font>
    </property>
    <property name="contextMenuPolicy">
     <enum>Qt::NoContextMenu</enum>
@@ -121,14 +138,17 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actiontoggleDataView"/>
    <addaction name="separator"/>
+   <addaction name="actionSearch_Find"/>
+   <addaction name="actionapplyFilter"/>
    <addaction name="actionMeasure"/>
    <addaction name="actionCrosshair_Mode"/>
+   <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="actionZoomHorizontally"/>
    <addaction name="actionzoomVertically"/>
    <addaction name="actionzoomROI"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionTest">
    <property name="icon">
@@ -283,7 +303,7 @@
     <string>Hide/Show Data View</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+D</string>
+    <string>Ctrl+B</string>
    </property>
   </action>
   <action name="actionCrosshair_Mode">
@@ -302,6 +322,66 @@
    </property>
    <property name="shortcut">
     <string>#</string>
+   </property>
+  </action>
+  <action name="actionSearch_Find">
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icons/icons8-binoculars-80.png</normaloff>:/icons/icons/icons8-binoculars-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search &amp; Find</string>
+   </property>
+   <property name="toolTip">
+    <string>Search &amp; Find values</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionapplyFilter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icons/icons8-filter-80.png</normaloff>:/icons/icons/icons8-filter-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>applyFilter</string>
+   </property>
+   <property name="toolTip">
+    <string>Apply Conditional Filter</string>
+   </property>
+  </action>
+  <action name="actionAddMarker">
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icons/icons8-anchor-nodes-80.png</normaloff>:/icons/icons/icons8-anchor-nodes-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>AddMarker</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a Marker to a datapoint</string>
+   </property>
+  </action>
+  <action name="actionToggleTools">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icons/icons8-toolbox-80.png</normaloff>:/icons/icons/icons8-toolbox-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>ToggleTools</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle Toolbar</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
    </property>
   </action>
  </widget>

@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     pDockedCharts.append(chartContainer);
     ui->centralwidget->adjustSize();
     ui->mainLayout->addWidget(chartContainer,1);
+    ui->toolBar_2->hide();
 
     pDataDock = new QDockWidget(this);
 
@@ -229,5 +230,18 @@ void MainWindow::on_actiontoggleDataView_triggered()
         this->pDataDock->hide();
     }
 
+}
+
+
+void MainWindow::on_actionToggleTools_triggered()
+{
+    if(ui->actionToggleTools->isChecked())
+    {
+        ui->toolBar_2->show();
+    }
+    else
+    {
+        ui->toolBar_2->hide();
+    }
 }
 
