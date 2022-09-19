@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 */
 
     QPalette darkpalette;
-    darkpalette.setColor(QPalette::Window, Altium::BackGround2);
+    darkpalette.setColor(QPalette::Window, Altium::BackGround);
     darkpalette.setColor(QPalette::Text,Altium::LightText);
     darkpalette.setColor(QPalette::WindowText, Altium::LightText);
     darkpalette.setColor(QPalette::Base,Altium::BackGround2);
