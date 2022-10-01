@@ -5,8 +5,10 @@
 #include "chartcontainer.h"
 #include <QtCharts/QtCharts>
 #include <QStatusBar>
-#include "dataview.h"
 
+#include "dataview.h"
+#include "theme_colors.h"
+#include "optionsdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -19,16 +21,19 @@ MainWindow::MainWindow(QWidget *parent)
     connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
     //connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
     connect(this,&MainWindow::rubberBandChangeRequest,chartContainer,&ChartContainer::changeRubberBandBehaviour);
+
+
     pDockedCharts.append(chartContainer);
     ui->centralwidget->adjustSize();
     ui->mainLayout->addWidget(chartContainer,1);
 
     pDataDock = new QDockWidget(this);
-
     pDataView = new DataView();
     pDataDock->setFeatures(QDockWidget::DockWidgetMovable);
     pDataView->setEditTriggers(QAbstractItemView::EditKeyPressed);
     addDockWidget(Qt::LeftDockWidgetArea,pDataDock);
+    pOptionDlg = new OptionsDialog();
+    pOptionDlg->hide();
 
     pDataDock->setWidget(pDataView);
 
@@ -37,8 +42,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(this,&MainWindow::loadFromFile,pDataView,&DataView::loadData);
     connect(pDataView,&DataView::appendData,this,&MainWindow::appendDataToChart);
-    chart->setTitle(tr("No Data"));
+    connect(this, &MainWindow::chartThmeChangeRequest,chartContainer,&ChartContainer::themeChange);
+
+    chart->setTitle(tr(" "));
     //statusBar()->showMessage("Ready");
+    setTheme();
 
 }
 
@@ -47,24 +55,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//! this function is going to be removed later on
-void MainWindow::on_actionTest_triggered()
-{
-    int i = ui->mainLayout->count();
-
-    ChartContainer*  chartContainer = new ChartContainer(this);
-    connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
-    connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
-    //connect(this,&MainWindow::changeCrosshairVisibility,chartContainer,&ChartContainer::setCrosshairVisibility);
-    pDockedCharts.append(chartContainer);
-
-
-    ui->centralwidget->adjustSize();
-    ui->mainLayout->addWidget(chartContainer,1);
-
-    ChartContainer* chart = static_cast<ChartContainer*>(chartContainer);
-    chart->setTitle(tr("Datenreihe %1").arg(i+1));
-}
 
 
 void MainWindow::selectedSeriesChanged(CustomSeries* traceClicked)
@@ -229,5 +219,35 @@ void MainWindow::on_actiontoggleDataView_triggered()
         this->pDataDock->hide();
     }
 
+}
+
+void MainWindow::set_pMain(QApplication* pApp)
+{
+    pApplication = pApp;
+}
+
+void MainWindow::setTheme(void)
+{
+    QPalette darkpalette;
+    darkpalette.setColor(QPalette::Window, Altium::BackGround2);
+    darkpalette.setColor(QPalette::Text,Altium::LightText);
+    darkpalette.setColor(QPalette::WindowText, Altium::LightText);
+    darkpalette.setColor(QPalette::Base,Altium::BackGround2);
+    darkpalette.setColor(QPalette::AlternateBase, Altium::BackGround2);
+    darkpalette.setColor(QPalette::ToolTipBase, Altium::BackGround.lighter());
+    darkpalette.setColor(QPalette::ToolTipText, Altium::LightText),
+    darkpalette.setColor(QPalette::Text, Altium::LightText);
+    darkpalette.setColor(QPalette::Button, Altium::BackGround.lighter());
+    darkpalette.setColor(QPalette::ButtonText, Altium::LightText);
+    darkpalette.setColor(QPalette::BrightText, Altium::LightText.lighter());
+    darkpalette.setColor(QPalette::Highlight, Altium::Highlight);
+    darkpalette.setColor(QPalette::HighlightedText,Altium::LightText);
+
+    pApplication->setPalette(darkpalette);
+}
+
+void MainWindow::on_actionOptions_triggered()
+{
+    pOptionDlg->show();
 }
 

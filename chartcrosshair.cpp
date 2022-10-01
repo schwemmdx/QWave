@@ -19,14 +19,14 @@ ChartCrosshair::ChartCrosshair(QChart *chart) :
 {
 
     //m_chart->setCursor(QCursor(Qt::CursorShape::CrossCursor));
-    m_xLine->setPen(QPen(Altium::LightText, 2));
-    m_yLine->setPen(QPen(Altium::LightText, 2));
+    m_xLine->setPen(QPen(Altium::HighLight2, 2));
+    m_yLine->setPen(QPen(Altium::HighLight2, 2));
     m_xText->setZValue(11);
     m_yText->setZValue(11);
     m_xText->document()->setDocumentMargin(5);
     m_yText->document()->setDocumentMargin(5);
-    m_xText->setDefaultTextColor(Altium::LightText.lighter());
-    m_yText->setDefaultTextColor(Altium::LightText.lighter());
+    m_xText->setDefaultTextColor(Altium::BackGround2.darker());
+    m_yText->setDefaultTextColor(Altium::BackGround2.darker());
 
     xLine = new QLineF();
     yLine = new QLineF();
@@ -54,10 +54,10 @@ void ChartCrosshair::updatePosition(QMouseEvent* event)
     QString yText = QString("%1").arg(m_chart->mapToValue(position).y());
 
     //hex color for Altium::Highlight = 6482a0
-    m_xText->setHtml(QString("<div style='background-color:"+ Altium::BackGround2.darker().name()+";'><b>") + xText + "</b></div>");
-    m_yText->setHtml(QString("<div style='background-color: "+ Altium::BackGround2.darker().name()+";'><b>") + yText + "</b></div>");
-    m_xText->setPos(position.x() - m_xText->boundingRect().width() / 2.0, m_chart->plotArea().bottom());
-    m_yText->setPos(m_chart->plotArea().left(), position.y() - m_yText->boundingRect().height() / 2.0);
+    m_xText->setHtml(QString("<div style='background-color:"+ Altium::HighLight2.name()+";'><b>") + xText + "</b></div>");
+    m_yText->setHtml(QString("<div style='background-color: "+ Altium::HighLight2.name()+";'><b>") + yText + "</b></div>");
+    m_xText->setPos(position.x() - m_xText->boundingRect().width() / 2.0, m_chart->plotArea().bottom()-m_xText->boundingRect().height()/2);
+    m_yText->setPos(m_chart->plotArea().left()-10, position.y() - m_yText->boundingRect().height() / 2.0);
 
 
     if (m_chart->plotArea().contains(position) && 
@@ -88,4 +88,9 @@ void ChartCrosshair::updatePosition(QMouseEvent* event)
 void ChartCrosshair::setVisibilty(bool vis)
 {
     visibility = vis;
+}
+
+bool ChartCrosshair::visible(void)
+{
+    return visibility;
 }
