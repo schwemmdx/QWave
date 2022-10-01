@@ -81,6 +81,7 @@
    </attribute>
    <addaction name="actionImportData"/>
    <addaction name="actionsaveScene"/>
+   <addaction name="actionOptions"/>
    <addaction name="separator"/>
    <addaction name="separator"/>
    <addaction name="actionModifySelected"/>
@@ -130,13 +131,16 @@
    <addaction name="actionzoomVertically"/>
    <addaction name="actionzoomROI"/>
   </widget>
-  <action name="actionTest">
+  <action name="actionOptions">
    <property name="icon">
-    <iconset>
-     <normaloff>:/icons/icon_data/1 (63).png</normaloff>:/icons/icon_data/1 (63).png</iconset>
+    <iconset resource="qwave.qrc">
+     <normaloff>:/icons/icons/icons8-settings-80.png</normaloff>:/icons/icons/icons8-settings-80.png</iconset>
    </property>
    <property name="text">
-    <string>Test</string>
+    <string>Options</string>
+   </property>
+   <property name="toolTip">
+    <string>Opens the application-settings  dialog</string>
    </property>
   </action>
   <action name="actionMeasure">

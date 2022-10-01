@@ -5,8 +5,6 @@
 #include <QTranslator>
 #include <QFile>
 #include <QColor>
-#include "theme_colors.h"
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -22,40 +20,10 @@ int main(int argc, char *argv[])
     }
 
 
-/*
-    QFile styleSheet("../test.qss");
-
-    if (!styleSheet.exists())   {
-        qDebug() << ("Unable to set stylesheet, file not found\n");
-    }
-    else   {
-        styleSheet.open(QFile::ReadOnly | QFile::Text);
-        QTextStream ts(&styleSheet);
-        qApp->setStyleSheet(ts.readAll());
-
-    }
-*/
-
-    QPalette darkpalette;
-    darkpalette.setColor(QPalette::Window, Altium::BackGround2);
-    darkpalette.setColor(QPalette::Text,Altium::LightText);
-    darkpalette.setColor(QPalette::WindowText, Altium::LightText);
-    darkpalette.setColor(QPalette::Base,Altium::BackGround2);
-    darkpalette.setColor(QPalette::AlternateBase, Altium::BackGround2);
-    darkpalette.setColor(QPalette::ToolTipBase, Altium::BackGround.lighter());
-    darkpalette.setColor(QPalette::ToolTipText, Altium::LightText),
-    darkpalette.setColor(QPalette::Text, Altium::LightText);
-    darkpalette.setColor(QPalette::Button, Altium::BackGround.lighter());
-    darkpalette.setColor(QPalette::ButtonText, Altium::LightText);
-    darkpalette.setColor(QPalette::BrightText, Altium::LightText.lighter());
-    darkpalette.setColor(QPalette::Highlight, Altium::Highlight);
-    darkpalette.setColor(QPalette::HighlightedText,Altium::LightText);
-
-    
 
 
-    a.setPalette(darkpalette);
     MainWindow w;
+    w.set_pMain(&a);
     w.setWindowState(Qt::WindowMaximized);
     w.show();
     return a.exec();
