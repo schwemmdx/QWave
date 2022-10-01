@@ -34,6 +34,7 @@ public slots:
     void setTitle(QString);
     void addDataSeries(QVector<double> ,QVector<double> ,QString ,QString );
     void setCrosshairVisibility(bool);
+    void themeChange(int);
 
 
 private:

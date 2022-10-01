@@ -299,6 +299,20 @@ void ChartContainer::mousePressEvent(QMouseEvent* event)
             QApplication::setOverrideCursor(Qt::ClosedHandCursor);
             break;
         }
+        case Qt::LeftButton:
+        {
+            if(m_crosshair->visible())
+            {
+                auto pos = event->pos();
+
+                qDebug()  << " X Value" <<  chart->mapToValue(pos).x();
+
+                QGraphicsLineItem *m_xLine, *m_yLine;
+
+            }
+
+            break;
+        }
         default:
         {
         }
@@ -327,4 +341,21 @@ void ChartContainer::mouseReleaseEvent(QMouseEvent* event)
     }
     event->accept();
     //setCursor(Qt::ArrowCursor);
+}
+
+
+void ChartContainer::themeChange(int type)
+{
+    switch(type)
+    {
+        case 0:
+        {
+            break;
+        }
+        default:
+        {
+
+        }
+    }
+
 }

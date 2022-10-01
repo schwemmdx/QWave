@@ -16,6 +16,7 @@ public:
     void updatePosition(QMouseEvent* event);
 
     void setVisibilty(bool);
+    bool visible(void);
 
 private:
     QGraphicsLineItem *m_xLine, *m_yLine;
@@ -23,7 +24,7 @@ private:
     QChart *m_chart;
     QLineF* xLine;
     QLineF* yLine;
-    QCursor crosshairCursor{(QPixmap(":/icons/icons/icons8-target-24.png"))};
+    QCursor crosshairCursor{};//(QPixmap(":/icons/icons/icons8-target-24.png"))};
     bool visibility;
 
 
