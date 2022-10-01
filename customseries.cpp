@@ -61,7 +61,7 @@ void CustomSeries::mouseHover(const QPointF point,bool state)
                        "X: "
                        +QString::number(point.x())
                        +"\nY: "
-                       +QString::number(point.y()),nullptr,QRect(),5000);
+                       +QString::number(point.y()),nullptr,QRect(),-1);
         emit newStatusMessage("X: " +QString::number(point.x())+" , Y: "+QString::number(point.y()));
     }
 
