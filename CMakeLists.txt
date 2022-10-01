@@ -42,6 +42,11 @@ set(PROJECT_SOURCES
         xydata.cpp
         chartcrosshair.h
         chartcrosshair.cpp
+
+        optionsdialog.h
+        optionsdialog.cpp
+        optionsdialog.ui
+
         third-party/rapidcsv.h
         qwave.qrc
         ${TS_FILES}
