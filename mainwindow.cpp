@@ -222,7 +222,6 @@ void MainWindow::on_actiontoggleDataView_triggered()
 
 }
 
-<<<<<<< HEAD
 void MainWindow::set_pMain(QApplication* pApp)
 {
     pApplication = pApp;
@@ -251,7 +250,8 @@ void MainWindow::setTheme(void)
 void MainWindow::on_actionOptions_triggered()
 {
     pOptionDlg->show();
-=======
+
+}
 
 void MainWindow::on_actionToggleTools_triggered()
 {
@@ -263,6 +263,6 @@ void MainWindow::on_actionToggleTools_triggered()
     {
         ui->toolBar_2->hide();
     }
->>>>>>> 52b2863e386d7e672951f60fc94f81a2a29f319a
+
 }
 

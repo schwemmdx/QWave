@@ -42,7 +42,8 @@ set(PROJECT_SOURCES
         xydata.cpp
         chartcrosshair.h
         chartcrosshair.cpp
-
+        chartmarker.h
+        chartmarker.cpp
         optionsdialog.h
         optionsdialog.cpp
         optionsdialog.ui

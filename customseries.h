@@ -35,8 +35,6 @@ private:
 
 
 
-
-
 };
 
 #endif // CUSTOMSERIES_H

@@ -45,7 +45,7 @@ private slots:
     void on_actionCrosshair_Mode_triggered();
     void on_actionMeasure_triggered();
     void on_actiontoggleDataView_triggered();
-
+    void on_actionToggleTools_triggered();
     void on_actionOptions_triggered();
 
 private:

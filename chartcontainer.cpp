@@ -21,14 +21,9 @@ ChartContainer::ChartContainer(QWidget *parent)
     series = new CustomSeries(this);
     middleMousePressed = false;
     chart = new QChart();
-    //chart->legend()->hide();
-    QBrush bgBrush(Altium::BackGround2);
+    chart->legend()->hide();
+    QBrush bgBrush(Altium::BackGround);
     chart->setBackgroundBrush(bgBrush);
-
-    // chart->addSeries(series);
-    // tracies.append(series);
-
-    //chart->createDefaultAxes();
     chart->setMargins(QMargins(5, 5, 5, 5));
     chart->setBackgroundRoundness(5);
 
@@ -39,6 +34,7 @@ ChartContainer::ChartContainer(QWidget *parent)
     setAlignment(Qt::AlignLeft);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setRubberBand(QChartView::NoRubberBand);
+    chart->setAnimationDuration(250);
 
     contextMenu = new QMenu(this);
     contextMenu->addAction("Set Limits", this, &ChartContainer::setLimits);
@@ -47,13 +43,18 @@ ChartContainer::ChartContainer(QWidget *parent)
     contextMenu->addAction("Remove Selected", this, &ChartContainer::clearSelectedSeries);
     contextMenu->addAction("Clear Chart", this, &ChartContainer::clearAllSeries);
 
-    chart->setAnimationDuration(250);
+
 
     m_crosshair = new ChartCrosshair(chart);
+
+
 
     connect(series, &CustomSeries::seriesSelected, this, &ChartContainer::selectedSeriesChanged);
     connect(series, &CustomSeries::newStatusMessage, this, &ChartContainer::newMsgFromSeries);
     connect(this, &ChartContainer::customContextMenuRequested, this, &ChartContainer::onCustomContextMenu);
+
+    pMarker1 = new ChartMarker(chart);
+    connect(this,&ChartContainer::markerRequested,pMarker1, &ChartMarker::placeMarkerbyClick);
 }
 
 ChartContainer::~ChartContainer()
@@ -125,10 +126,10 @@ void ChartContainer::addDataSeries(QVector<double> x, QVector<double> y, QString
     axisX->applyNiceNumbers();
     axisX->setTitleBrush(xBrush);
     axisX->setLabelsBrush(xBrush);
-    axisY->setGridLineVisible();
-    axisX->setGridLineVisible();
-    axisX->setGridLineColor(Altium::BackGround.lighter(300));
-    axisY->setGridLineColor(Altium::BackGround.lighter(300));
+    axisY->setGridLineVisible(false);
+    axisX->setGridLineVisible(false);
+    //axisX->setGridLineColor(Altium::BackGround.lighter(300));
+    //axisY->setGridLineColor(Altium::BackGround.lighter(300));
 
 
 
@@ -303,12 +304,7 @@ void ChartContainer::mousePressEvent(QMouseEvent* event)
         {
             if(m_crosshair->visible())
             {
-                auto pos = event->pos();
-
-                qDebug()  << " X Value" <<  chart->mapToValue(pos).x();
-
-                QGraphicsLineItem *m_xLine, *m_yLine;
-
+                emit markerRequested(event->pos());
             }
 
             break;

@@ -9,6 +9,8 @@
 
 #include "customseries.h"
 #include "chartcrosshair.h"
+#include "chartmarker.h"
+
 
 class ChartContainer : public QChartView
 {
@@ -26,6 +28,7 @@ signals:
     void newStatusMessage(QString);
     void zoomApplied(int);
     void scrollApplied(int);
+    void markerRequested(QPointF);
 
 public slots:
     void selectedSeriesChanged(CustomSeries*);
@@ -46,6 +49,8 @@ private:
     qreal scrollFactor{1.0};
     qreal stepModifier {1.0};
     ChartCrosshair* m_crosshair;
+    ChartMarker* pMarker1;
+    ChartMarker* pMarker2;
 
     bool middleMousePressed;
     QPoint middlePressStartPos,middlePressEndPos,fistVal;

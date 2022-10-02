@@ -21,8 +21,8 @@ ChartCrosshair::ChartCrosshair(QChart *chart) :
     //m_chart->setCursor(QCursor(Qt::CursorShape::CrossCursor));
     m_xLine->setPen(QPen(Altium::HighLight2, 2));
     m_yLine->setPen(QPen(Altium::HighLight2, 2));
-    m_xText->setZValue(11);
-    m_yText->setZValue(11);
+    m_xText->setZValue(9999);
+    m_yText->setZValue(9999);
     m_xText->document()->setDocumentMargin(5);
     m_yText->document()->setDocumentMargin(5);
     m_xText->setDefaultTextColor(Altium::BackGround2.darker());
@@ -32,6 +32,8 @@ ChartCrosshair::ChartCrosshair(QChart *chart) :
     yLine = new QLineF();
     m_xLine->setLine(*xLine);
     m_yLine->setLine(*yLine);
+    m_xLine->setZValue(9999);
+    m_yLine->setZValue(9999);
     visibility = false;
 
 }
