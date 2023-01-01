@@ -9,6 +9,8 @@ ChartMarker::ChartMarker(QChart* chart):
     m_text(new QGraphicsTextItem(chart)),
     m_upperText(new QGraphicsTextItem(chart)),
     m_markerNumber(new QGraphicsTextItem(chart))
+    //bRect(line->x1()-5,pChart->boundingRect().bottom(),10,pChart->boundingRect().height())
+    
 {
     yValues.clear();
     pChart = chart;
@@ -21,19 +23,27 @@ ChartMarker::ChartMarker(QChart* chart):
 
     m_markerNumber->setZValue(9999);
     m_markerNumber->document()->setDocumentMargin(5);
-    m_markerNumber->setDefaultTextColor(Altium::LightText.lighter());
-    m_markerNumber->setHtml(QString("<div style='background-color:"+markerRed.name()+" 'text-align=center;'><b>1</b></div>"));
+    m_markerNumber->setDefaultTextColor(Altium::BackGround.darker());
+
 
     m_text->setZValue(9999);
+
     m_text->document()->setDocumentMargin(5);
-    m_text->setDefaultTextColor(Altium::LightText.lighter());
+    m_text->setDefaultTextColor(Altium::BackGround.darker());
     m_upperText->setZValue(9999);
     m_upperText->document()->setDocumentMargin(5);
-    m_upperText->setDefaultTextColor(Altium::LightText.lighter());
+    m_upperText->setDefaultTextColor(Altium::BackGround.darker());
+   
+
+    m_text->setScale(1.1);
+    m_upperText->setScale(1.1);
+    m_markerNumber->setScale(1.5);
+    //setAcceptHoverEvents(true);
+    //setCursor(Qt::SizeHorCursor);
 
 }
 
-void ChartMarker::placeMarkerbyClick(QPointF pos)
+void ChartMarker::placeMarkerbyClick(QPointF pos,int numExisting)
 {
    
     foreach(auto &yVal,yValues)
@@ -46,7 +56,7 @@ void ChartMarker::placeMarkerbyClick(QPointF pos)
     m_line->setLine(*line);
 
     m_text->setHtml(QString("<div style='background-color:"+markerRed.name()+";'><b>" + QString::number(pChart->mapToValue(pos).x()) + "</b></div>"));
-
+     m_markerNumber->setHtml(QString("<div style='background-color:"+markerRed.name()+" 'text-align=center;'><b>"+QString::number(numExisting)+"</b></div>"));
     CustomSeries* pSerBuf;
     //QString txtBuf="";
     foreach (auto &trace, pChart->series()) {
@@ -60,7 +70,7 @@ void ChartMarker::placeMarkerbyClick(QPointF pos)
                              "</div>");
         yValues.append(textItemBuf);
     }
-    int i = 5;
+    int i = 20;
     foreach(auto &yVal,yValues)
     {
         yVal->setPos(pos.x()-3,pChart->plotArea().top()+i);
@@ -70,7 +80,7 @@ void ChartMarker::placeMarkerbyClick(QPointF pos)
 
     //m_upperText->setHtml(QString("<div 'text-align=right' line-height:'0%' style='background-color:"+markerRed.name()+" ;'>"+txtBuf+"</div>"));
     //m_upperText->setPos(pos.x()-5 ,pChart->plotArea().top()+5);
-    m_markerNumber->setPos(pos.x() - m_markerNumber->boundingRect().width() / 2.0, pChart->plotArea().top() - m_markerNumber->boundingRect().height()/2);
+    m_markerNumber->setPos(pos.x() - 1.5*m_markerNumber->boundingRect().width() / 2.0, pChart->plotArea().top() - m_markerNumber->boundingRect().height()/2);
 
 
     m_text->setPos(pos.x() - m_text->boundingRect().width() / 2.0, pChart->plotArea().bottom()-m_text->boundingRect().height()/2);
@@ -78,8 +88,31 @@ void ChartMarker::placeMarkerbyClick(QPointF pos)
     m_upperText->show();
     m_text->show();
     m_markerNumber->show();
-
-
-
 }
 
+bool ChartMarker::isUnderMouse(QMouseEvent* e)
+{
+    return e->pos().x() == line->x1();
+}
+
+
+QRectF ChartMarker::boundingRect() const
+{
+    return QRectF(line->x1()-10,pChart->boundingRect().bottom(),10,pChart->boundingRect().height());
+}
+
+void ChartMarker::remove(void)
+{
+    m_line->hide();
+    m_markerNumber->hide();
+    m_upperText->hide();
+    m_text->hide();
+    foreach(auto &item,yValues)
+    {
+        item->hide();
+    }
+
+
+    //this->~ChartMarker();
+
+}
