@@ -83,7 +83,8 @@ void ChartCrosshair::updatePosition(QMouseEvent* event)
         m_yText->hide();      
     }
     m_chart->update();
-    event->accept();
+
+
     
 }
 

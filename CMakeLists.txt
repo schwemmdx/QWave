@@ -47,6 +47,8 @@ set(PROJECT_SOURCES
         optionsdialog.h
         optionsdialog.cpp
         optionsdialog.ui
+        clickeventfilter.h
+        clickeventfilter.cpp
 
         third-party/rapidcsv.h
         qwave.qrc
