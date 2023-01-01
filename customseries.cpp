@@ -1,22 +1,26 @@
 #include "customseries.h"
-#include "mainwindow.h"
-
-#include "theme_colors.h"
 
 #include <QToolTip>
 #include <QCursor>
 #include <QKeyEvent>
 #include <QThread>
 #include <QStatusBar>
+#include <theme_colors.h>
 
 
-CustomSeries::CustomSeries(QObject* parent)
+CustomSeries::CustomSeries(QObject* parent):QLineSeries(parent)
 {
-    connect(this, &QXYSeries::clicked, this, &CustomSeries::select);
-    connect(this, &QXYSeries::hovered,this,&CustomSeries::mouseHover);
+    //not work with ChartView events
+    //connect(this, &QXYSeries::clicked, this, &CustomSeries::selected);
+    connect(this, &QXYSeries::doubleClicked,this,&CustomSeries::selected);
 
     selectionState = false;
-    setPointsVisible();
+    setPointsVisible(false);
+    setOpacity(0.5);
+
+
+
+
 }
 
 void CustomSeries::setData(QVector<QPointF> data)
@@ -27,6 +31,7 @@ void CustomSeries::setData(QVector<QPointF> data)
 void CustomSeries::unselect()
 {
     selectionState = false;
+    setOpacity(0.5);
     QPen usedPen = pen();
     usedPen.setWidth(1);
     setPen(usedPen);
@@ -35,28 +40,40 @@ void CustomSeries::unselect()
 
 }
 
-void CustomSeries::select(void)
+void CustomSeries::selected(const QPointF &point)
 {
-    selectionState = true;
-    QPen usedPen = pen();
-    usedPen.setWidth(3);
-    setPen(usedPen);
-    setPointsVisible(true);
-    emit seriesSelected(this);
+    if(selectable)
+    {
+
+        selectionState = true;
+        setOpacity(1);
+        QPen usedPen = pen();
+        usedPen.setWidth(5);
+        setPen(usedPen);
+        setPointsVisible(true);
+        //setPointLabelsColor(Altium::HighLight2);
+        //setPointLabelsVisible(true);
+
+
+        //setPointLabelsFormat("x: @xPoint \n y: @yPoint");
+        emit seriesSelected(this);
+    }
 
 }
+
+/*
 
 void CustomSeries::mouseHover(const QPointF point,bool state)
 {
     if(isSelected()){
-        /*QPalette pal;
-        pal.setColor(QPalette::ToolTipBase, Theme::BackGround2);
-        pal.setColor(QPalette::ToolTipText, Theme::ForeGround);
-        */
+        QPalette pal;
+        pal.setColor(QPalette::ToolTipBase, Altium::BackGround2);
+        pal.setColor(QPalette::ToolTipText, Altium::LightText);
+;
         QPoint pos = QCursor::pos();
 
         QToolTip* info;
-        //QToolTip::setPalette(pal);
+        QToolTip::setPalette(pal);
         info->showText(pos,
                        "X: "
                        +QString::number(point.x())
@@ -64,12 +81,10 @@ void CustomSeries::mouseHover(const QPointF point,bool state)
                        +QString::number(point.y()),nullptr,QRect(),-1);
         emit newStatusMessage("X: " +QString::number(point.x())+" , Y: "+QString::number(point.y()));
     }
-
-
-
-
-
 }
+
+*/
+
 
 bool CustomSeries::isSelected(void)
 {
@@ -88,3 +103,4 @@ void CustomSeries::setYLimitsR(float ymin,float ymax)
 {
 
 }
+
