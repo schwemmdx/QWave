@@ -18,43 +18,50 @@ ChartContainer::ChartContainer(QWidget *parent)
 {
 
     pParent = parent;
-    series = new CustomSeries(this);
+
     middleMousePressed = false;
     chart = new QChart();
+
+    chart->setAcceptedMouseButtons(Qt::LeftButton);
     chart->legend()->hide();
+
     QBrush bgBrush(Altium::BackGround);
     chart->setBackgroundBrush(bgBrush);
     chart->setMargins(QMargins(5, 5, 5, 5));
     chart->setBackgroundRoundness(5);
 
     setChart(chart);
-
+    chart->setParent(this);
     setRenderHint(QPainter::Antialiasing);
 
     setAlignment(Qt::AlignLeft);
     setContextMenuPolicy(Qt::CustomContextMenu);
-    setRubberBand(QChartView::NoRubberBand);
+    //setRubberBand(QChartView::NoRubberBand);
     chart->setAnimationDuration(250);
 
     contextMenu = new QMenu(this);
     contextMenu->addAction("Set Limits", this, &ChartContainer::setLimits);
     contextMenu->addAction("Reset Zoom", this, &ChartContainer::resetZoom);
+    contextMenu->addAction("Remove Markers",this,&ChartContainer::removeMarkers);
     contextMenu->addSeparator();
     contextMenu->addAction("Remove Selected", this, &ChartContainer::clearSelectedSeries);
     contextMenu->addAction("Clear Chart", this, &ChartContainer::clearAllSeries);
 
-
-
     m_crosshair = new ChartCrosshair(chart);
 
 
-
-    connect(series, &CustomSeries::seriesSelected, this, &ChartContainer::selectedSeriesChanged);
-    connect(series, &CustomSeries::newStatusMessage, this, &ChartContainer::newMsgFromSeries);
     connect(this, &ChartContainer::customContextMenuRequested, this, &ChartContainer::onCustomContextMenu);
 
-    pMarker1 = new ChartMarker(chart);
-    connect(this,&ChartContainer::markerRequested,pMarker1, &ChartMarker::placeMarkerbyClick);
+
+
+    //Create Axis Objects for the chart
+    this->leftYAxis= new QValueAxis;
+    this->xAxis = new QValueAxis;
+
+    chart->addAxis(this->leftYAxis, Qt::AlignLeft);
+    chart->addAxis(this->xAxis, Qt::AlignBottom);
+
+
 }
 
 ChartContainer::~ChartContainer()
@@ -68,26 +75,16 @@ void ChartContainer::setTitle(QString title)
 
 void ChartContainer::addDataSeries(QVector<double> x, QVector<double> y, QString xUnit, QString yUnit)
 {
+    //CustomSeries should be child of chart
+    CustomSeries* series = new CustomSeries(this);
 
-    series = new CustomSeries(this);
+    connect(series,&QXYSeries::clicked,series,&CustomSeries::selected);
+    connect(series, &CustomSeries::seriesSelected, this, &ChartContainer::selectedSeriesChanged);
+    connect(series, &CustomSeries::newStatusMessage, this, &ChartContainer::newMsgFromSeries);
 
-    auto xMin = std::min(x.begin(), x.end());
-    auto xMax = std::max(x.begin(), x.end());
-    double yMin = std::numeric_limits<double>::max();
-    double yMax = std::numeric_limits<double>::min();
-    foreach (auto &p, y)
-    {
-        if (p < yMin)
-        {
-            yMin = p;
-        }
-        if (p > yMax)
-        {
-            yMax = p;
-        }
-    }
+    auto [xMin,xMax] = std::minmax_element(x.begin(), x.end());
+    auto [yMin, yMax] = std::minmax_element(y.begin(),y.end());
 
-    qDebug() << "min: " << yMin << "max: " << yMax;
     QPointF ptBuf;
     QVector<QPointF> dataBuf;
     for (uint i = 0; i < x.count(); i++)
@@ -99,16 +96,12 @@ void ChartContainer::addDataSeries(QVector<double> x, QVector<double> y, QString
 
     chart->update();
 
-    // chart->setPlotArea(area);
-
-    QValueAxis *axisY = new QValueAxis;
-    QValueAxis *axisX = new QValueAxis;
-
-    axisY->setRange(yMin, yMax);
-    axisX->setRange(*xMin, *xMax);
+    this->xAxis->setRange(*xMin,*xMax);
+    this->leftYAxis->setRange(*yMin,*yMax);
 
     series->setData(dataBuf);
     chart->addSeries(series);
+
     QPen pen;
     QBrush txtBrush,xBrush;
     xBrush.setColor(Altium::LightText);
@@ -116,34 +109,28 @@ void ChartContainer::addDataSeries(QVector<double> x, QVector<double> y, QString
     txtBrush.setColor(pen.color());
 
     pen.setWidth(2);
-    axisY->setLinePen(pen);
-    axisY->setTitleText(yUnit);
-    axisX->setTitleText(xUnit);
-    axisY->setTitleBrush(txtBrush);
-    axisY->setLabelsAngle(45);
-    axisY->setLabelsBrush(txtBrush);
-    axisY->applyNiceNumbers();
-    axisX->applyNiceNumbers();
-    axisX->setTitleBrush(xBrush);
-    axisX->setLabelsBrush(xBrush);
-    axisY->setGridLineVisible(false);
-    axisX->setGridLineVisible(false);
+    //this->leftYAxis->setLinePen(pen);
+    this->leftYAxis->setTitleText(yUnit);
+    this->xAxis->setTitleText(xUnit);
+
+    this->leftYAxis->setTitleBrush(xBrush);
+    this->leftYAxis->setLabelsAngle(45);
+    this->leftYAxis->setLabelsBrush(xBrush);
+    this->leftYAxis->applyNiceNumbers();
+
+    this->xAxis->applyNiceNumbers();
+    this->xAxis->setTitleBrush(xBrush);
+    this->xAxis->setLabelsBrush(xBrush);
+    this->xAxis->setGridLineVisible(false);
+    this->leftYAxis->setGridLineVisible(false);
     //axisX->setGridLineColor(Altium::BackGround.lighter(300));
     //axisY->setGridLineColor(Altium::BackGround.lighter(300));
 
+    series->attachAxis(this->xAxis);
+    series->attachAxis(this->leftYAxis);
 
-
-
-    // axisY->setLinePen(pen);
-    chart->addAxis(axisY, Qt::AlignLeft);
-    if (chart->axes(Qt::Orientation::Horizontal).length() == 0)
-    {
-        chart->addAxis(axisX, Qt::AlignBottom);
-    }
-
-    series->attachAxis(axisX);
-    series->attachAxis(axisY);
     tracies.append(series);
+
 }
 
 void ChartContainer::selectedSeriesChanged(CustomSeries *trace)
@@ -158,6 +145,7 @@ void ChartContainer::newMsgFromSeries(QString msg)
 
 void ChartContainer::wheelEvent(QWheelEvent *event)
 {
+    bool xScaleChanged=false;
     if (true) // isSelectedContainer())
     {
         int zStep = 10;
@@ -190,6 +178,7 @@ void ChartContainer::wheelEvent(QWheelEvent *event)
 
         else if (event->modifiers().testFlag(Qt::AltModifier))
         {
+            //only scaling which doesn'T change x axis
             zoomFactor = event->angleDelta().x() > 0 ? 0.5 : 2;
 
             QPointF c = chart->plotArea().center();
@@ -210,29 +199,15 @@ void ChartContainer::wheelEvent(QWheelEvent *event)
             chart->scroll(10 * pow(2, stepModifier) * numSteps.y(), 0);
         }
         event->accept();
+        removeMarkers();
     }
 }
 
-bool ChartContainer::isSelectedContainer(void)
-{
-    bool selectionState = false;
-    foreach (auto &trace, chart->series())
-    {
-        if (reinterpret_cast<CustomSeries *>(trace)->isSelected())
-        {
-            selectionState = true;
-            break;
-        }
-    }
-    return selectionState;
-}
+
 
 void ChartContainer::onCustomContextMenu(const QPoint &point)
 {
-    if (rubberBand() == QChartView::NoRubberBand)
-    {
-        contextMenu->exec(this->viewport()->mapToGlobal(point));
-    }
+    contextMenu->exec(this->viewport()->mapToGlobal(point));
 }
 
 void ChartContainer::clearSelectedSeries(void)
@@ -254,13 +229,6 @@ void ChartContainer::clearAllSeries(void)
                                         "Are you sure to remove all tracies from the chart ?");
     if (QMessageBox::Yes == answer)
     {
-        foreach (auto &ser, chart->series())
-        {
-            foreach (auto &ax, ser->attachedAxes())
-            {
-                chart->removeAxis(ax);
-            }
-        }
         chart->removeAllSeries();
     }
 }
@@ -268,20 +236,17 @@ void ChartContainer::clearAllSeries(void)
 void ChartContainer::resetZoom(void)
 {
     chart->zoomReset();
+    removeMarkers();
 }
 void ChartContainer::setLimits(void)
 {
 
 }
 
-void ChartContainer::changeRubberBandBehaviour(QChartView::RubberBand rb)
-{
-    setRubberBand(rb);
-}
 
 void ChartContainer::mouseMoveEvent(QMouseEvent *event)
 {
-   m_crosshair->updatePosition(event); 
+   m_crosshair->updatePosition(event);
 }
 
 void ChartContainer::setCrosshairVisibility(bool vis)
@@ -289,8 +254,14 @@ void ChartContainer::setCrosshairVisibility(bool vis)
     m_crosshair->setVisibilty(vis);
 }
 
+bool ChartContainer::isCrosshairVisible(void)
+{
+    return m_crosshair->visible();
+}
+
 void ChartContainer::mousePressEvent(QMouseEvent* event)
 {
+
     switch(event->button())
     {
         case Qt::MiddleButton:
@@ -304,19 +275,46 @@ void ChartContainer::mousePressEvent(QMouseEvent* event)
         {
             if(m_crosshair->visible())
             {
-                emit markerRequested(event->pos());
-            }
 
+                requestNewMarker(event->pos());
+                //emit markerRequested(event->pos());
+                event->accept();
+            }
+            else
+            {
+               // chart->mousePressEvent(event);
+            }
+          
             break;
         }
         default:
         {
+        QChartView::mousePressEvent(event);
         }
     }
-    event->accept();
+
     //setCursor(Qt::ArrowCursor);
 }
 
+void ChartContainer::requestNewMarker(QPointF pt)
+{
+    if(chartMarkers.length() <9)
+    {
+        ChartMarker* marker = new ChartMarker(chart);
+        chartMarkers.append(marker);
+        marker->placeMarkerbyClick(pt,chartMarkers.length());
+    }
+    else
+    {
+        auto answer = QMessageBox::question(this, "Dude, chill!",
+                                            "There are plenty of Markers already present, you need to clear them in order to set new ones!\n Do you want to clear all them now ?");
+        if (QMessageBox::Yes == answer)
+        {
+            removeMarkers();
+        }
+    }
+
+}
 void ChartContainer::mouseReleaseEvent(QMouseEvent* event)
 {
     switch(event->button())
@@ -329,29 +327,25 @@ void ChartContainer::mouseReleaseEvent(QMouseEvent* event)
             auto dy = middlePressEndPos.y()-middlePressStartPos.y();
             chart->scroll(dx,dy);
             QApplication::restoreOverrideCursor();
+            event->accept();
             break;
         }
         default:
         {
+        event->ignore();
         }
     }
-    event->accept();
+    //event->accept();
     //setCursor(Qt::ArrowCursor);
 }
 
-
-void ChartContainer::themeChange(int type)
+void ChartContainer::removeMarkers(void)
 {
-    switch(type)
+    foreach(auto &marker,chartMarkers)
     {
-        case 0:
-        {
-            break;
-        }
-        default:
-        {
-
-        }
+        marker->remove();
+        marker->~ChartMarker();
     }
-
+    chartMarkers.clear();
 }
+
