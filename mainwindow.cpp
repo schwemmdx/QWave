@@ -10,29 +10,31 @@
 #include "theme_colors.h"
 #include "optionsdialog.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     //main chart container
-    ChartContainer*  chartContainer = new ChartContainer(this);
-    ChartContainer* chart = static_cast<ChartContainer*>(chartContainer);
+    this->chartContainer = new ChartContainer(this);
     connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
     //connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
-    connect(this,&MainWindow::rubberBandChangeRequest,chartContainer,&ChartContainer::changeRubberBandBehaviour);
+    //connect(this,&MainWindow::rubberBandChangeRequest,chartContainer,&ChartContainer::changeRubberBandBehaviour);
 
 
-    pDockedCharts.append(chartContainer);
     ui->centralwidget->adjustSize();
     ui->mainLayout->addWidget(chartContainer,1);
-    ui->toolBar_2->hide();
+
 
     pDataDock = new QDockWidget(this);
     pDataView = new DataView();
+
     pDataDock->setFeatures(QDockWidget::DockWidgetMovable);
     pDataView->setEditTriggers(QAbstractItemView::EditKeyPressed);
     addDockWidget(Qt::LeftDockWidgetArea,pDataDock);
+
     pOptionDlg = new OptionsDialog();
     pOptionDlg->hide();
 
@@ -43,11 +45,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(this,&MainWindow::loadFromFile,pDataView,&DataView::loadData);
     connect(pDataView,&DataView::appendData,this,&MainWindow::appendDataToChart);
-    connect(this, &MainWindow::chartThmeChangeRequest,chartContainer,&ChartContainer::themeChange);
 
-    chart->setTitle(tr(" "));
+    //connect(this, &MainWindow::chartThmeChangeRequest,chartContainer,&ChartContainer::themeChange);
+
+    chartContainer->setTitle(tr(""));
     //statusBar()->showMessage("Ready");
     setTheme();
+    ui->actiontoggleDataView->setChecked(true);
+
+
 
 }
 
@@ -62,7 +68,6 @@ void MainWindow::selectedSeriesChanged(CustomSeries* traceClicked)
 {
 
     unselectExcept(traceClicked);
-
     focusTrace = traceClicked;
     updateFocusTraceDetails(traceClicked);
 }
@@ -73,7 +78,7 @@ void MainWindow::unselectExcept(CustomSeries* traceClicked)
     {
         //for(auto &container: pDockedCharts)
         //{
-            for(auto &ser: pDockedCharts[0]->tracies)
+            for(auto &ser: this->chartContainer->tracies)
             {
                 if(ser != traceClicked)
                 {
@@ -97,26 +102,37 @@ void MainWindow::on_actionImportData_triggered()
     emit loadFromFile(file);
 
 
-   // pDockedCharts[0]->addDataSeries(data[1].getPoints());
-   // pDockedCharts[0]->setTitle(data[1].getName());
+   // chartView->addDataSeries(data[1].getPoints());
+   // chartView->setTitle(data[1].getName());
 
 
 }
 
 void MainWindow::Ondoubleclicktree(int QModelIndex)
 {
-    qDebug() << QModelIndex;
+
 }
-/*
+
+
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
     
     if( event->key() == Qt::Key_Escape )
     {
-        unselectExcept(nullptr);
+        if(!chartContainer->isCrosshairVisible())
+        {
+            unselectExcept(nullptr);
+        }
+        else
+        {
+            chartContainer->setCrosshairVisibility(false);
+            this->ui->actionCrosshair_Mode->setChecked(false);
+        }
+        event->accept();
+
     }
 }
-*/
+
 
 void MainWindow::updateFocusTraceDetails(CustomSeries* trace)
 {
@@ -130,7 +146,7 @@ void MainWindow::updateStatusBar(QString msg)
 
 void MainWindow::appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel)
 {
-    pDockedCharts[0]->addDataSeries(xData,yData,xLabel,yLabel);
+    this->chartContainer->addDataSeries(xData,yData,xLabel,yLabel);
 }
 
 void MainWindow::on_actioncreateData_triggered()
@@ -139,56 +155,17 @@ void MainWindow::on_actioncreateData_triggered()
 }
 
 
-void MainWindow::on_actionzoomVertically_triggered()
-{
-    auto rb = QChartView::NoRubberBand;
-    if(ui->actionzoomVertically->isChecked())
-    {
-        ui->actionzoomROI->setChecked(false);
-        ui->actionZoomHorizontally->setChecked(false);
-        rb = QChartView::VerticalRubberBand;
-    }
-    emit rubberBandChangeRequest(rb);
-}
-
-
-void MainWindow::on_actionzoomROI_triggered()
-{
-    auto rb = QChartView::NoRubberBand;
-    if(ui->actionzoomROI->isChecked())
-    {
-        rb = QChartView::RectangleRubberBand;
-        ui->actionZoomHorizontally->setChecked(false);
-        ui->actionzoomVertically->setChecked(false);
-    }
-    emit rubberBandChangeRequest(rb);
-}
-
-
-void MainWindow::on_actionZoomHorizontally_triggered()
-{
-    auto rb = QChartView::NoRubberBand;
-    if(ui->actionzoomVertically->isChecked())
-    {
-        ui->actionzoomROI->setChecked(false);
-        ui->actionzoomVertically->setChecked(false);
-        rb = QChartView::VerticalRubberBand;
-    }
-    emit rubberBandChangeRequest(rb);
-}
-
-
 void MainWindow::on_actionCrosshair_Mode_triggered()
 {
     if(ui->actionCrosshair_Mode->isChecked())
     {
-        pDockedCharts[0]->setCrosshairVisibility(true);
+        chartContainer->setCrosshairVisibility(true);
         //emit changeCrosshairVisibility(true);
         ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-location-off-80.png"));
     }
     else
     {
-        pDockedCharts[0]->setCrosshairVisibility(false);
+        chartContainer->setCrosshairVisibility(false);
         ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-target-80.png"));
     }
 }
@@ -253,16 +230,6 @@ void MainWindow::on_actionOptions_triggered()
 
 }
 
-void MainWindow::on_actionToggleTools_triggered()
-{
-    if(ui->actionToggleTools->isChecked())
-    {
-        ui->toolBar_2->show();
-    }
-    else
-    {
-        ui->toolBar_2->hide();
-    }
 
-}
+
 

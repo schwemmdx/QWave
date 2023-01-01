@@ -7,6 +7,7 @@
 #include "dataview.h"
 #include "optionsdialog.h"
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -39,31 +40,33 @@ private slots:
     void updateStatusBar(QString);
 
     void on_actioncreateData_triggered();
-    void on_actionzoomVertically_triggered();
-    void on_actionzoomROI_triggered();
-    void on_actionZoomHorizontally_triggered();
+    //void on_actionzoomVertically_triggered();
+    //void on_actionzoomROI_triggered();
+    //void on_actionZoomHorizontally_triggered();
     void on_actionCrosshair_Mode_triggered();
     void on_actionMeasure_triggered();
     void on_actiontoggleDataView_triggered();
-    void on_actionToggleTools_triggered();
     void on_actionOptions_triggered();
+
 
 private:
     QDockWidget* pDataDock;
     DataView* pDataView;
     QApplication* pApplication;
-
-    void appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel);
-    void unselectExcept(CustomSeries*);
-    void setTheme();
-
     Ui::MainWindow *ui;
 
-    QVector<ChartContainer*> pDockedCharts{};
     CustomSeries* focusTrace{nullptr};
     OptionsDialog* pOptionDlg;
     QCursor measureCursor{QPixmap(":icons/icons/measure_cursor.png")};
+    ChartContainer* chartContainer;
 
+    void appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel);
+    void unselectExcept(CustomSeries*);
+    void setTheme(void);
+
+
+protected:
+    void keyPressEvent(QKeyEvent*) override;
 
 
 
