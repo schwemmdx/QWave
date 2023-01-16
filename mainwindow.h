@@ -4,7 +4,8 @@
 #include <QMainWindow>
 #include "customseries.h"
 #include "chartcontainer.h"
-#include "dataview.h"
+#include "datawidget.h"
+#include "cursordockwidget.h"
 #include "optionsdialog.h"
 
 
@@ -28,6 +29,7 @@ signals:
     void rubberBandChangeRequest(QChartView::RubberBand);
     void changeCrosshairVisibility(bool);
     void chartThmeChangeRequest(int);
+    void updateCursorData(void);
 
 
 private slots:
@@ -35,23 +37,23 @@ private slots:
    // void switchSelectedChart(QVector<ChartContainer*>);
     void Ondoubleclicktree(int);
     //void keyPressEvent(QKeyEvent*);
-    void updateFocusTraceDetails(CustomSeries*);
     void on_actionImportData_triggered();
-    void updateStatusBar(QString);
-
     void on_actioncreateData_triggered();
-    //void on_actionzoomVertically_triggered();
-    //void on_actionzoomROI_triggered();
-    //void on_actionZoomHorizontally_triggered();
     void on_actionCrosshair_Mode_triggered();
-    void on_actionMeasure_triggered();
-    void on_actiontoggleDataView_triggered();
+
     void on_actionOptions_triggered();
 
 
+    void on_actiontoggleCursorDock_toggled(bool arg1);
+
+    void on_actiontoggleDataDock_toggled(bool arg1);
+
 private:
     QDockWidget* pDataDock;
-    DataView* pDataView;
+    DataWidget* pDataWidget;
+    CursorDockWidget* pCursorDock;
+
+
     QApplication* pApplication;
     Ui::MainWindow *ui;
 
@@ -60,7 +62,7 @@ private:
     QCursor measureCursor{QPixmap(":icons/icons/measure_cursor.png")};
     ChartContainer* chartContainer;
 
-    void appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel);
+    void appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis);
     void unselectExcept(CustomSeries*);
     void setTheme(void);
 

@@ -61,39 +61,35 @@
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
-     <string>View</string>
+     <string>Tools</string>
     </property>
-    <addaction name="actiontoggleDataView"/>
+    <widget class="QMenu" name="menuPanels">
+     <property name="title">
+      <string>Panels</string>
+     </property>
+    </widget>
+    <widget class="QMenu" name="menuGeben_Sie_Text_ein">
+     <property name="title">
+      <string>Geben Sie Text ein</string>
+     </property>
+    </widget>
     <addaction name="separator"/>
     <addaction name="actionCrosshair_Mode"/>
-    <addaction name="actionMeasure"/>
     <addaction name="separator"/>
-    <addaction name="actionSearch_Find"/>
-    <addaction name="actionapplyFilter"/>
     <addaction name="separator"/>
-    <addaction name="actionZoomHorizontally"/>
-    <addaction name="actionzoomVertically"/>
-    <addaction name="actionzoomROI"/>
+    <addaction name="menuPanels"/>
+    <addaction name="menuGeben_Sie_Text_ein"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
+   <widget class="QMenu" name="menuPanels_2">
     <property name="title">
-     <string>Edit</string>
+     <string>Panels</string>
     </property>
-    <widget class="QMenu" name="menuCreate">
-     <property name="title">
-      <string>Create</string>
-     </property>
-     <addaction name="actioncreateData"/>
-     <addaction name="actionCreate_Point"/>
-    </widget>
-    <addaction name="actionModifySelected"/>
-    <addaction name="separator"/>
-    <addaction name="actionAddMarker"/>
-    <addaction name="menuCreate"/>
+    <addaction name="actiontoggleDataDock"/>
+    <addaction name="actiontoggleCursorDock"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
    <addaction name="menuView"/>
+   <addaction name="menuPanels_2"/>
   </widget>
   <action name="actionOptions">
    <property name="icon">
@@ -107,22 +103,22 @@
     <string>Opens the application-settings  dialog</string>
    </property>
   </action>
-  <action name="actionMeasure">
+  <action name="actiontoggleCursorDock">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icons/icons8-length-80.png</normaloff>:/icons/icons/icons8-length-80.png</iconset>
+     <normaloff>:/icons/icons/icons8-measurement-tool-80.png</normaloff>:/icons/icons/icons8-measurement-tool-80.png</iconset>
    </property>
    <property name="text">
-    <string>Measure</string>
+    <string>Cursor Tools</string>
    </property>
    <property name="toolTip">
     <string>Measure Signal(s)</string>
    </property>
    <property name="shortcut">
-    <string>M</string>
+    <string>C</string>
    </property>
   </action>
   <action name="actionImportData">
@@ -200,7 +196,7 @@
      <normaloff>:/icons/icons/icons8-save-80.png</normaloff>:/icons/icons/icons8-save-80.png</iconset>
    </property>
    <property name="text">
-    <string>saveScene</string>
+    <string>Export ...</string>
    </property>
    <property name="toolTip">
     <string>Save the current Scene to different formats.</string>
@@ -233,7 +229,7 @@
     <string>Create Data from scratch</string>
    </property>
   </action>
-  <action name="actiontoggleDataView">
+  <action name="actiontoggleDataDock">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -245,13 +241,13 @@
      <normaloff>:/icons/icons/icons8-tree-structure-80.png</normaloff>:/icons/icons/icons8-tree-structure-80.png</iconset>
    </property>
    <property name="text">
-    <string>toggleDataView</string>
+    <string>Data</string>
    </property>
    <property name="toolTip">
     <string>Hide/Show Data View</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+B</string>
+    <string>D</string>
    </property>
   </action>
   <action name="actionCrosshair_Mode">

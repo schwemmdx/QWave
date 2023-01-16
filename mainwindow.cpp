@@ -6,9 +6,11 @@
 #include <QtCharts/QtCharts>
 #include <QStatusBar>
 
-#include "dataview.h"
+#include "datawidget.h"
 #include "theme_colors.h"
 #include "optionsdialog.h"
+#include "cursordockwidget.h"
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -19,43 +21,58 @@ MainWindow::MainWindow(QWidget *parent)
 
     //main chart container
     this->chartContainer = new ChartContainer(this);
-    connect(chartContainer,&ChartContainer::seriesSelectionChanged,this,&MainWindow::selectedSeriesChanged);
-    //connect(chartContainer,&ChartContainer::newStatusMessage,this,&MainWindow::updateStatusBar);
+
     //connect(this,&MainWindow::rubberBandChangeRequest,chartContainer,&ChartContainer::changeRubberBandBehaviour);
 
 
     ui->centralwidget->adjustSize();
     ui->mainLayout->addWidget(chartContainer,1);
 
+    setDockOptions(QMainWindow::AllowTabbedDocks);
 
-    pDataDock = new QDockWidget(this);
-    pDataView = new DataView();
+    pDataDock = new QDockWidget("Data",this);
+    
+    pDataWidget = new DataWidget(pDataDock);
+    pDataDock->setMinimumWidth(300);
 
-    pDataDock->setFeatures(QDockWidget::DockWidgetMovable);
-    pDataView->setEditTriggers(QAbstractItemView::EditKeyPressed);
+    pCursorDock = new CursorDockWidget(this);
+    pCursorDock->setMinimumWidth(300);
+
     addDockWidget(Qt::LeftDockWidgetArea,pDataDock);
+    tabifyDockWidget(pDataDock,pCursorDock);
 
+    //addDockWidget(Qt::LeftDockWidgetArea,pCursorDock);
+
+
+    pDataDock->setWidget(pDataWidget);
     pOptionDlg = new OptionsDialog();
     pOptionDlg->hide();
 
-    pDataDock->setWidget(pDataView);
-
-    pDataDock->setMinimumWidth(300);
 
 
-    connect(this,&MainWindow::loadFromFile,pDataView,&DataView::loadData);
-    connect(pDataView,&DataView::appendData,this,&MainWindow::appendDataToChart);
 
+    connect(this,&MainWindow::loadFromFile,pDataWidget,&DataWidget::loadData);
+    connect(pDataWidget,&DataWidget::appendData,chartContainer,
+            [this](QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis){
+      chartContainer->addDataSeries(xData,yData,xLabel,yLabel,toAxis);});
+    connect(chartContainer,&ChartContainer::updateCursorData,pCursorDock,&CursorDockWidget::updateCursorData);
+    //connect(chartContainer,&ChartContainer::updateYCursorInfo,pCursorDock,&CursorDockWidget::updateXCursorData);
     //connect(this, &MainWindow::chartThmeChangeRequest,chartContainer,&ChartContainer::themeChange);
 
-    chartContainer->setTitle(tr(""));
-    //statusBar()->showMessage("Ready");
+    statusBar()->show();
     setTheme();
-    ui->actiontoggleDataView->setChecked(true);
 
+    pDataDock->hide();
+    pCursorDock->hide();
 
+    ui->actiontoggleDataDock->setChecked(false);
+    ui->actiontoggleCursorDock->setChecked(false);
+
+    connect(chartContainer,&ChartContainer::newTraceSelection,this,&MainWindow::selectedSeriesChanged);
+    //connect(chartContainer,&ChartContainer::newStatusMessage,this,[this](QString msg){statusBar()->showMessage(msg);});
 
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -69,25 +86,26 @@ void MainWindow::selectedSeriesChanged(CustomSeries* traceClicked)
 
     unselectExcept(traceClicked);
     focusTrace = traceClicked;
-    updateFocusTraceDetails(traceClicked);
+
 }
 
 void MainWindow::unselectExcept(CustomSeries* traceClicked)
 {
+
     if(focusTrace != nullptr)
     {
-        //for(auto &container: pDockedCharts)
-        //{
-            for(auto &ser: this->chartContainer->tracies)
+
+        for(auto &ser: this->chartContainer->getSeriesInChart())
+        {
+
+            if(ser != traceClicked)
             {
-                if(ser != traceClicked)
-                {
-                      ser->unselect();
-                }
+                  ser->unselect();
 
             }
-        //}
-    }
+
+        }
+     }
 }
 
 
@@ -99,7 +117,10 @@ void MainWindow::on_actionImportData_triggered()
     {
         return;
     }
+    this->pDataDock->show();
+    ui->actiontoggleDataDock->setChecked(true);
     emit loadFromFile(file);
+
 
 
    // chartView->addDataSeries(data[1].getPoints());
@@ -134,19 +155,12 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 }
 
 
-void MainWindow::updateFocusTraceDetails(CustomSeries* trace)
-{
-   // ui->numPts->setText(QString::number(trace->points().length()));
-}
 
-void MainWindow::updateStatusBar(QString msg)
-{
-    statusBar()->showMessage(msg);
-}
 
-void MainWindow::appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel)
+void MainWindow::appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis)
 {
-    this->chartContainer->addDataSeries(xData,yData,xLabel,yLabel);
+
+    this->chartContainer->addDataSeries(xData,yData,xLabel,yLabel,toAxis);
 }
 
 void MainWindow::on_actioncreateData_triggered()
@@ -159,45 +173,20 @@ void MainWindow::on_actionCrosshair_Mode_triggered()
 {
     if(ui->actionCrosshair_Mode->isChecked())
     {
+
         chartContainer->setCrosshairVisibility(true);
         //emit changeCrosshairVisibility(true);
         ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-location-off-80.png"));
     }
     else
     {
+
         chartContainer->setCrosshairVisibility(false);
         ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-target-80.png"));
     }
 }
 
 
-void MainWindow::on_actionMeasure_triggered()
-{
-    if(ui->actionMeasure->isChecked())
-    {
-
-    }
-    else
-    {
-
-    }
-}
-
-
-
-
-void MainWindow::on_actiontoggleDataView_triggered()
-{
-    if(ui->actiontoggleDataView->isChecked())
-    {
-        this->pDataDock->show();
-    }
-    else
-    {
-        this->pDataDock->hide();
-    }
-
-}
 
 void MainWindow::set_pMain(QApplication* pApp)
 {
@@ -232,4 +221,30 @@ void MainWindow::on_actionOptions_triggered()
 
 
 
+
+
+void MainWindow::on_actiontoggleCursorDock_toggled(bool arg1)
+{
+    if(arg1)
+    {
+        this->pCursorDock->show();
+    }
+    else
+    {
+        this->pCursorDock->hide();
+    }
+}
+
+
+void MainWindow::on_actiontoggleDataDock_toggled(bool arg1)
+{
+    if(arg1)
+    {
+        this->pDataDock->show();
+    }
+    else
+    {
+        this->pDataDock->hide();
+    }
+}
 
