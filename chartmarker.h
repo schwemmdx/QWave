@@ -8,7 +8,7 @@
 #include <QHoverEvent>
 #include <QWidget>
 
-//#include "theme_colors.h"
+#include "theme_colors.h"
 
 class ChartMarker: public QGraphicsWidget
 {
@@ -22,7 +22,8 @@ public:
     void passEvent(QMouseEvent*);
     bool isUnderMouse(QMouseEvent*);
     void remove(void);
-    
+    QList<QPointF> intersectPoints;
+
 
 private:
     QGraphicsLineItem* m_line;
@@ -32,9 +33,11 @@ private:
 
     QChart* pChart;
     QLineF* line;
-    QColor markerRed{QColor(255,184,108)};
-    QPen markerPen{markerRed,3};
+    QColor markerRed{Altium::HighLight2};
+//QColor(255,184,108)};
+    QPen markerPen{markerRed,2};
     QVector<QGraphicsTextItem*> yValues;
+
 
 
 protected:
