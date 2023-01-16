@@ -13,7 +13,9 @@ class DataImporter
 {
 public:
     DataImporter();
-    static QVector<XYData> fromCSV(QString path, QString colDelimiter = ",", QString rowDelimiter = "\n"); //>! Main function to parse a new data object and represent it as QTreeObject
+    static QVector<XYData> fromCSV(QString path,
+                                   QString colDelimiter = ",",
+                                   QString rowDelimiter = "\n"); //>! Main function to parse a new data object and represent it as QTreeObject
 
 private:
     CSVDataLayout csvLayout;
