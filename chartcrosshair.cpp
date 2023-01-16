@@ -91,6 +91,23 @@ void ChartCrosshair::updatePosition(QMouseEvent* event)
 void ChartCrosshair::setVisibilty(bool vis)
 {
     visibility = vis;
+    if(!vis)
+    {
+        m_chart->setCursor(Qt::ArrowCursor);
+        m_xLine->hide();
+        m_xText->hide();
+        m_yLine->hide();
+        m_yText->hide();
+    }
+    else
+    {
+        m_chart->setCursor(crosshairCursor);
+        m_xLine->show();
+        m_xText->show();
+        m_yLine->show();
+        m_yText->show();
+    }
+
 }
 
 bool ChartCrosshair::visible(void)

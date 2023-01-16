@@ -33,6 +33,7 @@ ChartMarker::ChartMarker(QChart* chart):
     m_upperText->setZValue(9999);
     m_upperText->document()->setDocumentMargin(5);
     m_upperText->setDefaultTextColor(Altium::BackGround.darker());
+
    
 
     m_text->setScale(1.1);
@@ -45,7 +46,7 @@ ChartMarker::ChartMarker(QChart* chart):
 
 void ChartMarker::placeMarkerbyClick(QPointF pos,int numExisting)
 {
-   
+
     foreach(auto &yVal,yValues)
     {
         delete yVal;
@@ -64,11 +65,17 @@ void ChartMarker::placeMarkerbyClick(QPointF pos,int numExisting)
         pSerBuf = static_cast<CustomSeries*>(trace);
         //txtBuf.append(QString::number(pChart->mapToValue(pos,pSerBuf).y())+ "<p>");
         QGraphicsTextItem* textItemBuf = new QGraphicsTextItem(pChart);
+        textItemBuf->setDefaultTextColor(Altium::BackGround.darker());
         textItemBuf->setHtml("<div 'text-align=right' line-height:'0%' style='background-color:"+
-                             pSerBuf->pen().color().name()+" ;'>"+
+                             pSerBuf->pen().color().name()+";'>"+
                              QString::number(pChart->mapToValue(pos,pSerBuf).y())+
                              "</div>");
         yValues.append(textItemBuf);
+        if(pSerBuf->isSelected())
+        {
+            intersectPoints.append(pChart->mapToValue(pos,pSerBuf));
+        }
+
     }
     int i = 20;
     foreach(auto &yVal,yValues)
