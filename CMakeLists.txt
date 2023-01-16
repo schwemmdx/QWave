@@ -24,34 +24,51 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+
         chartcontainer.h
         chartcontainer.cpp
+
         customseries.h
         customseries.cpp
+
         theme_colors.h
+
         dataimporter.h
         dataimporter.cpp
+
         csvdatalayout.h
         csvdatalayout.cpp
+
         detailsdialog.h
         detailsdialog.cpp
         detailsdialog.ui
-        dataview.h
-        dataview.cpp
-        xydata.h
+
+	xydata.h
         xydata.cpp
+
         chartcrosshair.h
         chartcrosshair.cpp
+
         chartmarker.h
         chartmarker.cpp
+
         optionsdialog.h
         optionsdialog.cpp
         optionsdialog.ui
-        clickeventfilter.h
-        clickeventfilter.cpp
+
+        customchart.cpp
+        customchart.h
 
         third-party/rapidcsv.h
         qwave.qrc
+
+	datawidget.h
+	datawidget.cpp
+
+	cursordockwidget.h
+	cursordockwidget.cpp
+	cursordockwidget.ui
+
         ${TS_FILES}
 )
 
