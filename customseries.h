@@ -28,14 +28,16 @@ signals:
 
 public slots:
     void selected(const QPointF &point);
+
     void unselect(void);
     void setXLimits(float,float);
     void setYLimitsL(float,float);
     void setYLimitsR(float,float);
 
     //void mousePressEvent(QMouseEvent* );
-
-
+private slots:
+    void onHover(const QPointF &point,bool state);
+    void onPointPress(const QPointF &point);
 
 private:
     bool selectionState;
@@ -43,7 +45,8 @@ private:
 
 
 protected:
-     //void mouseHover(const QPointF,bool) override;
+
+
 
 
 

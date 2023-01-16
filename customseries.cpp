@@ -6,20 +6,22 @@
 #include <QThread>
 #include <QStatusBar>
 #include <theme_colors.h>
+#include <QGraphicsTextItem>
+#include <QMenu>
 
 
-CustomSeries::CustomSeries(QObject* parent):QLineSeries(parent)
+CustomSeries::CustomSeries(QObject* parent): QLineSeries(parent)
 {
     //not work with ChartView events
-    //connect(this, &QXYSeries::clicked, this, &CustomSeries::selected);
-    connect(this, &QXYSeries::doubleClicked,this,&CustomSeries::selected);
+    setParent(parent);
+    connect(this,&QXYSeries::hovered,this,&CustomSeries::onHover);
+    connect(this, &QXYSeries::clicked, this, &CustomSeries::selected);
+
+    //connect(this, &QXYSeries::,this,&CustomSeries::onPointPress);
 
     selectionState = false;
     setPointsVisible(false);
     setOpacity(0.5);
-
-
-
 
 }
 
@@ -42,48 +44,40 @@ void CustomSeries::unselect()
 
 void CustomSeries::selected(const QPointF &point)
 {
+
     if(selectable)
     {
 
         selectionState = true;
         setOpacity(1);
         QPen usedPen = pen();
-        usedPen.setWidth(5);
+        usedPen.setWidth(3);
         setPen(usedPen);
         setPointsVisible(true);
+
         //setPointLabelsColor(Altium::HighLight2);
         //setPointLabelsVisible(true);
-
-
         //setPointLabelsFormat("x: @xPoint \n y: @yPoint");
         emit seriesSelected(this);
     }
 
 }
 
-/*
 
-void CustomSeries::mouseHover(const QPointF point,bool state)
+
+void CustomSeries::onHover(const QPointF &point,bool state)
 {
-    if(isSelected()){
-        QPalette pal;
-        pal.setColor(QPalette::ToolTipBase, Altium::BackGround2);
-        pal.setColor(QPalette::ToolTipText, Altium::LightText);
-;
-        QPoint pos = QCursor::pos();
-
-        QToolTip* info;
-        QToolTip::setPalette(pal);
-        info->showText(pos,
-                       "X: "
-                       +QString::number(point.x())
-                       +"\nY: "
-                       +QString::number(point.y()),nullptr,QRect(),-1);
-        emit newStatusMessage("X: " +QString::number(point.x())+" , Y: "+QString::number(point.y()));
+    if(true){
+        
     }
 }
 
-*/
+void CustomSeries::onPointPress(const QPointF &point)
+{
+    qDebug() << "Point" << point;
+}
+
+
 
 
 bool CustomSeries::isSelected(void)
