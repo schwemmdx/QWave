@@ -10,37 +10,49 @@
 
 
 #include "customseries.h"
+
 #include "chartcrosshair.h"
 #include "chartmarker.h"
 
+#include "customchart.h"
 
 class ChartContainer : public QChartView
 {
     Q_OBJECT
 
 public:
+
+    enum AxisIdentifier
+    {
+        AXIS_LEFT=0,
+        AXIS_RIGHT=1
+    };
+
     explicit ChartContainer(QWidget *parent = nullptr);
     ~ChartContainer();
     void deselect(void);
-    QList<CustomSeries*> tracies;
+    QList<CustomSeries*> getSeriesInChart(void);
+    std::tuple<int,int> getNumSeriesPerAxis(void);
+
 
 
 signals:
-    //void chartSelected(ChartContainer*);
-    void seriesSelectionChanged(CustomSeries*);
+
     void newStatusMessage(QString);
     void zoomApplied(int);
     void scrollApplied(int);
     void markerRequested(QPointF);
+    void newTraceSelection(CustomSeries*);
+    void updateCursorData(QList<void*>);
 
 public slots:
-    void selectedSeriesChanged(CustomSeries*);
 
-    void setTitle(QString);
-    void addDataSeries(QVector<double> ,QVector<double> ,QString ,QString );
+
+    void addDataSeries(QVector<double> ,QVector<double> ,QString ,QString ,int);
     void setCrosshairVisibility(bool);
     //void themeChange(int);
     bool isCrosshairVisible(void );
+
 
 
  
@@ -48,7 +60,7 @@ private:
     QWidget* pParent;
     QMenu* contextMenu;
 
-    QChart *chart;
+    CustomChart* chart;
     qreal zoomFactor{1.0};
     qreal scrollFactor{1.0};
     qreal stepModifier {1.0};
@@ -62,10 +74,10 @@ private:
     QPoint middlePressStartPos,middlePressEndPos,fistVal;
 
 
+    //QList<CursorInfo*> cursorInfos;
+
 
 private slots:
-
-    void newMsgFromSeries(QString);
 
     void onCustomContextMenu(const QPoint &);
     //Context Menu Entries
