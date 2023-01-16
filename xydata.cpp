@@ -86,12 +86,12 @@ void XYData::setSourceFileName(QString path)
 
  double XYData::getMin()
  {
-     return *std::min(points.cbegin(),points.cend());
+     return *std::min(points.constBegin(),points.constEnd());
  }
 
  double XYData::getMax()
  {
-     return *std::max(points.cbegin(),points.cend());
+     return *std::max(points.constBegin(),points.constEnd());
  }
 
  double XYData::getAVG()
