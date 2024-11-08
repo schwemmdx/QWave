@@ -13,8 +13,6 @@
 #include "customseries.h"
 
 
-#include <random>
-
 ChartContainer::ChartContainer(QWidget *parent)
 {
 
@@ -26,13 +24,14 @@ ChartContainer::ChartContainer(QWidget *parent)
     setChart(chart);
 
     setRenderHint(QPainter::Antialiasing);
-
+    
     setAlignment(Qt::AlignLeft);
     setContextMenuPolicy(Qt::CustomContextMenu);
-    //setRubberBand(QChartView::NoRubberBand);
+    //setMouseTracking(true);
+    setRubberBand(QChartView::RectangleRubberBand);
 
     contextMenu = new QMenu(this);
-    contextMenu->addAction("Set Limits", this, &ChartContainer::setLimits);
+    //contextMenu->addAction("Set Limits", this, &ChartContainer::setLimits);
     contextMenu->addAction("Reset Zoom", this, &ChartContainer::resetZoom);
     contextMenu->addAction("Remove Markers",this,&ChartContainer::removeMarkers);
     contextMenu->addSeparator();    
@@ -60,62 +59,57 @@ void ChartContainer::addDataSeries(QVector<double> xData,QVector<double> yData,Q
 
 void ChartContainer::wheelEvent(QWheelEvent *event)
 {
-    bool xScaleChanged=false;
-    if (true) // isSelectedContainer())
+    QRectF rect = chart->plotArea();
+    zoomFactor = event->angleDelta().y() > 0 ? 0.75 : 1.25;
+    QPointF c = chart->plotArea().center();
+
+    switch(event->modifiers())
     {
-        int zStep = 10;
-        float dir  = 0;
-        QRectF rect = chart->plotArea();
-        QPoint numSteps;
-        QPoint numDegrees = event->angleDelta() / 8;
-        if (!numDegrees.isNull())
-        {
-            numSteps = numDegrees / 15;
-        }
+        case Qt::ControlModifier:
+            {
 
-        if (event->modifiers().testFlag(Qt::ShiftModifier))
-        { // speed up zooming and scrolling by the same factor
-            stepModifier = 5;
-        }
-        else
-        {
-            stepModifier = 1;
-        }
+                rect.setWidth(zoomFactor * rect.width());
+                rect.setHeight(zoomFactor* rect.height());
+                rect.moveCenter(c);
+                chart->zoomIn(rect);
+                event->accept();
 
-        if (event->modifiers().testFlag(Qt::ControlModifier))
+                removeMarkers();
+                break;
+            }
+        case Qt::AltModifier:
         {
-            zoomFactor = event->angleDelta().y() > 0 ? 0.5 : 2;
-            QPointF c = chart->plotArea().center();
-            rect.setWidth(zoomFactor * rect.width());
-            rect.moveCenter(c);
-            chart->zoomIn(rect);
-        }
 
-        else if (event->modifiers().testFlag(Qt::AltModifier))
-        {
-            //only scaling which doesn'T change x axis
             zoomFactor = event->angleDelta().x() > 0 ? 0.5 : 2;
 
             QPointF c = chart->plotArea().center();
-            QPoint cursorPos(QCursor::pos());
-            int dy = c.y() - cursorPos.y();
-            if (abs(dy) > 25)
-            {
-                dy /= 5;
-            }
-            c.setY(c.y() - dy);
+           
+
+            rect.setWidth(zoomFactor * rect.width());
+            rect.moveCenter(c);
+            chart->zoomIn(rect);
+            break;
+        }
+        case Qt::ShiftModifier:
+        {
 
             rect.setHeight(zoomFactor * rect.height());
             rect.moveCenter(c);
             chart->zoomIn(rect);
+            event->accept();
+            removeMarkers();
+            break;
         }
-        else
-        {
-            chart->scroll(10 * pow(2, stepModifier) * numSteps.y(), 0);
-        }
-        event->accept();
-        removeMarkers();
+        default:
+            QChartView::wheelEvent(event);
     }
+
+
+
+
+
+
+
 }
 
 
@@ -186,8 +180,21 @@ void ChartContainer::mouseMoveEvent(QMouseEvent *event)
     }
     else{
         m_crosshair->setVisibilty(false);
-        QChartView::mouseMoveEvent(event);
+
     }
+
+    if(middleMousePressed)
+    {
+        auto dPos = event->pos() - middlePressStartPos;
+        chart->scroll(-dPos.x(), dPos.y());
+
+        middlePressStartPos = event->pos();
+        event->accept();
+
+
+    }
+
+    QChartView::mouseMoveEvent(event);
 }
 
 void ChartContainer::setCrosshairVisibility(bool vis)
@@ -228,6 +235,11 @@ void ChartContainer::mousePressEvent(QMouseEvent* event)
                 QChartView::mousePressEvent(event);
             }
           
+            break;
+        }
+        case Qt::RightButton:
+        {
+            event->accept();
             break;
         }
         default:
@@ -287,6 +299,11 @@ void ChartContainer::mouseReleaseEvent(QMouseEvent* event)
             auto dy = middlePressEndPos.y()-middlePressStartPos.y();
             chart->scroll(dx,dy);
             QApplication::restoreOverrideCursor();
+            event->accept();
+            break;
+        }
+        case Qt::RightButton:
+        {
             event->accept();
             break;
         }

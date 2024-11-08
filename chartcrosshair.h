@@ -24,7 +24,7 @@ private:
     QChart *m_chart;
     QLineF* xLine;
     QLineF* yLine;
-    QCursor crosshairCursor{Qt::CrossCursor};//(QPixmap(":/icons/icons/icons8-target-24.png"))};
+    QCursor crosshairCursor{Qt::BlankCursor};//(QPixmap(":/icons/icons/icons8-target-24.png"))};
     bool visibility;
 
 
