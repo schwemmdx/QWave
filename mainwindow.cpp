@@ -5,6 +5,7 @@
 #include "chartcontainer.h"
 #include <QtCharts/QtCharts>
 #include <QStatusBar>
+#include <QFileInfo>
 
 #include "datawidget.h"
 #include "theme_colors.h"
@@ -112,11 +113,13 @@ void MainWindow::unselectExcept(CustomSeries* traceClicked)
 
 void MainWindow::on_actionImportData_triggered()
 {
-    QString file =  QFileDialog::getOpenFileName();
+    QString file =  QFileDialog::getOpenFileName(this,QString("Open Data for inspection"),openDlgStartPath,QString("*.csv"));
+
     if(file.isEmpty())
     {
         return;
     }
+    openDlgStartPath = QFileInfo(file).absolutePath();
     this->pDataDock->show();
     ui->actiontoggleDataDock->setChecked(true);
     emit loadFromFile(file);
@@ -137,8 +140,9 @@ void MainWindow::Ondoubleclicktree(int QModelIndex)
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    
-    if( event->key() == Qt::Key_Escape )
+    switch(event->key())
+    {
+    case Qt::Key_Escape :
     {
         if(!chartContainer->isCrosshairVisible())
         {
@@ -150,7 +154,26 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
             this->ui->actionCrosshair_Mode->setChecked(false);
         }
         event->accept();
+        break;
 
+    }
+
+    case Qt::Key_P:
+    {
+        if (event->modifiers().testFlag(Qt::ControlModifier))
+        {
+            QString fileName = QFileDialog::getSaveFileName(this,"Save Chart...",QDir::homePath());
+            if(!fileName.isEmpty()){
+                QPixmap pixmap = chartContainer->grab();
+                pixmap.save(fileName, "PNG");
+                event->accept();
+
+            }
+        }
+        break;
+
+
+    }
     }
 }
 

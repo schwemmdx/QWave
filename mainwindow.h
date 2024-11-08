@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDir>
 #include "customseries.h"
 #include "chartcontainer.h"
 #include "datawidget.h"
@@ -65,6 +66,7 @@ private:
     void appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis);
     void unselectExcept(CustomSeries*);
     void setTheme(void);
+    QString openDlgStartPath{QDir::homePath()};
 
 
 protected:
