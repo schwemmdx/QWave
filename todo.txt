@@ -1,0 +1,13 @@
+- neuer marker nimmt den y wert an der stelle wo geklickt wurde, muss aber den y wert raussuchen der zur aktuellen x position passt
+- abfangen von Fehlern beim import 
+- import python scripts ermöglichen
+- window resizing event muss die platzierten Marker auch resizen
+- zoom, scroll events müssen marker resizen oder löschen 
+- crosshair soll y werte auf beiden Achsen anzeigen, wenn beide sichtbar sind
+- shift und doppelklick auf ein datensatz fügt ihn automatisch zur rechten yachse hinzu
+- applyNiceNubers auf allen Achsen
+- Themeing
+- Ändere start "suchordner" beim import auf Dokumente im windows fall
+- stack widget? daten oder plot?
+- action bar unten 
+
