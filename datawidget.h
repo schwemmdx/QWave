@@ -34,6 +34,7 @@ private:
 
     QVector<double> xData;
     QString xUnit;
+    QString name;
 
     //void selectionChanged(const QItemSelection &, const QItemSelection &);
     DetailsDialog* details;
