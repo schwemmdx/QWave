@@ -19,8 +19,8 @@ ChartCrosshair::ChartCrosshair(QChart *chart) :
 {
 
     //m_chart->setCursor(QCursor(Qt::CursorShape::CrossCursor));
-    m_xLine->setPen(QPen(Altium::HighLight2, 2));
-    m_yLine->setPen(QPen(Altium::HighLight2, 2));
+    m_xLine->setPen(QPen(Altium::HighLight2, 1));
+    m_yLine->setPen(QPen(Altium::HighLight2, 1));
     m_xText->setZValue(9999);
     m_yText->setZValue(9999);
     m_xText->document()->setDocumentMargin(5);
