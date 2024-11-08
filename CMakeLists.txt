@@ -12,7 +12,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(Qt6_DIR C:/Qt/6.8.0/mingw_64/lib/cmake/Qt6)
+if(WIN32)
+    set(Qt6_DIR C:/Qt/6.8.0/mingw_64/lib/cmake/Qt6)
+endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets )
 find_package(Qt6 REQUIRED COMPONENTS Charts)
