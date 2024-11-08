@@ -74,7 +74,7 @@ Thumbs.db
 
 #Toolchain related files
 #----------------------
-build
+build/*
 .cmake
 .qtc_clangd
 CMakeFiles
@@ -82,3 +82,6 @@ CMakeFiles
 .qt
 Testing
 CmakeLists.txt.user*
+build/CMakeCache.txt
+
+.qtcreator/
