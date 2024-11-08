@@ -26,7 +26,7 @@ QString DataImporter::readRawTxt(QString path)
    else
    {
        QMessageBox msgBox;
-       msgBox.setText("Die Datei "+path + " konnte nicht geöffnet werden!");
+       msgBox.setText("The file "+path + " could not be opened");
        msgBox.exec();
    }
    return content;
