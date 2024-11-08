@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(QWave VERSION 0.1 LANGUAGES CXX)
+project(QWave VERSION 0.2 LANGUAGES CXX)
 
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -12,12 +12,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets  )
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets )
+set(Qt6_DIR C:/Qt/6.8.0/mingw_64/lib/cmake/Qt6)
+
+find_package(Qt6 REQUIRED COMPONENTS Widgets )
 find_package(Qt6 REQUIRED COMPONENTS Charts)
 find_package(Qt6 REQUIRED COMPONENTS Gui)
 
-set(TS_FILES QWave_de_DE.ts)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -43,7 +43,7 @@ set(PROJECT_SOURCES
         detailsdialog.cpp
         detailsdialog.ui
 
-	xydata.h
+	    xydata.h
         xydata.cpp
 
         chartcrosshair.h
@@ -69,49 +69,71 @@ set(PROJECT_SOURCES
 	cursordockwidget.cpp
 	cursordockwidget.ui
 
-        ${TS_FILES}
 )
 
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(QWave
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET QWave APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 
-  #  qt_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-else()
-    if(ANDROID)
-        add_library(QWave SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(QWave
-            ${PROJECT_SOURCES}
-        )
-    endif()
+qt_add_executable(QWave
+    MANUAL_FINALIZATION
+    ${PROJECT_SOURCES}
+)
 
-    qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
-endif()
 
-target_link_libraries(QWave PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+
+
+target_link_libraries(QWave PRIVATE Qt6::Widgets)
 target_link_libraries(QWave PRIVATE Qt6::Charts)
 target_link_libraries(QWave PRIVATE Qt6::Gui)
 
 
 set_target_properties(QWave PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-    MACOSX_BUNDLE TRUE
     WIN32_EXECUTABLE TRUE
 )
+if(WIN32)
+    set(LIBS_REQUIRED 
+    Qt6Charts.dll
+    Qt6Core.dll
+    Qt6OpenGL.dll
+    Qt6Gui.dll
+    Qt6Svg.dll
+    Qt6Widgets.dll
+    Qt6OpenGlWidgets.dll
+    opengl32sw.dll
+    D3DCompiler_47.dll
+    libgcc_s_seh-1.dll
+    libstdc++-6.dll
+    libwinpthread-1.dll
+    Qt6Network.dll
+    )
+
+    set(QT_LIBS_EXIST TRUE)
+
+    foreach(FILE ${LIBS_REQUIRED})
+        if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/${FILE})
+            message("Error: ${FILE} not found in ${CMAKE_CURRENT_BINARY_DIR}")
+            set(QT_LIBS_EXIST FALSE)
+           #return()  # <--- Change break() to return()
+        else()
+            message("Found: ${FILE} in ${CMAKE_CURRENT_BINARY_DIR}")
+        endif()
+    endforeach()
+    
+    if(NOT QT_LIBS_EXIST)
+        message("Error: Not all required libraries found in ${CMAKE_CURRENT_BINARY_DIR}")
+    endif()
+
+    if(NOT QT_LIBS_EXIST)
+        add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND windeployqt ${CMAKE_CURRENT_BINARY_DIR}
+            COMMENT "Building Dependencies for ${PROJECT_NAME}"
+        )
+        message("-- Required QT6 libraries not found, rebuild required")
+    else()
+        message("-- All required QT6 libraries present")
+        message("-- Ready for deployment")
+    endif()
+endif()
 
 install(TARGETS QWave
     BUNDLE DESTINATION .
