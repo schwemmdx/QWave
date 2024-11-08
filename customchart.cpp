@@ -19,7 +19,7 @@ CustomChart::CustomChart(QObject* parent):QChart(nullptr)
     setBackgroundBrush(bgBrush);
     setMargins(QMargins(1,1,1,1));
     setBackgroundRoundness(5);
-    setAnimationDuration(100);
+    setAnimationDuration(500);
 
     yAxisLeft = new QValueAxis;
     yAxisRight = new QValueAxis;
@@ -30,6 +30,10 @@ CustomChart::CustomChart(QObject* parent):QChart(nullptr)
     addAxis(xAxis,Qt::AlignBottom);
     addAxis(yAxisRight,Qt::AlignRight);
     yAxisRight->hide();
+
+    xAxis->setLabelFormat("%.2e");
+    xAxis->setTickCount(9);
+
 
 
 
@@ -56,9 +60,6 @@ void CustomChart::addDataSeries(QVector<double> x, QVector<double> y, QString xU
     }
 
     update();
-    xAxis->setRange(*xMin,*xMax);
-    xAxis->setMax(*xMax);
-    xAxis->setMax(*xMin);
 
     series->setData(dataBuf);
     addSeries(series);
@@ -66,23 +67,25 @@ void CustomChart::addDataSeries(QVector<double> x, QVector<double> y, QString xU
     QPen pen;
     QBrush txtBrush,xBrush;
     xBrush.setColor(Altium::HighLight2.lighter());
-    
+    int colorIndex = 0;
+    foreach (auto &ser, this->series()) {
+        reinterpret_cast<QLineSeries*>(ser)->setPen(QPen(neonColors[colorIndex % neonColors.size()]));
+        colorIndex++;
+}
     pen.setColor(series->pen().color());
     txtBrush.setColor(pen.color());
 
-    //this->leftYAxis->setLinePen(pen);
 
     xAxis->setTitleText(xUnit);
-    xAxis->applyNiceNumbers();
+
     xAxis->setTitleBrush(xBrush);
     xAxis->setLabelsBrush(xBrush);
     xAxis->setGridLineVisible(false);
 
-    //xAxis->setGridLineColor(Altium::HighLight2);
+
     xAxis->setLinePen(QPen(Altium::HighLight2,2));
     yAxisRight->setLinePen(QPen(Altium::HighLight2,2));
     yAxisLeft->setLinePen(QPen(Altium::HighLight2,2));
-    //axisY->setGridLineColor(Altium::BackGround.lighter(300));
 
     QValueAxis* axisToAttachTo = nullptr;
     series->attachAxis(xAxis);
@@ -100,12 +103,15 @@ void CustomChart::addDataSeries(QVector<double> x, QVector<double> y, QString xU
     series->attachAxis(axisToAttachTo);
     axisToAttachTo->setTitleText(yUnit);
     axisToAttachTo->setTitleBrush(xBrush);
-    axisToAttachTo->setLabelsAngle(45);
+    axisToAttachTo->setLabelsAngle(0);
     axisToAttachTo->setLabelsBrush(xBrush);
-    axisToAttachTo->applyNiceNumbers();
+
     axisToAttachTo->setGridLineVisible(false);
-    axisToAttachTo->setMax(*yMax);
-    axisToAttachTo->setMin(*yMin);
+    //axisToAttachTo->setMax(*yMax);
+    //axisToAttachTo->setMin(*yMin);
+    axisToAttachTo->applyNiceNumbers();
+    xAxis->applyNiceNumbers();
+    axisToAttachTo->setLabelFormat("%.2e");
 
 
 

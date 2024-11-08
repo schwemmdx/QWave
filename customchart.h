@@ -34,6 +34,16 @@ private:
     QValueAxis* yAxisRight;
     QValueAxis* xAxis;
     QObject* pParent;
+    QVector<QColor> neonColors = {
+    QColor(255, 0, 255), // Neon Pink
+    QColor(0, 255, 255), // Neon Cyan
+    QColor(255, 255, 0), // Neon Yellow
+    QColor(0, 255, 0), // Neon Green
+    QColor(255, 0, 0), // Neon Red
+    QColor(0, 0, 255), // Neon Blue
+    QColor(255, 128, 0), // Neon Orange
+    QColor(0, 128, 255), // Neon Purple
+};
 
 
 
