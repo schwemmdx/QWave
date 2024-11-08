@@ -21,21 +21,25 @@ CustomSeries::CustomSeries(QObject* parent): QLineSeries(parent)
 
     selectionState = false;
     setPointsVisible(false);
-    setOpacity(0.5);
+    setOpacity(0.75);
+
+    pen().setWidth(2);
+
 
 }
 
-void CustomSeries::setData(QVector<QPointF> data)
+void CustomSeries::setData(QVector<QPointF> data,QString label)
 {
     this->clear();
     *this << data;
+    setName(label);
 }
 void CustomSeries::unselect()
 {
     selectionState = false;
-    setOpacity(0.5);
+    setOpacity(0.75);
     QPen usedPen = pen();
-    usedPen.setWidth(1);
+    usedPen.setWidth(2);
     setPen(usedPen);
     setPointsVisible(false);
     setPointLabelsVisible(false);
@@ -51,13 +55,13 @@ void CustomSeries::selected(const QPointF &point)
         selectionState = true;
         setOpacity(1);
         QPen usedPen = pen();
-        usedPen.setWidth(3);
+        usedPen.setWidth(2);
         setPen(usedPen);
         setPointsVisible(true);
 
-        //setPointLabelsColor(Altium::HighLight2);
-        //setPointLabelsVisible(true);
-        //setPointLabelsFormat("x: @xPoint \n y: @yPoint");
+        setPointLabelsColor(pen().color());
+        setPointLabelsVisible(true);
+        setPointLabelsFormat("x: @xPoint \n y: @yPoint");
         emit seriesSelected(this);
     }
 

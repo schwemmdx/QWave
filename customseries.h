@@ -8,7 +8,7 @@
 #include <QMainWindow>
 
 
-#include <random>
+
 
 class CustomSeries:public QLineSeries
 {
@@ -19,7 +19,7 @@ public:
 
 
     bool isSelected(void);
-    void setData(QVector<QPointF> data);
+    void setData(QVector<QPointF> data,QString label="");
 
 signals:
     void seriesSelected(CustomSeries*);
