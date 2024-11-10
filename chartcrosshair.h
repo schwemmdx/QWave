@@ -8,20 +8,23 @@
 #include <QChart>
 #include <QtWidgets/QGraphicsItem>
 
+#include "customchart.h"
 
 class ChartCrosshair
 {
 public:
-    ChartCrosshair(QChart *chart);
+    ChartCrosshair(CustomChart *chart);
     void updatePosition(QMouseEvent* event);
 
+
     void setVisibilty(bool);
+    void showCrosshair(void);
     bool visible(void);
 
 private:
     QGraphicsLineItem *m_xLine, *m_yLine;
-    QGraphicsTextItem *m_xText, *m_yText;
-    QChart *m_chart;
+    QGraphicsTextItem *m_xText, *m_yLeftText, *m_yRightText;
+    CustomChart *m_chart;
     QLineF* xLine;
     QLineF* yLine;
     QCursor crosshairCursor{Qt::BlankCursor};//(QPixmap(":/icons/icons/icons8-target-24.png"))};
