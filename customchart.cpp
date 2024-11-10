@@ -8,6 +8,8 @@
 
 #include <QtCharts/QLineSeries>
 
+#include "ScientificFormatter.h"
+
 CustomChart::CustomChart(QObject* parent):QChart(nullptr)
 {
     pParent = parent;
@@ -34,7 +36,7 @@ CustomChart::CustomChart(QObject* parent):QChart(nullptr)
     xAxis->setLabelFormat("%.2e");
     xAxis->setTickCount(9);
 
-
+    
 
 
 }
@@ -98,6 +100,7 @@ void CustomChart::addDataSeries(QVector<double> x, QVector<double> y, QString xU
     {
         yAxisRight->show();
         axisToAttachTo = yAxisRight;
+        secondYaxisPopulated = true;
 
     }
     series->attachAxis(axisToAttachTo);
@@ -155,3 +158,9 @@ void CustomChart::mouseMoveEvent(QGraphicsSceneMouseEvent*)
     qDebug() << "MouseMoveEvent from Chart!";
 }
 */
+
+bool CustomChart::isSecondYaxisVisible()
+{
+    return secondYaxisPopulated;
+}
+

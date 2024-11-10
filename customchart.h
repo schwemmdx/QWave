@@ -23,6 +23,7 @@ signals:
 public slots:
     void addDataSeries(QVector<double> x, QVector<double> y, QString xUnit, QString yUnit, int toAxis);
     void setGridVisibility(int axis,bool visibility);
+    bool isSecondYaxisVisible();
 
 protected:
     //void mousePressEvent(QGraphicsSceneMouseEvent*) override;
@@ -34,6 +35,7 @@ private:
     QValueAxis* yAxisRight;
     QValueAxis* xAxis;
     QObject* pParent;
+    bool secondYaxisPopulated{false};
     QVector<QColor> neonColors = {
     QColor(255, 0, 255), // Neon Pink
     QColor(0, 255, 255), // Neon Cyan
