@@ -3,6 +3,8 @@
 #include <QtGui/QTextDocument>
 #include "customseries.h"
 
+#include "ScientificFormatter.h"
+
 ChartMarker::ChartMarker(QChart* chart):
     line(new QLineF()),
     m_line(new QGraphicsLineItem(chart)),
@@ -56,7 +58,7 @@ void ChartMarker::placeMarkerbyClick(QPointF pos,int numExisting)
     line->setLine(pos.x(),pChart->plotArea().top(),pos.x(),pChart->plotArea().bottom());
     m_line->setLine(*line);
 
-    m_text->setHtml(QString("<div style='background-color:"+markerRed.name()+";'><b>" + QString::number(pChart->mapToValue(pos).x()) + "</b></div>"));
+    m_text->setHtml(QString("<div style='background-color:"+markerRed.name()+";'><b>" + ScientificFormatter::toScientificSuffix(pChart->mapToValue(pos).x(),4) + "</b></div>"));
      m_markerNumber->setHtml(QString("<div style='background-color:"+markerRed.name()+" 'text-align=center;'><b>"+QString::number(numExisting)+"</b></div>"));
     CustomSeries* pSerBuf;
     //QString txtBuf="";
@@ -66,10 +68,14 @@ void ChartMarker::placeMarkerbyClick(QPointF pos,int numExisting)
         //txtBuf.append(QString::number(pChart->mapToValue(pos,pSerBuf).y())+ "<p>");
         QGraphicsTextItem* textItemBuf = new QGraphicsTextItem(pChart);
         textItemBuf->setDefaultTextColor(Altium::BackGround.darker());
+        int intersectIndex = pSerBuf->findClosestPointIndex(pChart->mapToValue(pos,pSerBuf));
+     
         textItemBuf->setHtml("<div 'text-align=right' line-height:'0%' style='background-color:"+
                              pSerBuf->pen().color().name()+";'>"+
-                             QString::number(pChart->mapToValue(pos,pSerBuf).y())+
+                             ScientificFormatter::toScientificSuffix(pSerBuf->at(intersectIndex).y(),4)+
                              "</div>");
+        //qDebug() << "Clicked : " << pos << " Idx: "<< intersectIndex << " mapped y-val: "<< pSerBuf->at(intersectIndex) << "\n";              
+                            
         yValues.append(textItemBuf);
         if(pSerBuf->isSelected())
         {
@@ -123,3 +129,5 @@ void ChartMarker::remove(void)
     //this->~ChartMarker();
 
 }
+
+
