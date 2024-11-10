@@ -20,6 +20,8 @@ public:
 
     bool isSelected(void);
     void setData(QVector<QPointF> data,QString label="");
+    int findClosestPointIndex(const QPointF &chartPosition);
+    
 
 signals:
     void seriesSelected(CustomSeries*);
@@ -38,10 +40,12 @@ public slots:
 private slots:
     void onHover(const QPointF &point,bool state);
     void onPointPress(const QPointF &point);
+    
 
 private:
     bool selectionState;
     bool selectable{true};
+    QVector<float> data;
 
 
 protected:

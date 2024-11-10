@@ -10,6 +10,9 @@
 #include <QMenu>
 
 
+#include "Message.h"
+
+
 CustomSeries::CustomSeries(QObject* parent): QLineSeries(parent)
 {
     //not work with ChartView events
@@ -24,14 +27,13 @@ CustomSeries::CustomSeries(QObject* parent): QLineSeries(parent)
     setOpacity(0.75);
 
     pen().setWidth(2);
-
-
+ 
 }
 
-void CustomSeries::setData(QVector<QPointF> data,QString label)
+void CustomSeries::setData(QVector<QPointF> d,QString label)
 {
     this->clear();
-    *this << data;
+    *this << d;
     setName(label);
 }
 void CustomSeries::unselect()
@@ -102,3 +104,36 @@ void CustomSeries::setYLimitsR(float ymin,float ymax)
 
 }
 
+int CustomSeries::findClosestPointIndex(const QPointF &chartPosition)
+{
+    const QList<QPointF> &pointList = points();
+
+    // Check for an empty series
+    if (pointList.isEmpty()) {
+        
+        return -1;
+    }
+
+    // Get the x-coordinate of the vertical line (target x position)
+    double targetX = chartPosition.x();
+
+    // Use std::min_element to find the index of the closest point by x distance
+    auto it = std::min_element(pointList.begin(), pointList.end(),
+        [targetX](const QPointF &p1, const QPointF &p2) {
+            double dist1 = std::abs(p1.x() - targetX);
+            double dist2 = std::abs(p2.x() - targetX);
+            return dist1 < dist2;
+        }
+    );
+
+    // Check if std::min_element found a valid iterator
+    if (it == pointList.end()) {
+        qDebug() << "Error: No minimum element found.";
+        return -1;
+    }
+
+    // Return the index of the closest point
+    int closestIndex = std::distance(pointList.begin(), it);
+    qDebug() << "Index of closest point by x-component:" << closestIndex;
+    return closestIndex;
+}
