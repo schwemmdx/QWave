@@ -69,8 +69,10 @@ private:
     QString openDlgStartPath{QDir::homePath()};
 
 
+
 protected:
     void keyPressEvent(QKeyEvent*) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 
 

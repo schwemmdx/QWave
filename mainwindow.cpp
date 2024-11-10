@@ -6,12 +6,15 @@
 #include <QtCharts/QtCharts>
 #include <QStatusBar>
 #include <QFileInfo>
+#include <QThread>
 
 #include "datawidget.h"
 #include "theme_colors.h"
 #include "optionsdialog.h"
 #include "cursordockwidget.h"
+#include "MessageQueue.h"
 
+#include "Message.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -19,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
 
     //main chart container
     this->chartContainer = new ChartContainer(this);
@@ -49,9 +53,14 @@ MainWindow::MainWindow(QWidget *parent)
     pOptionDlg = new OptionsDialog();
     pOptionDlg->hide();
 
+  
 
 
-
+    MessageQueue *msgQ = MessageQueue::instance(this);
+    QPoint bottomRight = geometry().bottomRight();
+    QPoint globalBottomRight = this->mapToGlobal(bottomRight);
+    qDebug() << globalBottomRight << "\n";
+    
     connect(this,&MainWindow::loadFromFile,pDataWidget,&DataWidget::loadData);
     connect(pDataWidget,&DataWidget::appendData,chartContainer,
             [this](QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis){
@@ -167,7 +176,9 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
                 QPixmap pixmap = chartContainer->grab();
                 pixmap.save(fileName, "PNG");
                 event->accept();
-
+                MessageQueue* mq = MessageQueue::instance(this);
+                mq->addMessage("Export "+fileName+"\nsaved!",
+                Altium::LightText,4000,QIcon::fromTheme("document-save"));
             }
         }
         break;
@@ -271,3 +282,9 @@ void MainWindow::on_actiontoggleDataDock_toggled(bool arg1)
     }
 }
 
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    QWidget::resizeEvent(event);
+    QPoint bottomRight = geometry().bottomRight();
+    MessageQueue* msgQ = MessageQueue::instance(this);
+    msgQ->setGeometry(bottomRight.x() - 300, bottomRight.y() - 300, 300, 200);
+}
