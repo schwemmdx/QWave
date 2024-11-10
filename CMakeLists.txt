@@ -71,6 +71,14 @@ set(PROJECT_SOURCES
 	cursordockwidget.cpp
 	cursordockwidget.ui
 
+    ScientificFormatter.cpp
+    ScientificFormatter.h
+
+    MessageQueue.cpp
+    MessageQueue.h
+    Message.h 
+    Message.cpp
+
 )
 
 
