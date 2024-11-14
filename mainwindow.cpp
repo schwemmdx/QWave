@@ -4,7 +4,7 @@
 
 #include "chartcontainer.h"
 #include <QtCharts/QtCharts>
-#include <QStatusBar>
+
 #include <QFileInfo>
 #include <QThread>
 
@@ -15,7 +15,7 @@
 #include "MessageQueue.h"
 
 #include "Message.h"
-
+#include "customchart.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -59,8 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
     MessageQueue *msgQ = MessageQueue::instance(this);
     QPoint bottomRight = geometry().bottomRight();
     QPoint globalBottomRight = this->mapToGlobal(bottomRight);
-    qDebug() << globalBottomRight << "\n";
-    
+  
     connect(this,&MainWindow::loadFromFile,pDataWidget,&DataWidget::loadData);
     connect(pDataWidget,&DataWidget::appendData,chartContainer,
             [this](QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis){
@@ -69,7 +68,7 @@ MainWindow::MainWindow(QWidget *parent)
     //connect(chartContainer,&ChartContainer::updateYCursorInfo,pCursorDock,&CursorDockWidget::updateXCursorData);
     //connect(this, &MainWindow::chartThmeChangeRequest,chartContainer,&ChartContainer::themeChange);
 
-    statusBar()->show();
+    
     setTheme();
 
     pDataDock->hide();
@@ -79,8 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actiontoggleCursorDock->setChecked(false);
 
     connect(chartContainer,&ChartContainer::newTraceSelection,this,&MainWindow::selectedSeriesChanged);
-    //connect(chartContainer,&ChartContainer::newStatusMessage,this,[this](QString msg){statusBar()->showMessage(msg);});
-
+  
 }
 
 
@@ -286,5 +284,28 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
     QPoint bottomRight = geometry().bottomRight();
     MessageQueue* msgQ = MessageQueue::instance(this);
-    msgQ->setGeometry(bottomRight.x() - 300, bottomRight.y() - 300, 300, 200);
+    msgQ->setGeometry(bottomRight.x() - 375, bottomRight.y() - 550, 300, 400);
 }
+
+void MainWindow::on_action_ToggleYLeft_triggered(bool checked)
+{
+    MessageQueue* q = MessageQueue::instance();
+    q->addMessage("Left y-axis log scaling: "+QString::number(checked),Altium::LightText);
+    chartContainer->chart->setLogYLScale(checked);
+}
+
+
+void MainWindow::on_action_toggleXlog_triggered(bool checked)
+{
+    MessageQueue* q = MessageQueue::instance();
+    q->addMessage("X-axis log scaling: "+QString::number(checked),Altium::LightText);
+    chartContainer->chart->setLogXScale(checked);
+}
+
+
+void MainWindow::on_actionToggleYRightLog_triggered(bool checked)
+{
+    MessageQueue* q = MessageQueue::instance();
+    q->addMessage("Right y-axis log scaling: "+QString::number(checked),Altium::LightText);
+}
+

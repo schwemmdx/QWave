@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 #include <QDir>
+#include <QStackedWidget>
+#include <QListWidget>
+#include <QHBoxLayout>
+
 #include "customseries.h"
 #include "chartcontainer.h"
 #include "datawidget.h"
@@ -46,8 +50,13 @@ private slots:
 
 
     void on_actiontoggleCursorDock_toggled(bool arg1);
-
     void on_actiontoggleDataDock_toggled(bool arg1);
+
+    void on_action_ToggleYLeft_triggered(bool checked);
+
+    void on_action_toggleXlog_triggered(bool checked);
+
+    void on_actionToggleYRightLog_triggered(bool checked);
 
 private:
     QDockWidget* pDataDock;
@@ -55,8 +64,11 @@ private:
     CursorDockWidget* pCursorDock;
 
 
+    QStackedWidget* stack;
+    QListWidget* dataList;
     QApplication* pApplication;
     Ui::MainWindow *ui;
+    QHBoxLayout* mainLayout;
 
     CustomSeries* focusTrace{nullptr};
     OptionsDialog* pOptionDlg;
