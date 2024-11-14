@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1559</width>
-    <height>938</height>
+    <width>1019</width>
+    <height>513</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,7 +24,7 @@
     <normaloff>:/icons/icon_data/1 (15).png</normaloff>:/icons/icon_data/1 (15).png</iconset>
   </property>
   <property name="toolButtonStyle">
-   <enum>Qt::ToolButtonIconOnly</enum>
+   <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
   </property>
   <property name="dockNestingEnabled">
    <bool>true</bool>
@@ -42,54 +42,62 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1559</width>
-     <height>21</height>
-    </rect>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionImportData"/>
-    <addaction name="actionsaveScene"/>
-    <addaction name="actionOptions"/>
-   </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>Tools</string>
-    </property>
-    <widget class="QMenu" name="menuPanels">
-     <property name="title">
-      <string>Panels</string>
-     </property>
-    </widget>
-    <widget class="QMenu" name="menuGeben_Sie_Text_ein">
-     <property name="title">
-      <string>Geben Sie Text ein</string>
-     </property>
-    </widget>
-    <addaction name="separator"/>
-    <addaction name="actionCrosshair_Mode"/>
-    <addaction name="separator"/>
-    <addaction name="separator"/>
-    <addaction name="menuPanels"/>
-    <addaction name="menuGeben_Sie_Text_ein"/>
-   </widget>
-   <widget class="QMenu" name="menuPanels_2">
-    <property name="title">
-     <string>Panels</string>
-    </property>
-    <addaction name="actiontoggleDataDock"/>
-    <addaction name="actiontoggleCursorDock"/>
-   </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuView"/>
-   <addaction name="menuPanels_2"/>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Horizontal</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="separator"/>
+   <addaction name="actionCrosshair_Mode"/>
+   <addaction name="actiontoggleCursorDock"/>
+   <addaction name="action_ToggleYLeft"/>
+   <addaction name="action_toggleXlog"/>
+   <addaction name="actionToggleYRightLog"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionImportData"/>
+   <addaction name="actiontoggleDataDock"/>
+   <addaction name="actionsaveScene"/>
+   <addaction name="separator"/>
+   <addaction name="actionOptions"/>
   </widget>
   <action name="actionOptions">
    <property name="icon">
@@ -134,60 +142,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
-   </property>
-  </action>
-  <action name="actionZoomHorizontally">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icons/icons8-height-80.png</normaloff>:/icons/icons/icons8-height-80.png</iconset>
-   </property>
-   <property name="text">
-    <string>ZoomHorizontally</string>
-   </property>
-   <property name="toolTip">
-    <string>Zoom Behaviour Horizontally</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+H</string>
-   </property>
-  </action>
-  <action name="actionzoomVertically">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icons/icons8-width-80.png</normaloff>:/icons/icons/icons8-width-80.png</iconset>
-   </property>
-   <property name="text">
-    <string>zoomVertically</string>
-   </property>
-   <property name="toolTip">
-    <string>Zoom Behaviour vertically</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+V</string>
-   </property>
-  </action>
-  <action name="actionzoomROI">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="qwave.qrc">
-     <normaloff>:/icons/icons/icons8-enlarge-80.png</normaloff>:/icons/icons/icons8-enlarge-80.png</iconset>
-   </property>
-   <property name="text">
-    <string>zoomROI</string>
-   </property>
-   <property name="toolTip">
-    <string>Zoom Behaviour ROI</string>
-   </property>
-   <property name="shortcut">
-    <string>Alt+R</string>
    </property>
   </action>
   <action name="actionsaveScene">
@@ -298,24 +252,59 @@
     <string>Apply Conditional Filter</string>
    </property>
   </action>
-  <action name="actionAddMarker">
+  <action name="action_ToggleYLeft">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
-    <iconset resource="qwave.qrc">
+    <iconset theme="go-up" resource="qwave.qrc">
      <normaloff>:/icons/icons/icons8-anchor-nodes-80.png</normaloff>:/icons/icons/icons8-anchor-nodes-80.png</iconset>
    </property>
    <property name="text">
-    <string>Add Marker</string>
+    <string>ToggleYLog</string>
    </property>
    <property name="toolTip">
-    <string>Add a Marker to a datapoint</string>
+    <string>Toggle Y-Axis Logarithmic Scaling</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+A</string>
+    <string>Ctrl+L</string>
    </property>
   </action>
-  <action name="actionCreate_Point">
+  <action name="action_toggleXlog">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="dialog-password"/>
+   </property>
    <property name="text">
-    <string>Create Point</string>
+    <string>Toggle Log X</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle Logarithmic X-Axis Scaling</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionToggleYRightLog">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="applications-engineering"/>
+   </property>
+   <property name="text">
+    <string>yRightLog</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle Log Scaling for Right Y Axis</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::TextHeuristicRole</enum>
    </property>
   </action>
  </widget>
