@@ -33,6 +33,7 @@ public:
     void deselect(void);
     QList<CustomSeries*> getSeriesInChart(void);
     std::tuple<int,int> getNumSeriesPerAxis(void);
+    CustomChart* chart;
 
 
 
@@ -60,7 +61,6 @@ private:
     QWidget* pParent;
     QMenu* contextMenu;
 
-    CustomChart* chart;
     qreal zoomFactor{1.0};
     qreal scrollFactor{1.0};
     qreal stepModifier {1.0};

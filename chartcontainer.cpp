@@ -54,6 +54,7 @@ ChartContainer::~ChartContainer()
 void ChartContainer::addDataSeries(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis)
 {
      chart->addDataSeries(xData,yData,xLabel,yLabel,toAxis);
+     update();
 }
 
 
