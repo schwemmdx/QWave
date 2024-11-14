@@ -9,24 +9,23 @@
 #include <QGraphicsTextItem>
 #include <QMenu>
 
-
 #include "Message.h"
-
+#include "MessageQueue.h"
+#include "ScientificFormatter.h"
 
 CustomSeries::CustomSeries(QObject* parent): QLineSeries(parent)
 {
     //not work with ChartView events
     setParent(parent);
-    connect(this,&QXYSeries::hovered,this,&CustomSeries::onHover);
+    //connect(this,&QXYSeries::hovered,this,&CustomSeries::onHover);
     connect(this, &QXYSeries::clicked, this, &CustomSeries::selected);
 
     //connect(this, &QXYSeries::,this,&CustomSeries::onPointPress);
-
     selectionState = false;
     setPointsVisible(false);
     setOpacity(0.75);
 
-    pen().setWidth(2);
+    pen().setWidth(4);
  
 }
 
@@ -35,13 +34,14 @@ void CustomSeries::setData(QVector<QPointF> d,QString label)
     this->clear();
     *this << d;
     setName(label);
+    setLimits(d);
 }
 void CustomSeries::unselect()
 {
     selectionState = false;
     setOpacity(0.75);
     QPen usedPen = pen();
-    usedPen.setWidth(2);
+    usedPen.setWidth(4);
     setPen(usedPen);
     setPointsVisible(false);
     setPointLabelsVisible(false);
@@ -57,13 +57,13 @@ void CustomSeries::selected(const QPointF &point)
         selectionState = true;
         setOpacity(1);
         QPen usedPen = pen();
-        usedPen.setWidth(2);
+        usedPen.setWidth(6);
         setPen(usedPen);
         setPointsVisible(true);
-
+        
         setPointLabelsColor(pen().color());
-        setPointLabelsVisible(true);
-        setPointLabelsFormat("x: @xPoint \n y: @yPoint");
+        //setPointLabelsVisible(true);
+        //setPointLabelsFormat("x: @xPoint \n y: @yPoint");
         emit seriesSelected(this);
     }
 
@@ -73,9 +73,10 @@ void CustomSeries::selected(const QPointF &point)
 
 void CustomSeries::onHover(const QPointF &point,bool state)
 {
-    if(true){
-        
-    }
+    MessageQueue* q = MessageQueue::instance();
+    q->addMessage("x: "+ScientificFormatter::toScientificSuffix(point.x())+
+    "\ny: "+ScientificFormatter::toScientificSuffix(point.y()),Altium::LightText);
+    
 }
 
 void CustomSeries::onPointPress(const QPointF &point)
@@ -136,4 +137,21 @@ int CustomSeries::findClosestPointIndex(const QPointF &chartPosition)
     int closestIndex = std::distance(pointList.begin(), it);
     qDebug() << "Index of closest point by x-component:" << closestIndex;
     return closestIndex;
+}
+
+void CustomSeries::setLimits(QVector<QPointF> data)
+{
+    QVector<float> xBuf,yBuf;
+    foreach(auto &pt,data)
+    {
+        xBuf.append(pt.x());
+        yBuf.append(pt.y());
+    }
+    auto [min,max] = std::minmax(xBuf.begin(),xBuf.end());
+    xmin = *min;
+    xmax = *max;
+    auto [min1,max1] = std::minmax(yBuf.begin(),yBuf.end());
+    ymin = *min1;
+    ymax = *max1;
+    
 }

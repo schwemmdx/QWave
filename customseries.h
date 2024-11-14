@@ -21,6 +21,11 @@ public:
     bool isSelected(void);
     void setData(QVector<QPointF> data,QString label="");
     int findClosestPointIndex(const QPointF &chartPosition);
+    float xmin;
+    float ymin;
+    float xmax;
+    float ymax;
+
     
 
 signals:
@@ -40,12 +45,14 @@ public slots:
 private slots:
     void onHover(const QPointF &point,bool state);
     void onPointPress(const QPointF &point);
+    void setLimits(QVector<QPointF> pData );
     
 
 private:
     bool selectionState;
     bool selectable{true};
-    QVector<float> data;
+    QVector<QPointF> orginalData; const
+    QVector<QPointF> modData;
 
 
 protected:
