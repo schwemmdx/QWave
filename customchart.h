@@ -5,13 +5,19 @@
 #include <QObject>
 #include <QWidget>
 #include <QValueAxis>
+#include <QLogValueAxis>
 
+#include "CustomAxis.h"
 #include "customseries.h"
+
+
+#define AXIS_LIN 0
+#define AXIS_LOG 1
 
 class CustomChart : public QChart
 {
     Q_OBJECT
-
+    
 public:
     explicit CustomChart(QObject* parent=nullptr);
     void hideRYAxis();
@@ -24,18 +30,36 @@ public slots:
     void addDataSeries(QVector<double> x, QVector<double> y, QString xUnit, QString yUnit, int toAxis);
     void setGridVisibility(int axis,bool visibility);
     bool isSecondYaxisVisible();
-
+    void setLogYLScale(bool arg);
+    void setLogYRScale(bool arg);
+    void setLogXScale(bool arg);
+    
 protected:
     //void mousePressEvent(QGraphicsSceneMouseEvent*) override;
     //void mouseMoveEvent(QGraphicsSceneMouseEvent*) override;
     //void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 
 private:
-    QValueAxis* yAxisLeft;
-    QValueAxis* yAxisRight;
-    QValueAxis* xAxis;
+    void replaceAxis(QAbstractAxis* oldAx, QAbstractAxis* newAx,enum Qt::AlignmentFlag);
+    void applyAxisStyles(QAbstractAxis* axis, const QString& labelFormat, const QBrush& labelBrush, bool hideGridLines);
+    
+    void updateAxisRange(QAbstractAxis *axis);
+    QValueAxis* yLeftLin;
+    QValueAxis* yRightLin;
+    QLogValueAxis* yLeftLog;
+    QLogValueAxis* yRightLog;
+    QValueAxis* xAxisLin;
+    QLogValueAxis* xAxisLog;
     QObject* pParent;
+    bool useLogScale{false};
     bool secondYaxisPopulated{false};
+    void setupLinAxis();
+    void setupLogAxis();
+
+    bool useLogLeftY{false};
+    bool useLogRightY{false};
+    bool useLogX{false};
+
     QVector<QColor> neonColors = {
     QColor(255, 0, 255), // Neon Pink
     QColor(0, 255, 255), // Neon Cyan
@@ -45,10 +69,8 @@ private:
     QColor(0, 0, 255), // Neon Blue
     QColor(255, 128, 0), // Neon Orange
     QColor(0, 128, 255), // Neon Purple
+    };
 };
 
-
-
-};
 
 #endif // CUTOMCHART_H
