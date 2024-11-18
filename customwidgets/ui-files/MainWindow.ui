@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>QWave - Data Visualizer</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/icons/icon_data/1 (15).png</normaloff>:/icons/icon_data/1 (15).png</iconset>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <layout class="QHBoxLayout" name="mainLayout">
+      <item>
+       <widget class="QStackedWidget" name="stackedWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>250</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <widget class="QWidget" name="data"/>
+        <widget class="QWidget" name="raw"/>
+        <widget class="QWidget" name="cursor"/>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="graphTools">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Orientation::Horizontal</enum>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>BottomToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="separator"/>
+   <addaction name="actionCrosshair_Mode"/>
+   <addaction name="separator"/>
+   <addaction name="action_ToggleYLeft"/>
+   <addaction name="action_toggleXlog"/>
+   <addaction name="actionToggleYRightLog"/>
+  </widget>
+  <widget class="QToolBar" name="appTools">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonStyle::ToolButtonIconOnly</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>LeftToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionImportData"/>
+   <addaction name="actionsaveScene"/>
+   <addaction name="separator"/>
+   <addaction name="actiontoggleCursorDock"/>
+   <addaction name="actionOptions"/>
+  </widget>
+  <action name="actionOptions">
+   <property name="icon">
+    <iconset resource="../../resources.qrc">
+     <normaloff>:/materials/light_theme/settings.png</normaloff>:/materials/light_theme/settings.png</iconset>
+   </property>
+   <property name="text">
+    <string>Options</string>
+   </property>
+   <property name="toolTip">
+    <string>Opens the application-settings  dialog</string>
+   </property>
+  </action>
+  <action name="actiontoggleCursorDock">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../resources.qrc">
+     <normaloff>:/materials/light_theme/crop.png</normaloff>:/materials/light_theme/crop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cursor Tools</string>
+   </property>
+   <property name="toolTip">
+    <string>Measure Signal(s)</string>
+   </property>
+   <property name="shortcut">
+    <string>C</string>
+   </property>
+  </action>
+  <action name="actionImportData">
+   <property name="icon">
+    <iconset resource="../../resources.qrc">
+     <normaloff>:/materials/light_theme/folder_open.png</normaloff>:/materials/light_theme/folder_open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import Data</string>
+   </property>
+   <property name="toolTip">
+    <string>Open File for inspection</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionsaveScene">
+   <property name="icon">
+    <iconset resource="../../resources.qrc">
+     <normaloff>:/materials/light_theme/save_alt.png</normaloff>:/materials/light_theme/save_alt.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export ...</string>
+   </property>
+   <property name="toolTip">
+    <string>Save the current Scene to different formats.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionModifySelected">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/icons/icons8-edit-80.png</normaloff>:/icons/icons/icons8-edit-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>ModifySelected</string>
+   </property>
+   <property name="toolTip">
+    <string>Modify Selection</string>
+   </property>
+  </action>
+  <action name="actioncreateData">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/icons/icons8-add-file-80.png</normaloff>:/icons/icons/icons8-add-file-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>Create Data</string>
+   </property>
+   <property name="toolTip">
+    <string>Create Data from scratch</string>
+   </property>
+  </action>
+  <action name="actionCrosshair_Mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../resources.qrc">
+     <normaloff>:/materials/light_theme/border_all.png</normaloff>:/materials/light_theme/border_all.png</iconset>
+   </property>
+   <property name="text">
+    <string>Crosshair Mode </string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Toggles Crosshair-Mode for data inspection&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="shortcut">
+    <string>#</string>
+   </property>
+  </action>
+  <action name="actionSearch_Find">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/icons/icons8-binoculars-80.png</normaloff>:/icons/icons/icons8-binoculars-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search + Find</string>
+   </property>
+   <property name="toolTip">
+    <string>Search &amp; Find values</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionapplyFilter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/icons/icons/icons8-filter-80.png</normaloff>:/icons/icons/icons8-filter-80.png</iconset>
+   </property>
+   <property name="text">
+    <string>Apply Filter</string>
+   </property>
+   <property name="toolTip">
+    <string>Apply Conditional Filter</string>
+   </property>
+  </action>
+  <action name="action_ToggleYLeft">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../resources.qrc">
+     <normaloff>:/materials/light_theme/arrow_upward.png</normaloff>:/materials/light_theme/arrow_upward.png</iconset>
+   </property>
+   <property name="text">
+    <string>ToggleYLog</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle Y-Axis Logarithmic Scaling</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="action_toggleXlog">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../resources.qrc">
+     <normaloff>:/materials/light_theme/arrow_forward.png</normaloff>:/materials/light_theme/arrow_forward.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle Log X</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle Logarithmic X-Axis Scaling</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionToggleYRightLog">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../resources.qrc">
+     <normaloff>:/materials/light_theme/arrow_upward.png</normaloff>:/materials/light_theme/arrow_upward.png</iconset>
+   </property>
+   <property name="text">
+    <string>yRightLog</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle Log Scaling for Right Y Axis</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::TextHeuristicRole</enum>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../../resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>
