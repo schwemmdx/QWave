@@ -8,6 +8,7 @@
 #include <QFileInfo>
 #include <QThread>
 #include <QSettings>
+#include <QShortcut>
 
 #include "ThemeColors.h"
 #include "OptionsDialog.h"
@@ -46,6 +47,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(chartContainer,&ChartContainer::newTraceSelection,this,&MainWindow::selectedSeriesChanged);
     connect(pOptionDlg,&OptionsDialog::applySettings,this,&MainWindow::applyNewOptions);
     
+    
+    toggleStackWidgetShort = new QShortcut(QKeySequence("Ctrl+B"), this);
+    connect(toggleStackWidgetShort, &QShortcut::activated, this, &MainWindow::toggleStackWidget);
 
 }
 
@@ -53,6 +57,18 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+void MainWindow::toggleStackWidget() {
+   
+    // Toggle the visibility flag
+    if(isStackWidgetVisible)
+    {
+        ui->stackedWidget->hide();
+    }
+    else{
+        ui->stackedWidget->show();
+    }
+    isStackWidgetVisible = !isStackWidgetVisible;
 }
 
 void MainWindow::applyNewOptions()

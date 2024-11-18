@@ -7,6 +7,7 @@
 #include <QListWidget>
 #include <QHBoxLayout>
 #include <QTreeView>
+#include <QShortcut>
 
 #include "CustomSeries.h"
 #include "ChartContainer.h"
@@ -72,12 +73,15 @@ private:
     OptionsDialog* pOptionDlg;
     QCursor measureCursor{};
     ChartContainer* chartContainer;
+    QString openDlgStartPath{QDir::homePath()};
+    QShortcut* toggleStackWidgetShort;
+    bool isStackWidgetVisible{true};
 
     void appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis);
     void unselectExcept(CustomSeries*);
     void applyNewOptions();
+    void toggleStackWidget();
 
-    QString openDlgStartPath{QDir::homePath()};
 
 
 
