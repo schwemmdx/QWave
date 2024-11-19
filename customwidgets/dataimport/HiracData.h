@@ -42,6 +42,9 @@ signals:
     // Signals to communicate with ChartContainer
     void addSeries(const QString &label, const QVector<double> &xData, const QVector<double> &yData, Qt::Alignment alignment);
     void removeSeries(const QString &label);
+    void dataLoadStarted();
+    void dataLoadProgress(int progress);
+    void dataLoadFinished();
 
 public slots:
     void onSetAsXVector(QTreeView *treeView, const QModelIndex &index);
@@ -50,10 +53,7 @@ public slots:
     void onAddtoRightAxis(QTreeView *treeView, const QModelIndex &index);
     void handleItemClick(const QModelIndex &index);
 
-signals:
-    void dataLoadStarted();
-    void dataLoadProgress(int progress);
-    void dataLoadFinished();
+
 
 protected:
 
