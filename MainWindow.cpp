@@ -9,6 +9,8 @@
 #include <QThread>
 #include <QSettings>
 #include <QShortcut>
+#include <QStringList>
+#include <QDir>
 
 #include "ThemeColors.h"
 #include "OptionsDialog.h"
@@ -39,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     pOptionDlg = new OptionsDialog();
     pOptionDlg->hide();
 
-    
+    loadStyles();
  
     
     ui->actiontoggleCursorDock->setChecked(false);
@@ -47,9 +49,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(chartContainer,&ChartContainer::newTraceSelection,this,&MainWindow::selectedSeriesChanged);
     connect(pOptionDlg,&OptionsDialog::applySettings,this,&MainWindow::applyNewOptions);
     
-    
+    connect(csvData,&CSVData::addSeries,chartContainer,&ChartContainer::addSeriesToChart);
+    connect(csvData,&CSVData::removeSeries,chartContainer,&ChartContainer::removeSeriesFromChart);
+
+
     toggleStackWidgetShort = new QShortcut(QKeySequence("Ctrl+B"), this);
     connect(toggleStackWidgetShort, &QShortcut::activated, this, &MainWindow::toggleStackWidget);
+
 
 }
 
@@ -78,8 +84,33 @@ void MainWindow::applyNewOptions()
     {
         pApplication->setPalette(mgr.palette());
     }
+
+    //load the style selected.
+
+    QFile styleFile(qssFiles[pOptionDlg->getSelectedStyle()]);
+    if (styleFile.open(QFile::ReadOnly))
+    {
+        pApplication->setStyleSheet(styleFile.readAll());
+    }
     //save the options to the QSettings File
     
+}
+
+void MainWindow::loadStyles()
+{
+    
+    QDir styleDir("./themes");
+    QStringList filters;
+    filters << "*.qss";
+    styleDir.setNameFilters(filters);
+    QFileInfoList styles = styleDir.entryInfoList(QDir::Files | QDir::NoSymLinks);
+    
+    for (const QFileInfo &fileInfo : styles) {
+        qssFiles[fileInfo.fileName()]= fileInfo.absolutePath();
+
+    }
+    
+    pOptionDlg->populateStyles(qssFiles.keys());
 }
 
 
@@ -197,8 +228,6 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 
 void MainWindow::appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis)
 {
-
-    this->chartContainer->addDataSeries(xData,yData,xLabel,yLabel,toAxis);
 }
 
 void MainWindow::on_actioncreateData_triggered()
