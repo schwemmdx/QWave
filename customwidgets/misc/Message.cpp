@@ -18,8 +18,8 @@ Message::Message(const QString &text, const QIcon &icon,
     borderFrame->setStyleSheet(
         "QFrame#borderFrame { "
         "   background-color: " + QColor(Qt::white).name() + "; "
-        "   border: 2px solid " + borderColor.name() + "; "
-        "   border-radius: 10px; "
+        "   border: 1px solid " + borderColor.name() + "; "
+        "   border-radius: 5px; "
         "}"
     );
 
@@ -46,6 +46,7 @@ Message::Message(const QString &text, const QIcon &icon,
     textLabel->setStyleSheet(
         "background: "+QColor(Qt::white).name()+";" // Ensure no background is applied
         "color: " + textColor.name() + ";"
+        "font-size: 14px;"
     );
     textLabel->setWordWrap(true);
     textLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);

@@ -300,7 +300,7 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
 
     // Margins for the MessageQueue widget
-    const int marginRight = 10;
+    const int marginRight = 0;
     const int marginBottom = 20;
 
     // Get the instance of the MessageQueue

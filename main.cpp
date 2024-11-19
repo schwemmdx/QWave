@@ -19,11 +19,8 @@ int main(int argc, char *argv[])
     return -1;
     }
     QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
-    // Create a QFont object with the loaded font
     QFont appFont(fontFamily);
-    appFont.setPointSize(12); // Set a default size
-
-    // Set the font globally for the entire application
+    appFont.setPointSize(12);
     a.setFont(appFont);
 
     MainWindow w;

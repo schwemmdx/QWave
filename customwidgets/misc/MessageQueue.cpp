@@ -16,7 +16,7 @@ MessageQueue::MessageQueue(QWidget *parent)
     setLayout(m_layout);
 
     // Adjust initial geometry if needed
-    setGeometry(0, 0, 300, 500);
+    setGeometry(0, 0, 400, 600);
 }
 
 MessageQueue* MessageQueue::instance(QWidget *parent) {
