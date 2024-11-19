@@ -28,16 +28,20 @@ public:
 
     QString getTheme();
     GridState getGridState();
+    QString getSelectedStyle();
 
 signals:
     void applySettings();
 
+public slots:
+    void populateStyles(QStringList styles);
 
 private:
     Ui::OptionsDialog *ui;
 
 private slots:
     void applyClicked();
+
 };
 
 #endif // OPTIONSDIALOG_H

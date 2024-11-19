@@ -38,3 +38,18 @@ void OptionsDialog::applyClicked()
     //save all setings to the settings file 
     emit applySettings();
 }
+
+QString OptionsDialog::getSelectedStyle()
+{
+    return ui->styleBox->currentText()+".qss";
+}
+
+void OptionsDialog::populateStyles(QStringList styles)
+{
+    ui->styleBox->clear();
+    
+    for(QString &s : styles)
+    {
+        ui->styleBox->addItem(s.remove(".qss"));  
+    }
+}
