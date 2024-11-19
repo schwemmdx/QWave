@@ -2273,5 +2273,6 @@
     <file>materials/dark_theme/send.png</file>
     <file>materials/dark_theme/local_pharmacy.png</file>
     <file>materials/dark_theme/content_copy.png</file>
+    <file>materials/fonts/SF-Pro-Rounded-Regular.otf</file>
   </qresource>
 </RCC>
