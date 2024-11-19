@@ -17,18 +17,11 @@
 class ChartContainer : public QChartView
 {
     Q_OBJECT
-
 public:
-
-    enum AxisIdentifier
-    {
-        AXIS_LEFT=0,
-        AXIS_RIGHT=1
-    };
-
     explicit ChartContainer(QWidget *parent = nullptr);
     ~ChartContainer();
-    void deselect(void);
+
+    //void deselect(void);
     QList<CustomSeries*> getSeriesInChart(void);
     std::tuple<int,int> getNumSeriesPerAxis(void);
     CustomChart* chart;
@@ -46,8 +39,9 @@ signals:
 
 public slots:
 
-
-    void addDataSeries(QVector<double> ,QVector<double> ,QString ,QString ,int);
+    void addSeriesToChart(const QString &label, const QVector<double> &xData, const QVector<double> &yData, Qt::Alignment alignment);
+    void removeSeriesFromChart(const QString &label);
+    //void addDataSeries(QVector<double> ,QVector<double> ,QString ,QString ,int);
     void setCrosshairVisibility(bool);
     //void themeChange(int);
     bool isCrosshairVisible(void );
@@ -67,6 +61,7 @@ private:
     QValueAxis* leftYAxis;
     QValueAxis* rightYAxis;
     QValueAxis* xAxis;
+    QMap<QString,CustomSeries*> chartContent;
     void requestNewMarker(QPointF );
     bool middleMousePressed;
     QPoint middlePressStartPos,middlePressEndPos,fistVal;

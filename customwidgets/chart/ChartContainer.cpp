@@ -6,11 +6,14 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QValueAxis>
+#include <QPair>
 
 
 #include "ChartContainer.h"
 #include "ChartCrosshair.h"
 #include "CustomSeries.h"
+#include "MessageQueue.h"
+
 
 
 ChartContainer::ChartContainer(QWidget *parent)
@@ -50,12 +53,54 @@ ChartContainer::~ChartContainer()
 {
 }
 
-
-void ChartContainer::addDataSeries(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis)
+/*
+void ChartContainer::addDataSeries(QVector<double> xData,
+QVector<double> yData,
+QString xLabel,
+QString yLabel,
+int toAxis)
 {
      chart->addDataSeries(xData,yData,xLabel,yLabel,toAxis);
      update();
 }
+*/
+
+void ChartContainer::addSeriesToChart(const QString &label, 
+    const QVector<double> &xData, 
+    const QVector<double> &yData, 
+    Qt::Alignment alignment)
+{
+   
+    //create a new series and add it to the map with its label as identifier
+    //hopefully there is no label clash?
+    CustomSeries* newSer = new CustomSeries(chart);
+    chartContent[label] = newSer;
+    newSer->setName(label);
+
+
+    QVector<QPointF> dataPoints;
+    //reserve space for efficiency
+    size_t size = std::min(xData.size(),yData.size());
+    dataPoints.reserve(size*sizeof(QPointF));
+    for (int i=0;i<size;i++)
+    {
+        dataPoints.append(QPointF(xData[i],yData[i]));
+    }
+    newSer->setData(dataPoints);
+    chart->addSeries(newSer);
+    chart->legend()->setVisible(true);
+
+}
+
+void ChartContainer::removeSeriesFromChart(const QString &label)
+{
+    if(chartContent.contains(label))
+    {
+        chart->removeSeries(chartContent[label]);
+        chartContent.remove(label);
+    }
+}
+
 
 
 void ChartContainer::wheelEvent(QWheelEvent *event)
@@ -105,12 +150,6 @@ void ChartContainer::wheelEvent(QWheelEvent *event)
             QChartView::wheelEvent(event);
     }
 
-
-
-
-
-
-
 }
 
 
@@ -123,31 +162,15 @@ void ChartContainer::onCustomContextMenu(const QPoint &point)
 
 QList<CustomSeries*> ChartContainer::getSeriesInChart(void)
 {
-    QList<CustomSeries*> tracies;
-    foreach(auto &trace, chart->series())
-    {
-        tracies.append(static_cast<CustomSeries*>(trace));
-    }
-    return tracies;
+    return chartContent.values();
 }
 
 
 void ChartContainer::clearSelectedSeries(void)
 {
+    MessageQueue* q = MessageQueue::instance();
+    q->addWarning("Unsupported: Please unselect trace in Tree.");
 
-    foreach (auto trace,getSeriesInChart())
-    {
-
-        if (trace->isSelected())
-        {
-            chart->removeSeries(trace);
-        }
-    }
-    auto [l,r] = getNumSeriesPerAxis();
-    if(r==0)
-    {
-        chart->hideRYAxis();
-    }
 }
 
 
