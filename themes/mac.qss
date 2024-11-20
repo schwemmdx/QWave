@@ -1,0 +1,155 @@
+/* General application-wide styles */
+QWidget {
+    background-color: rgba(255, 255, 255, 0.9); /* Light background with slight transparency */
+    border-radius: 8px; /* Rounded corners for all widgets */
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; /* System font */
+    font-size: 14px;
+    color: #1D1D1F; /* macOS default text color */
+}
+
+/* QPushButton */
+QPushButton {
+    background-color: #E5E5EA; /* Light gray background */
+    border: 1px solid #C7C7CC; /* Subtle border */
+    border-radius: 6px; /* Rounded corners */
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+QPushButton:hover {
+    background-color: #D1D1D6; /* Slightly darker on hover */
+}
+
+QPushButton:pressed {
+    background-color: #AEAEB2; /* Even darker when pressed */
+}
+
+QPushButton:disabled {
+    background-color: #F2F2F7; /* Light gray for disabled state */
+    color: #C7C7CC; /* Lighter text for disabled state */
+}
+
+/* QLineEdit */
+QLineEdit {
+    background-color: #FFFFFF;
+    border: 1px solid #C7C7CC;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+QLineEdit:focus {
+    border: 1px solid #007AFF; /* macOS Blue accent for focus */
+}
+
+/* QLabel */
+QLabel {
+    font-size: 14px;
+    color: #1D1D1F;
+}
+
+/* QTreeView */
+QTreeView {
+    background-color: #FFFFFF;
+    border: 1px solid #C7C7CC;
+    border-radius: 8px;
+    show-decoration-selected: 1; /* Show custom decoration for selected items */
+}
+
+QTreeView::item {
+    padding: 4px;
+    margin: 2px;
+    border-radius: 4px;
+    background: transparent; /* Default background for all items */
+}
+
+QTreeView::item:hover {
+    background-color: rgba(0, 122, 255, 0.1); /* Subtle macOS blue hover effect */
+    border: none;
+}
+
+QTreeView::item:selected {
+    background-color: rgba(0, 122, 255, 0.3); /* macOS light mode blue highlight */
+    color: #FFFFFF; /* White text for selected items */
+    border: none;
+}
+
+QTreeView::branch {
+    background: transparent; /* Ensure branch lines are visible */
+    border: none;
+    margin: 0;
+}
+
+QTreeView::branch:closed:has-children {
+    border-image: none;
+    image: url(":/icons/tree-closed.png"); /* Icon for collapsed state */
+}
+
+QTreeView::branch:open:has-children {
+    border-image: none;
+    image: url(":/icons/tree-open.png"); /* Icon for expanded state */
+}
+
+/* Context Menu */
+QMenu {
+    background-color: #FFFFFF; /* Light background for context menu */
+    border: 1px solid #C7C7CC;
+    border-radius: 6px;
+    padding: 4px;
+}
+
+QMenu::item {
+    padding: 6px 12px;
+    border-radius: 4px; /* Rounded corners for menu items */
+    background: transparent;
+}
+
+QMenu::item:hover {
+    background-color: rgba(0, 122, 255, 0.1); /* Highlight menu item on hover */
+    color: #007AFF; /* Blue text on hover */
+}
+
+QMenu::item:selected {
+    background-color: rgba(0, 122, 255, 0.2); /* Slightly stronger blue for selection */
+    color: #FFFFFF; /* White text for selected menu item */
+}
+
+/* Tooltips */
+QToolTip {
+    background-color: rgba(44, 44, 46, 0.9); /* Dark translucent background */
+    color: #FFFFFF;                         /* White text */
+    border: 1px solid #C7C7CC;              /* Light gray border for subtle contrast */
+    border-radius: 6px;                     /* Rounded corners */
+    padding: 5px;                           /* Add padding for a clean look */
+    font-family: -apple-system, "Helvetica Neue", Arial, sans-serif; /* System font */
+    font-size: 13px;                        /* Slightly smaller font size */
+}
+
+/* Toolbars */
+QToolBar {
+    background-color: #F9F9F9; /* Light background matching macOS toolbar */
+    border: none;             /* No border for a clean look */
+    padding: 4px;             /* Padding around toolbar */
+}
+
+QToolButton {
+    background-color: transparent; /* Default background */
+    border: none;                  /* No border */
+    padding: 6px;                  /* Padding around the icon */
+    border-radius: 6px;            /* Rounded corners for buttons */
+}
+
+QToolButton:hover {
+    background-color: rgba(0, 122, 255, 0.1); /* Light macOS blue highlight on hover */
+    border: 1px solid rgba(0, 122, 255, 0.4); /* Subtle blue border */
+}
+
+QToolButton:pressed {
+    background-color: rgba(0, 122, 255, 0.2); /* Slightly darker blue when pressed */
+    border: 1px solid rgba(0, 122, 255, 0.6);
+}
+
+QToolButton:disabled {
+    background-color: transparent;
+    color: #C7C7CC; /* macOS secondary text gray */
+}
+
