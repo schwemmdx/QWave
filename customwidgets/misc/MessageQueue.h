@@ -31,7 +31,7 @@ private:
     
     QVBoxLayout *m_layout;
     QQueue<Message*> m_messageQueue;
-    int m_maxMessages = 5;
+    int m_maxMessages = 9;
 
     void showMessage(Message *message);
 

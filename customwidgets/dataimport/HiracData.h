@@ -76,18 +76,18 @@ protected:
 
 
     // Color definitions
-    QFuture<void> future; 
-    QColor xVectorColor{Monokai::Red}; // Purple for X vector
-    QColor addedSeriesColor{Qt::blue}; // Light blue for added series
-    QColor defaultForegroundColor{Qt::black}; // Default text color (Monokai Foreground)
+     
+    QColor xVectorColor{QColor(175,82,222)}; // Purple for X vector
+    QColor addedSeriesColor{QColor(52,199,89)}; // Light blue for added series
+    QColor defaultForegroundColor{QColor(29,29,31)}; // Default text color (Monokai Foreground)
 
     // State tracking for the X vector
     QVector<double> xVectorData;
     QModelIndex xVectorIndex;
 
-    QColor rootColor{Qt::blue};
-    QColor childColor{Qt::black};
-    QColor metaDataColor{Qt::gray};
+    QColor rootColor{QColor(0,122,255)};
+    QColor childColor{QColor(29,29,31)};
+    QColor metaDataColor{QColor(142,142,147)};
 
     QIcon rootIcon,childIcon,metaDataIcon;
 };

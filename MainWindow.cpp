@@ -153,27 +153,23 @@ void MainWindow::on_actionImportData_triggered()
         return;
     }
     openDlgStartPath = QFileInfo(file).absolutePath();
+    csvData->disconnect(this);
+
     connect(csvData,&HiracData::dataLoadStarted,this,[file](){
         QFileInfo f(file);
         MessageQueue* q = MessageQueue::instance();
         q->addInfo("Loading "+f.fileName()+ " from "+f.filePath());
-    });
+    },Qt::UniqueConnection);
 
     connect(csvData,&HiracData::dataLoadFinished,this,[file](){
         QFileInfo f(file);
         MessageQueue* x = MessageQueue::instance();
         x->addInfo("Load of "+f.fileName()+ " complete.");
-    });
+    },Qt::UniqueConnection);
 
     csvData->appendData(dataView,file);
     ui->stackedWidget->setCurrentWidget(dataView);
     
-
-
-
-   // chartView->addDataSeries(data[1].getPoints());
-   // chartView->setTitle(data[1].getName());
-
 
 }
 
@@ -243,13 +239,13 @@ void MainWindow::on_actionCrosshair_Mode_triggered()
 
         chartContainer->setCrosshairVisibility(true);
         //emit changeCrosshairVisibility(true);
-        ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-location-off-80.png"));
+        //ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-location-off-80.png"));
     }
     else
     {
 
         chartContainer->setCrosshairVisibility(false);
-        ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-target-80.png"));
+        //ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-target-80.png"));
     }
 }
 

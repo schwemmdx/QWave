@@ -19,14 +19,17 @@ void HiracData::appendData(QTreeView *treeView, const QString &dataPath) {
     // Emit a signal to indicate data loading has started
     emit dataLoadStarted();
 
+
     // Use QtConcurrent to run the loading task in a separate thread
-    future = QtConcurrent::run([this, dataPath, model]() {
+    QFuture<void> future = QtConcurrent::run([this, dataPath, model]() {
         qDebug() << "Starting to load data asynchronously...";
         this->loadData(dataPath, model); // Call the pure virtual loadData function
     });
 
     // Monitor the task using QFutureWatcher
     QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
+    watcher->setFuture(future);
+
 
     // Connect the watcher to handle task completion
     connect(watcher, &QFutureWatcher<void>::finished, this, [this, treeView, watcher]() {
@@ -122,8 +125,12 @@ void HiracData::onSetAsXVector(QTreeView *treeView, const QModelIndex &index) {
     if (xVectors.contains(rootNode)) {
         QStandardItem *previousXItem = xVectors[rootNode].item;
         if (previousXItem) {
+            //reset formatting of item
             previousXItem->setForeground(defaultForegroundColor);
-            previousXItem->setText(previousXItem->text().remove(" (X-Vector)"));
+            QFont fnt = previousXItem->font();
+            fnt.setItalic(false);
+            previousXItem->setFont(fnt);
+            previousXItem->setText(previousXItem->text().remove(" (x-vector)"));
         }
     }
 
@@ -135,8 +142,11 @@ void HiracData::onSetAsXVector(QTreeView *treeView, const QModelIndex &index) {
 
     // Update UI
     item->setForeground(xVectorColor);
-    item->setBackground(QBrush(QColor(173, 216, 230)));
-    item->setText(item->text() + " (X-Vector)");
+    QFont nFnt = item->font();
+    nFnt.setItalic(true);
+    item->setFont(nFnt);
+    //item->setBackground(QBrush(QColor(173, 216, 230)));
+    item->setText(item->text() + " (x-vector)");
 
     MessageQueue *q = MessageQueue::instance();
     q->addInfo("X Vector for "+rootNode->text()+" set to: " + index.data().toString());
@@ -167,12 +177,12 @@ void HiracData::handleItemClick(const QModelIndex &index) {
     }
 
     // Debug: Check root node
-    qDebug() << "Root node identified as:" << rootNode->text();
+    //qDebug() << "Root node identified as:" << rootNode->text();
 
     // Check if the root node has an associated X vector
     if (!xVectors.contains(rootNode)) {
         MessageQueue *msgQ = MessageQueue::instance();
-        msgQ->addWarning("No X vector set for the selected file.\nPlease set an X vector first.");
+        msgQ->addWarning("No X vector set for "+rootNode->text()+"\nPlease set an X vector first.");
         return;
     }
 
@@ -185,7 +195,7 @@ void HiracData::handleItemClick(const QModelIndex &index) {
 
     // Check if the clicked item is the X vector itself
     if (xVectorItem == item) {
-        qDebug() << "Clicked item is the X vector. Ignoring.";
+        //qDebug() << "Clicked item is the X vector. Ignoring.";
         return;
     }
 
@@ -193,29 +203,37 @@ void HiracData::handleItemClick(const QModelIndex &index) {
     if (item->data(Qt::UserRole + 1).toBool()) {
         emit removeSeries(yLabel);
         markItemRemoved(item);
-        qDebug() << "Removed series from chart:" << yLabel;
+        //qDebug() << "Removed series from chart:" << yLabel;
         return;
     }
 
     // Add the item to the chart
     markItemAdded(item);
     emit addSeries(yLabel, xData, yData, Qt::AlignLeft);
-    qDebug() << "Added series to chart:" << yLabel;
+    //qDebug() << "Added series to chart:" << yLabel;
 }
 
 
 void HiracData::markItemAdded(QStandardItem *item)
 {
+
     item->setData(true, Qt::UserRole + 1);
     item->setForeground(addedSeriesColor);
-    item->setBackground(QBrush(QColor(206, 206, 250)));
+    auto fnt = item->font();
+    fnt.setBold(true);
+    //fnt.setPointSize(14);
+    item->setFont(fnt);
+   
 }
 
 void HiracData::markItemRemoved(QStandardItem *item)
 {
     item->setData(false, Qt::UserRole + 1);
     item->setForeground(defaultForegroundColor);
-    item->setBackground(QBrush(Qt::white));
+    auto fnt = item->font();
+    fnt.setBold(false);
+    //fnt.setPointSize(12);
+    item->setFont(fnt);
 }
 
 double HiracData::calculateMin(const QVector<double> &data)

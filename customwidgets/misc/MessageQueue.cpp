@@ -32,7 +32,7 @@ const QColor &textColor,const QColor &borderColor, int timeoutMs, const QIcon &i
     Message *newMessage = new Message(text, icon, textColor, borderColor,timeoutMs, this);
     
     // Connect the message expiration signal
-    connect(newMessage, &Message::expired, this, &MessageQueue::onMessageExpired);
+    connect(newMessage, &Message::expired, this, &MessageQueue::onMessageExpired,Qt::UniqueConnection);
     
     // Display the message and add to queue
     showMessage(newMessage);
@@ -40,17 +40,17 @@ const QColor &textColor,const QColor &borderColor, int timeoutMs, const QIcon &i
 
 void MessageQueue::addInfo(const QString &text)
 {
-    addMessage(text,Qt::black,Monokai::Blue,5000,QIcon(":/icons/materials/info.png"));
+    addMessage(text,Qt::black,Monokai::Blue,5000,QIcon(":materials/light_theme/info.png"));
 }
 
 void MessageQueue::addWarning(const QString &text)
 {
-    addMessage(text,Qt::black,Monokai::Orange,5000,QIcon(":/icons/materials/095-warnung.png"));
+    addMessage(text,Qt::black,Monokai::Orange,5000,QIcon(":materials/light_theme/warning.png"));
 }
 
 void MessageQueue::addError(const QString &text)
 {
-    addMessage(text,Qt::black,Monokai::Red,5000,QIcon(":/icons/materials/023-error.png"));
+    addMessage(text,Qt::black,Monokai::Red,5000,QIcon(":materials/light_theme/error.png"));
 }
 
 

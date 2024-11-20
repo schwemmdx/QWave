@@ -57,7 +57,6 @@ void ChartCrosshair::updatePosition(QMouseEvent* event)
                 m_chart->plotArea().right(), position.y());
 
     m_xLine->setLine(xLine);
-
     m_yLine->setLine(yLine);
 
     QString xText = ScientificFormatter::toScientificSuffix(m_chart->mapToValue(position).x());

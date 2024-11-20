@@ -72,12 +72,11 @@ void CSVData::loadData(const QString &dataPath, QStandardItemModel *model) {
         // Add metadata (Min, Max, Mean, etc.)
         addStatisticalData(childItem, columnsData[i]);
 
-        // Append the child to the root item
         rootItem->appendRow(childItem);
 
-        // Debug output to verify that the data is assigned
-        qDebug() << "Loaded column:" << headers[i] << "with data:" << columnsData[i];
+        
+       // qDebug() << "Loaded column:" << headers[i] << "with data:" << columnsData[i];
     }
 
-    qDebug() << "CSV data loaded successfully.";
+   
 }

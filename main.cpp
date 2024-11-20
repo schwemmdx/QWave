@@ -13,11 +13,24 @@ int main(int argc, char *argv[])
 
     a.setStyle("Fusion");
 
-    int fontId = QFontDatabase::addApplicationFont(":/materials/fonts/SF-Pro-Rounded-Regular.otf");
+    int fontId = QFontDatabase::addApplicationFont(":/materials/fonts/SF-Pro.ttf");
     if (fontId == -1) {
     qWarning() << "Failed to load font!";
     return -1;
     }
+    /*
+    QFile styleFile("./themes/mac.qss"); // Ensure the QSS file is in your resources
+    if (styleFile.open(QFile::ReadOnly)) {
+        QString styleSheet = QLatin1String(styleFile.readAll());
+        a.setStyleSheet(styleSheet);
+        styleFile.close();
+    }
+    else
+    {
+        qDebug() << "cannot load style!\n";
+    }
+    */
+   
     QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
     QFont appFont(fontFamily);
     appFont.setPointSize(12);
