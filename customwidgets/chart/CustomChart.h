@@ -24,12 +24,13 @@ signals:
     void newStatusMsg(QString);
     void newTraceSelection(CustomSeries*);
 public slots:
-    void addDataSeries(QVector<double> x, QVector<double> y, QString xUnit, QString yUnit, int toAxis);
+    CustomSeries* addDataSeries(QVector<double> x, QVector<double> y, QString xUnit, QString yUnit, Qt::Alignment align);
     void setGridVisibility(int axis,bool visibility);
     bool isSecondYaxisVisible();
     void setLogYLScale(bool arg);
     void setLogYRScale(bool arg);
     void setLogXScale(bool arg);
+    
     
 protected:
     //void mousePressEvent(QGraphicsSceneMouseEvent*) override;

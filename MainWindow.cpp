@@ -1,7 +1,6 @@
 #include "MainWindow.h"
 #include "./ui_MainWindow.h"
 
-
 #include "ChartContainer.h"
 #include <QtCharts/QtCharts>
 
@@ -19,59 +18,54 @@
 #include "CustomChart.h"
 #include "CSVData.h"
 
-
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-
-    //main chart container
+    // main chart container
     this->chartContainer = new ChartContainer(this);
 
     dataView = new QTreeView();
     csvData = new CSVData();
 
     ui->centralwidget->adjustSize();
-    ui->mainLayout->addWidget(chartContainer,1);
+    ui->mainLayout->addWidget(chartContainer, 1);
     ui->stackedWidget->addWidget(dataView);
     ui->stackedWidget->setMinimumWidth(300);
-  
+
     pOptionDlg = new OptionsDialog();
     pOptionDlg->hide();
 
     loadStyles();
- 
-    
+
     ui->actiontoggleCursorDock->setChecked(false);
 
-    connect(chartContainer,&ChartContainer::newTraceSelection,this,&MainWindow::selectedSeriesChanged);
-    connect(pOptionDlg,&OptionsDialog::applySettings,this,&MainWindow::applyNewOptions);
-    
-    connect(csvData,&CSVData::addSeries,chartContainer,&ChartContainer::addSeriesToChart);
-    connect(csvData,&CSVData::removeSeries,chartContainer,&ChartContainer::removeSeriesFromChart);
+    connect(chartContainer, &ChartContainer::newTraceSelection, this, &MainWindow::selectedSeriesChanged);
+    connect(pOptionDlg, &OptionsDialog::applySettings, this, &MainWindow::applyNewOptions);
 
+    connect(csvData, &CSVData::addSeries, chartContainer, &ChartContainer::addSeriesToChart);
+    connect(csvData, &CSVData::removeSeries, chartContainer, &ChartContainer::removeSeriesFromChart);
 
     toggleStackWidgetShort = new QShortcut(QKeySequence("Ctrl+B"), this);
     connect(toggleStackWidgetShort, &QShortcut::activated, this, &MainWindow::toggleStackWidget);
-
-
 }
-
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
-void MainWindow::toggleStackWidget() {
-   
+
+void MainWindow::toggleStackWidget()
+{
+
     // Toggle the visibility flag
-    if(isStackWidgetVisible)
+    if (isStackWidgetVisible)
     {
         ui->stackedWidget->hide();
     }
-    else{
+    else
+    {
         ui->stackedWidget->show();
     }
     isStackWidgetVisible = !isStackWidgetVisible;
@@ -79,113 +73,101 @@ void MainWindow::toggleStackWidget() {
 
 void MainWindow::applyNewOptions()
 {
-    auto mgr = ThemeManager::instance(); 
-    if(mgr.setTheme(pOptionDlg->getTheme()))
+    auto mgr = ThemeManager::instance();
+    if (mgr.setTheme(pOptionDlg->getTheme()))
     {
         pApplication->setPalette(mgr.palette());
     }
 
-    //load the style selected.
+    // load the style selected.
 
     QFile styleFile(qssFiles[pOptionDlg->getSelectedStyle()]);
     if (styleFile.open(QFile::ReadOnly))
     {
         pApplication->setStyleSheet(styleFile.readAll());
     }
-    //save the options to the QSettings File
-    
+    // save the options to the QSettings File
 }
 
 void MainWindow::loadStyles()
 {
-    
+
     QDir styleDir("./themes");
     QStringList filters;
     filters << "*.qss";
     styleDir.setNameFilters(filters);
     QFileInfoList styles = styleDir.entryInfoList(QDir::Files | QDir::NoSymLinks);
-    
-    for (const QFileInfo &fileInfo : styles) {
-        qssFiles[fileInfo.fileName()]= fileInfo.absolutePath();
 
+    for (const QFileInfo &fileInfo : styles)
+    {
+        qssFiles[fileInfo.fileName()] = fileInfo.absolutePath();
     }
-    
+
     pOptionDlg->populateStyles(qssFiles.keys());
 }
 
-
-
-void MainWindow::selectedSeriesChanged(CustomSeries* traceClicked)
+void MainWindow::selectedSeriesChanged(CustomSeries *traceClicked)
 {
 
     unselectExcept(traceClicked);
     focusTrace = traceClicked;
-
 }
 
-void MainWindow::unselectExcept(CustomSeries* traceClicked)
+void MainWindow::unselectExcept(CustomSeries *traceClicked)
 {
 
-    if(focusTrace != nullptr)
+    if (focusTrace != nullptr)
     {
 
-        for(auto &ser: this->chartContainer->getSeriesInChart())
+        for (auto &ser : this->chartContainer->getSeriesInChart())
         {
 
-            if(ser != traceClicked)
+            if (ser != traceClicked)
             {
-                  ser->unselect();
-
+                ser->unselect();
             }
-
         }
-     }
+    }
 }
-
-
 
 void MainWindow::on_actionImportData_triggered()
 {
-    QString file =  QFileDialog::getOpenFileName(this,QString("Open Data for inspection"),openDlgStartPath,QString("*.csv"));
+    QString file = QFileDialog::getOpenFileName(this, QString("Open Data for inspection"), openDlgStartPath, QString("*.csv"));
 
-    if(file.isEmpty())
+    if (file.isEmpty())
     {
         return;
     }
     openDlgStartPath = QFileInfo(file).absolutePath();
     csvData->disconnect(this);
 
-    connect(csvData,&HiracData::dataLoadStarted,this,[file](){
+    connect(csvData, &HiracData::dataLoadStarted, this, [file]()
+            {
         QFileInfo f(file);
         MessageQueue* q = MessageQueue::instance();
-        q->addInfo("Loading "+f.fileName()+ " from "+f.filePath());
-    },Qt::UniqueConnection);
+        q->addInfo("Loading "+f.fileName()+ " from "+f.filePath()); }, Qt::UniqueConnection);
 
-    connect(csvData,&HiracData::dataLoadFinished,this,[file](){
+    connect(csvData, &HiracData::dataLoadFinished, this, [file]()
+            {
         QFileInfo f(file);
         MessageQueue* x = MessageQueue::instance();
-        x->addInfo("Load of "+f.fileName()+ " complete.");
-    },Qt::UniqueConnection);
+        x->addInfo("Load of "+f.fileName()+ " complete."); }, Qt::UniqueConnection);
 
-    csvData->appendData(dataView,file);
+    csvData->appendData(dataView, file);
     ui->stackedWidget->setCurrentWidget(dataView);
-    
-
 }
 
 void MainWindow::Ondoubleclicktree(int QModelIndex)
 {
-
 }
 
-
-void MainWindow::keyPressEvent(QKeyEvent* event)
+void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    switch(event->key())
+    switch (event->key())
     {
-    case Qt::Key_Escape :
+    case Qt::Key_Escape:
     {
-        if(!chartContainer->isCrosshairVisible())
+        if (!chartContainer->isCrosshairVisible())
         {
             unselectExcept(nullptr);
         }
@@ -196,103 +178,82 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
         }
         event->accept();
         break;
-
     }
 
     case Qt::Key_P:
     {
         if (event->modifiers().testFlag(Qt::ControlModifier))
         {
-            QString fileName = QFileDialog::getSaveFileName(this,"Save Chart...",QDir::homePath());
-            if(!fileName.isEmpty()){
+            QString fileName = QFileDialog::getSaveFileName(this, "Save Chart...", QDir::homePath());
+            if (!fileName.isEmpty())
+            {
                 QPixmap pixmap = chartContainer->grab();
                 pixmap.save(fileName, "PNG");
                 event->accept();
-                MessageQueue* mq = MessageQueue::instance(this);
-                mq->addInfo("Export "+fileName+"\nsaved!");
+                MessageQueue *mq = MessageQueue::instance(this);
+                mq->addInfo("Export " + fileName + "\nsaved!");
             }
         }
         break;
-
-
     }
     }
-}
-
-
-
-
-void MainWindow::appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis)
-{
 }
 
 void MainWindow::on_actioncreateData_triggered()
 {
-
 }
-
 
 void MainWindow::on_actionCrosshair_Mode_triggered()
 {
-    if(ui->actionCrosshair_Mode->isChecked())
+    if (ui->actionCrosshair_Mode->isChecked())
     {
 
         chartContainer->setCrosshairVisibility(true);
-        //emit changeCrosshairVisibility(true);
-        //ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-location-off-80.png"));
+        // emit changeCrosshairVisibility(true);
+        // ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-location-off-80.png"));
     }
     else
     {
 
         chartContainer->setCrosshairVisibility(false);
-        //ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-target-80.png"));
+        // ui->actionCrosshair_Mode->setIcon(QIcon(":/icons/icons/icons8-target-80.png"));
     }
 }
 
-
-
-void MainWindow::set_pMain(QApplication* pApp)
+void MainWindow::set_pMain(QApplication *pApp)
 {
     pApplication = pApp;
 }
-
-
 
 void MainWindow::on_actionOptions_triggered()
 {
     pOptionDlg->show();
 }
 
-
-
-
-
 void MainWindow::on_actiontoggleCursorDock_toggled(bool arg1)
 {
-    if(arg1)
+    if (arg1)
     {
-        //this->pCursorDock->show();
+        // this->pCursorDock->show();
     }
     else
     {
-        //this->pCursorDock->hide();
+        // this->pCursorDock->hide();
     }
 }
-
 
 void MainWindow::on_actiontoggleDataDock_toggled(bool arg1)
 {
-    if(arg1)
+    if (arg1)
     {
-       
     }
     else
     {
-        
     }
 }
 
-void MainWindow::resizeEvent(QResizeEvent *event) {
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
     QWidget::resizeEvent(event);
 
     // Margins for the MessageQueue widget
@@ -311,26 +272,22 @@ void MainWindow::resizeEvent(QResizeEvent *event) {
     msgQ->setGeometry(x, y, msgQSize.width(), msgQSize.height());
 }
 
-
 void MainWindow::on_action_ToggleYLeft_triggered(bool checked)
 {
-    MessageQueue* q = MessageQueue::instance();
-    q->addMessage("Left y-axis log scaling: "+QString::number(checked),Altium::LightText);
+    MessageQueue *q = MessageQueue::instance();
+    q->addMessage("Left y-axis log scaling: " + QString::number(checked), Altium::LightText);
     chartContainer->chart->setLogYLScale(checked);
 }
 
-
 void MainWindow::on_action_toggleXlog_triggered(bool checked)
 {
-    MessageQueue* q = MessageQueue::instance();
-    q->addMessage("X-axis log scaling: "+QString::number(checked),Altium::LightText);
+    MessageQueue *q = MessageQueue::instance();
+    q->addMessage("X-axis log scaling: " + QString::number(checked), Altium::LightText);
     chartContainer->chart->setLogXScale(checked);
 }
 
-
 void MainWindow::on_actionToggleYRightLog_triggered(bool checked)
 {
-    MessageQueue* q = MessageQueue::instance();
-    q->addMessage("Right y-axis log scaling: "+QString::number(checked),Altium::LightText);
+    MessageQueue *q = MessageQueue::instance();
+    q->addMessage("Right y-axis log scaling: " + QString::number(checked), Altium::LightText);
 }
-

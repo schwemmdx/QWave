@@ -19,14 +19,14 @@
 // Forward declaration
 class ChartContainer;
 
-
-struct XVectorInfo {
+struct XVectorInfo
+{
     QVector<double> data;
     QStandardItem *item;
 };
 
-
-class HiracData : public QObject {
+class HiracData : public QObject
+{
     Q_OBJECT
 
 public:
@@ -53,15 +53,12 @@ public slots:
     void onAddtoRightAxis(QTreeView *treeView, const QModelIndex &index);
     void handleItemClick(const QModelIndex &index);
 
-
-
 protected:
-
-    QHash<QStandardItem*, XVectorInfo> xVectors;
-    //Datatype specific implementation of loading the actual data 
+    QHash<QStandardItem *, XVectorInfo> xVectors;
+    // Datatype specific implementation of loading the actual data
     virtual void loadData(const QString &dataPath, QStandardItemModel *model) = 0;
     // Utility methods for statistical calculations
-    void addStatisticalData(QStandardItem *parent, const QVector<double> &data);
+    void addStatisticalData(QStandardItem *parent, const QVector<double> &data, const QString &unit);
     double calculateMin(const QVector<double> &data);
     double calculateMax(const QVector<double> &data);
     double calculateMean(const QVector<double> &data);
@@ -73,24 +70,21 @@ protected:
     void markItemAdded(QStandardItem *item);
     void markItemRemoved(QStandardItem *item);
 
-
-
     // Color definitions
-     
-    QColor xVectorColor{QColor(175,82,222)}; // Purple for X vector
-    QColor addedSeriesColor{QColor(52,199,89)}; // Light blue for added series
-    QColor defaultForegroundColor{QColor(29,29,31)}; // Default text color (Monokai Foreground)
+
+    QColor xVectorColor{QColor(175, 82, 222)};         // Purple for X vector
+    QColor addedSeriesColor{QColor(52, 199, 89)};      // Light blue for added series
+    QColor defaultForegroundColor{QColor(29, 29, 31)}; // Default text color (Monokai Foreground)
 
     // State tracking for the X vector
     QVector<double> xVectorData;
     QModelIndex xVectorIndex;
 
-    QColor rootColor{QColor(0,122,255)};
-    QColor childColor{QColor(29,29,31)};
-    QColor metaDataColor{QColor(142,142,147)};
+    QColor rootColor{QColor(0, 122, 255)};
+    QColor childColor{QColor(29, 29, 31)};
+    QColor metaDataColor{QColor(142, 142, 147)};
 
-    QIcon rootIcon,childIcon,metaDataIcon;
+    QIcon rootIcon, childIcon, metaDataIcon;
 };
-
 
 #endif // HIRACDATA_H

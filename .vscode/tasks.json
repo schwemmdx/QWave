@@ -33,7 +33,7 @@
           "isDefault": true
         },
         "detail": "Build project using CMake with GCC/Clang-style error reporting"
+        
       }
     ]
   }
-  

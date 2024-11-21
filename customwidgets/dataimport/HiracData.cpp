@@ -8,10 +8,12 @@
 
 HiracData::HiracData(QObject *parent) : QObject(parent) {}
 
-void HiracData::appendData(QTreeView *treeView, const QString &dataPath) {
+void HiracData::appendData(QTreeView *treeView, const QString &dataPath)
+{
     // Ensure the model exists
     QStandardItemModel *model = qobject_cast<QStandardItemModel *>(treeView->model());
-    if (!model) {
+    if (!model)
+    {
         model = new QStandardItemModel(treeView);
         treeView->setModel(model);
     }
@@ -19,39 +21,40 @@ void HiracData::appendData(QTreeView *treeView, const QString &dataPath) {
     // Emit a signal to indicate data loading has started
     emit dataLoadStarted();
 
-
     // Use QtConcurrent to run the loading task in a separate thread
-    QFuture<void> future = QtConcurrent::run([this, dataPath, model]() {
-        qDebug() << "Starting to load data asynchronously...";
-        this->loadData(dataPath, model); // Call the pure virtual loadData function
-    });
+    QFuture<void> future = QtConcurrent::run([this, dataPath, model]()
+                                             {
+                                                 qDebug() << "Starting to load data asynchronously...";
+                                                 this->loadData(dataPath, model); // Call the pure virtual loadData function
+                                             });
 
     // Monitor the task using QFutureWatcher
     QFutureWatcher<void> *watcher = new QFutureWatcher<void>(this);
     watcher->setFuture(future);
 
-
     // Connect the watcher to handle task completion
-    connect(watcher, &QFutureWatcher<void>::finished, this, [this, treeView, watcher]() {
-        qDebug() << "Watcher triggered Data loading finished.";
-        // Emit the finished signal
-        emit dataLoadFinished();
+    connect(watcher, &QFutureWatcher<void>::finished, this, [this, treeView, watcher]()
+            {
+                qDebug() << "Watcher triggered Data loading finished.";
+                // Emit the finished signal
+                emit dataLoadFinished();
 
-        watcher->deleteLater(); // Clean up the watcher
-    });
+                watcher->deleteLater(); // Clean up the watcher
+            });
 
     setupContextMenu(treeView);
     treeView->setHeaderHidden(true);
     treeView->setAnimated(true);
 }
 
-
-void HiracData::setupContextMenu(QTreeView *treeView) {
+void HiracData::setupContextMenu(QTreeView *treeView)
+{
     // Enable the custom context menu
     treeView->setContextMenuPolicy(Qt::CustomContextMenu);
     treeView->disconnect(this);
     // Connect the custom context menu request signal
-    connect(treeView, &QTreeView::customContextMenuRequested ,this, [this, treeView](const QPoint &pos){
+    connect(treeView, &QTreeView::customContextMenuRequested, this, [this, treeView](const QPoint &pos)
+            {
         QModelIndex index = treeView->indexAt(pos);
         if (!index.isValid()) return;
 
@@ -91,41 +94,45 @@ void HiracData::setupContextMenu(QTreeView *treeView) {
         }
 
         // Execute the menu at the global position
-        menu.exec(treeView->viewport()->mapToGlobal(pos));
-    },Qt::UniqueConnection);
+        menu.exec(treeView->viewport()->mapToGlobal(pos)); }, Qt::UniqueConnection);
 
     // Disconnect previous connections to prevent duplicates
-    //treeView->disconnect(this);
+    // treeView->disconnect(this);
 
     // Connect the signal for item click
     connect(treeView, &QTreeView::clicked, this, &HiracData::handleItemClick, Qt::UniqueConnection);
-
 }
 
-void HiracData::onSetAsXVector(QTreeView *treeView, const QModelIndex &index) {
-    if (!treeView || !index.isValid()) {
+void HiracData::onSetAsXVector(QTreeView *treeView, const QModelIndex &index)
+{
+    if (!treeView || !index.isValid())
+    {
         qDebug() << "Error: Invalid treeView or index.";
         return;
     }
 
     QStandardItemModel *model = qobject_cast<QStandardItemModel *>(treeView->model());
     QStandardItem *item = model ? model->itemFromIndex(index) : nullptr;
-    if (!item) {
+    if (!item)
+    {
         qDebug() << "No item found for index.";
         return;
     }
 
     // Find the root node
     QStandardItem *rootNode = item;
-    while (rootNode->parent()) {
+    while (rootNode->parent())
+    {
         rootNode = rootNode->parent();
     }
 
     // Reset the previous X vector's visual state
-    if (xVectors.contains(rootNode)) {
+    if (xVectors.contains(rootNode))
+    {
         QStandardItem *previousXItem = xVectors[rootNode].item;
-        if (previousXItem) {
-            //reset formatting of item
+        if (previousXItem)
+        {
+            // reset formatting of item
             previousXItem->setForeground(defaultForegroundColor);
             QFont fnt = previousXItem->font();
             fnt.setItalic(false);
@@ -145,17 +152,19 @@ void HiracData::onSetAsXVector(QTreeView *treeView, const QModelIndex &index) {
     QFont nFnt = item->font();
     nFnt.setItalic(true);
     item->setFont(nFnt);
-    //item->setBackground(QBrush(QColor(173, 216, 230)));
+    // item->setBackground(QBrush(QColor(173, 216, 230)));
     item->setText(item->text() + " (x-vector)");
 
     MessageQueue *q = MessageQueue::instance();
-    q->addInfo("X Vector for "+rootNode->text()+" set to: " + index.data().toString());
+    q->addInfo("X Vector for " + rootNode->text() + " set to: " + index.data().toString());
 
     qDebug() << "X Vector set for root node:" << rootNode->text();
 }
 
-void HiracData::handleItemClick(const QModelIndex &index) {
-    if (!index.isValid() || !index.data(Qt::UserRole).canConvert<QVector<double>>()) {
+void HiracData::handleItemClick(const QModelIndex &index)
+{
+    if (!index.isValid() || !index.data(Qt::UserRole).canConvert<QVector<double>>())
+    {
         qDebug() << "Invalid item or no data.";
         return;
     }
@@ -165,24 +174,27 @@ void HiracData::handleItemClick(const QModelIndex &index) {
     QStandardItemModel *model = const_cast<QStandardItemModel *>(qobject_cast<const QStandardItemModel *>(abstractModel));
 
     QStandardItem *item = model ? model->itemFromIndex(index) : nullptr;
-    if (!item) {
+    if (!item)
+    {
         qDebug() << "No item found for index.";
         return;
     }
 
     // Identify the root node of the clicked item
     QStandardItem *rootNode = item;
-    while (rootNode->parent()) {
+    while (rootNode->parent())
+    {
         rootNode = rootNode->parent();
     }
 
     // Debug: Check root node
-    //qDebug() << "Root node identified as:" << rootNode->text();
+    // qDebug() << "Root node identified as:" << rootNode->text();
 
     // Check if the root node has an associated X vector
-    if (!xVectors.contains(rootNode)) {
+    if (!xVectors.contains(rootNode))
+    {
         MessageQueue *msgQ = MessageQueue::instance();
-        msgQ->addWarning("No X vector set for "+rootNode->text()+"\nPlease set an X vector first.");
+        msgQ->addWarning("No X vector set for " + rootNode->text() + "\nPlease set an X vector first.");
         return;
     }
 
@@ -194,25 +206,26 @@ void HiracData::handleItemClick(const QModelIndex &index) {
     QString yLabel = index.data().toString();
 
     // Check if the clicked item is the X vector itself
-    if (xVectorItem == item) {
-        //qDebug() << "Clicked item is the X vector. Ignoring.";
+    if (xVectorItem == item)
+    {
+        // qDebug() << "Clicked item is the X vector. Ignoring.";
         return;
     }
 
     // Check if the item is already added to the chart
-    if (item->data(Qt::UserRole + 1).toBool()) {
+    if (item->data(Qt::UserRole + 1).toBool())
+    {
         emit removeSeries(yLabel);
         markItemRemoved(item);
-        //qDebug() << "Removed series from chart:" << yLabel;
+        // qDebug() << "Removed series from chart:" << yLabel;
         return;
     }
 
     // Add the item to the chart
     markItemAdded(item);
     emit addSeries(yLabel, xData, yData, Qt::AlignLeft);
-    //qDebug() << "Added series to chart:" << yLabel;
+    // qDebug() << "Added series to chart:" << yLabel;
 }
-
 
 void HiracData::markItemAdded(QStandardItem *item)
 {
@@ -221,9 +234,8 @@ void HiracData::markItemAdded(QStandardItem *item)
     item->setForeground(addedSeriesColor);
     auto fnt = item->font();
     fnt.setBold(true);
-    //fnt.setPointSize(14);
+    // fnt.setPointSize(14);
     item->setFont(fnt);
-   
 }
 
 void HiracData::markItemRemoved(QStandardItem *item)
@@ -232,7 +244,7 @@ void HiracData::markItemRemoved(QStandardItem *item)
     item->setForeground(defaultForegroundColor);
     auto fnt = item->font();
     fnt.setBold(false);
-    //fnt.setPointSize(12);
+    // fnt.setPointSize(12);
     item->setFont(fnt);
 }
 
@@ -285,20 +297,53 @@ int HiracData::countDataPoints(const QVector<double> &data)
     return data.size();
 }
 
-void HiracData::addStatisticalData(QStandardItem *parent, const QVector<double> &data)
+void HiracData::addStatisticalData(QStandardItem *parent, const QVector<double> &data, const QString &unit)
 {
     auto createItem = [&](const QString &label, double value) -> QStandardItem *
     {
-        QStandardItem *item = new QStandardItem(QString("%1: %2").arg(label).arg(value, 0, 'f', 3)); // 6 decimal precision
+        QStandardItem *item = new QStandardItem(QString("%1: %2").arg(label).arg(value, 0, 'f', 2)); // 2 decimal precision
         item->setForeground(metaDataColor);
         item->setEditable(false);
         return item;
     };
+
+    auto createUnitItem = [&](const QString &unitText) -> QStandardItem *
+    {
+        QStandardItem *item = new QStandardItem(QString("Unit: %1").arg(unitText));
+        item->setForeground(metaDataColor);
+        item->setEditable(false);
+        return item;
+    };
+
+    // Calculate statistics
+    if (!data.isEmpty())
+    {
+        double min = *std::min_element(data.constBegin(), data.constEnd());
+        double max = *std::max_element(data.constBegin(), data.constEnd());
+        double mean = std::accumulate(data.constBegin(), data.constEnd(), 0.0) / data.size();
+
+        // Add Min, Max, and Mean nodes
+        parent->appendRow(createItem("Min", min));
+        parent->appendRow(createItem("Max", max));
+        parent->appendRow(createItem("Mean", mean));
+    }
+    else
+    {
+        // If data is empty, indicate no statistics available
+        QStandardItem *emptyItem = new QStandardItem("No data available for statistics");
+        emptyItem->setForeground(metaDataColor);
+        emptyItem->setEditable(false);
+        parent->appendRow(emptyItem);
+    }
+
+    // Add Unit node
+    parent->appendRow(createUnitItem(unit.isEmpty() ? "No unit" : unit));
 }
 
-
-void HiracData::onAddtoLeftYAxis(QTreeView *treeView, const QModelIndex &index) {
-    if (!index.isValid() || !index.data(Qt::UserRole).canConvert<QVector<double>>()) {
+void HiracData::onAddtoLeftYAxis(QTreeView *treeView, const QModelIndex &index)
+{
+    if (!index.isValid() || !index.data(Qt::UserRole).canConvert<QVector<double>>())
+    {
         qDebug() << "Invalid index or data.";
         return;
     }
@@ -306,7 +351,8 @@ void HiracData::onAddtoLeftYAxis(QTreeView *treeView, const QModelIndex &index) 
     QVector<double> yData = qvariant_cast<QVector<double>>(index.data(Qt::UserRole));
     QString yLabel = index.data().toString();
 
-    if (!xVectorIndex.isValid()) {
+    if (!xVectorIndex.isValid())
+    {
         qDebug() << "No X vector set. Cannot add series to left Y-axis.";
         return;
     }
@@ -316,9 +362,10 @@ void HiracData::onAddtoLeftYAxis(QTreeView *treeView, const QModelIndex &index) 
     qDebug() << "Added series to left Y-axis:" << yLabel;
 }
 
-
-void HiracData::onAddtoRightAxis(QTreeView *treeView, const QModelIndex &index) {
-    if (!index.isValid() || !index.data(Qt::UserRole).canConvert<QVector<double>>()) {
+void HiracData::onAddtoRightAxis(QTreeView *treeView, const QModelIndex &index)
+{
+    if (!index.isValid() || !index.data(Qt::UserRole).canConvert<QVector<double>>())
+    {
         qDebug() << "Invalid index or data.";
         return;
     }
@@ -326,7 +373,8 @@ void HiracData::onAddtoRightAxis(QTreeView *treeView, const QModelIndex &index) 
     QVector<double> yData = qvariant_cast<QVector<double>>(index.data(Qt::UserRole));
     QString yLabel = index.data().toString();
 
-    if (!xVectorIndex.isValid()) {
+    if (!xVectorIndex.isValid())
+    {
         qDebug() << "No X vector set. Cannot add series to right Y-axis.";
         return;
     }
@@ -336,32 +384,39 @@ void HiracData::onAddtoRightAxis(QTreeView *treeView, const QModelIndex &index) 
     qDebug() << "Added series to right Y-axis:" << yLabel;
 }
 
-void HiracData::removeFromTree(QTreeView *treeView, const QModelIndex &index) {
-    if (!index.isValid()) {
+void HiracData::removeFromTree(QTreeView *treeView, const QModelIndex &index)
+{
+    if (!index.isValid())
+    {
         return;
     }
 
     // Ensure the model is a QStandardItemModel
     QStandardItemModel *model = qobject_cast<QStandardItemModel *>(treeView->model());
-    if (!model) {
+    if (!model)
+    {
         return;
     }
 
     // Get the item from the model
     QStandardItem *item = model->itemFromIndex(index);
-    if (!item) {
+    if (!item)
+    {
         return;
     }
 
     // Ensure the item is a root node
-    if (item->parent()) {
+    if (item->parent())
+    {
         return;
     }
 
     // Remove all associated child series
-    for (int i = 0; i < item->rowCount(); ++i) {
+    for (int i = 0; i < item->rowCount(); ++i)
+    {
         QStandardItem *child = item->child(i);
-        if (child) {
+        if (child)
+        {
             QString label = child->text();
             emit removeSeries(label); // Ensure this signal doesn't cause re-entrant calls
         }
@@ -371,8 +426,4 @@ void HiracData::removeFromTree(QTreeView *treeView, const QModelIndex &index) {
     item->removeRows(0, item->rowCount());
     // Remove the root row
     model->invisibleRootItem()->removeRow(item->row());
-    
 }
-
-
-

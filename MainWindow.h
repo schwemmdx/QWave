@@ -80,7 +80,6 @@ private:
 
 
 
-    void appendDataToChart(QVector<double> xData,QVector<double> yData,QString xLabel,QString yLabel,int toAxis);
     void unselectExcept(CustomSeries*);
     void applyNewOptions();
     void toggleStackWidget();

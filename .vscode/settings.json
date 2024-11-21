@@ -1,69 +1,63 @@
 {
-    "files.associations": {
-        "new": "cpp",
-        "array": "cpp",
-        "atomic": "cpp",
-        "bit": "cpp",
-        "*.tcc": "cpp",
-        "cctype": "cpp",
-        "chrono": "cpp",
-        "clocale": "cpp",
-        "cmath": "cpp",
-        "codecvt": "cpp",
-        "compare": "cpp",
-        "concepts": "cpp",
-        "condition_variable": "cpp",
-        "cstdarg": "cpp",
-        "cstddef": "cpp",
-        "cstdint": "cpp",
-        "cstdio": "cpp",
-        "cstdlib": "cpp",
-        "cstring": "cpp",
-        "ctime": "cpp",
-        "cwchar": "cpp",
-        "cwctype": "cpp",
-        "deque": "cpp",
-        "list": "cpp",
-        "map": "cpp",
-        "string": "cpp",
-        "unordered_map": "cpp",
-        "vector": "cpp",
-        "exception": "cpp",
-        "algorithm": "cpp",
-        "functional": "cpp",
-        "iterator": "cpp",
-        "memory": "cpp",
-        "memory_resource": "cpp",
-        "numeric": "cpp",
-        "optional": "cpp",
-        "random": "cpp",
-        "ratio": "cpp",
-        "source_location": "cpp",
-        "string_view": "cpp",
-        "system_error": "cpp",
-        "tuple": "cpp",
-        "type_traits": "cpp",
-        "utility": "cpp",
-        "fstream": "cpp",
-        "future": "cpp",
-        "initializer_list": "cpp",
-        "iomanip": "cpp",
-        "iosfwd": "cpp",
-        "iostream": "cpp",
-        "istream": "cpp",
-        "limits": "cpp",
-        "mutex": "cpp",
-        "numbers": "cpp",
-        "ostream": "cpp",
-        "semaphore": "cpp",
-        "sstream": "cpp",
-        "stdexcept": "cpp",
-        "stop_token": "cpp",
-        "streambuf": "cpp",
-        "thread": "cpp",
-        "cinttypes": "cpp",
-        "typeinfo": "cpp",
-        "variant": "cpp"
+    // General
+    "workbench.startupEditor": "none", // No welcome page on startup
+    "workbench.editor.showTabs": "none", // Enable tabs for better navigation
+    "workbench.editor.closeEmptyGroups": true, // Automatically close empty editor groups
+    "window.zoomLevel": 0, // No zoom to save memory
+    // Disable Minimap
+    "editor.minimap.enabled": false,
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "off",
+        "strings": "off"
+    }, // Disable inline suggestions
+    "editor.suggestOnTriggerCharacters": true, // Disable suggestions on trigger characters
+    "editor.wordBasedSuggestions": "matchingDocuments", // Disable word-based suggestions
+    "editor.parameterHints.enabled": true, // Disable parameter hints
+    // File Explorer Optimizations
+    "explorer.autoReveal": false, // Disable auto-reveal in file explorer
+    "files.autoSave": "onFocusChange", // Turn off auto-saving files
+    "files.watcherExclude": {
+        "**/node_modules/**": true,
+        "**/.git/**": true,
+        "**/dist/**": true,
+        "**/.vscode/**": true
     },
-    
+    // Limit Editor History
+    "workbench.editor.limit.enabled": true,
+    "workbench.editor.limit.perEditorGroup": true,
+    // Git Optimization
+    "git.enabled": true, // Enable Git but reduce polling
+    "git.autorefresh": false, // Disable auto-refresh
+    "git.pollingInterval": 30000, // Increase polling interval for Git
+    // Reduce Appearance Overhead
+    "workbench.iconTheme": null, // No custom icon theme
+    //"workbench.colorTheme": "Monokai Pro Light", // Simple default theme
+    "editor.cursorBlinking": "solid", // Disable cursor animation
+    "editor.cursorSmoothCaretAnimation": "off", // Disable smooth caret animation
+    // Telemetry and Updates
+    "telemetry.enableTelemetry": false, // Disable telemetry
+    "update.enableWindowsBackgroundUpdates": false, // Disable background 
+    // Language Features
+    "python.analysis.completeFunctionParens": false, // Disable function parentheses completion in Python
+    // Performance Improvements
+    "editor.largeFileOptimizations": true, // Optimize handling of large files
+    "editor.renderWhitespace": "all", // Do not render whitespace
+    "editor.renderControlCharacters": true, // Do not render control characters
+    "workbench.enableExperiments": false, // Disable experimental features
+    // Extensions Control
+    "extensions.ignoreRecommendations": true, // Disable extension recommendations
+    "extensions.autoCheckUpdates": false, // Turn off auto-check for extension updates
+    "extensions.autoUpdate": false, // Disable extension auto-updates
+    "workbench.editor.untitled.hint": "hidden", // Hide untitled file hints
+    // Terminal
+    "terminal.integrated.scrollback": 500, // Limit terminal scrollback
+    "terminal.integrated.rendererType": "dom", // Use DOM-based rendering for low resource usage
+    // Auto-closing Brackets and Quotes
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingQuotes": "never",
+    // Disable Built-in Extensions (optional, adjust as needed)
+    "extensions.experimental.useCustomInstall": false,
+    //clang formatting 
+    "editor.formatOnSave": true
 }
