@@ -11,11 +11,23 @@ is planned and development ongoing.
 - CMake 
 - GCC
 - Make
-2. Build Process
+Im developing on a linux machine only, so this is basically all working out of the box.
 ```
 mkdir build && cd build && cmake .. && make -j$nproc
 ```
 Thats it. 
+### Running
+- For Linux machines just run the executable
+- For Win-devil, usually you would need the tool provided by qt to generate the required dynamic libraries. This is included in the 'CMakeLists.txt'. It searches for the required libraries (I just hardcoded them :D ) Please be aware, that you need to change/or delete the path to your Qt Libraries (in my case i had to, because it didnt worked as expected.
+```
+ if(WIN32)
+    set(Qt6_DIR C:/Qt/6.8.0/mingw_64/lib/cmake/Qt6)
+endif()
+```
+If on windows the libraries are not found in the build directory, CMake will evoke the command to generate them
+```
+windeployqt path/to/QWave.exe
+```
 ### Overview
 ![image](https://github.com/user-attachments/assets/224410fd-6fee-4267-89ec-e9b06a3622f8)
 The main window of the application. Files are represented as _cyan_ colored nodes, their schildren are datasets. Each Dataset holds also calculated statistical information. For __every__ file, the x vector to plot the data against needs to be specified. Clicking on a valid node (internally holding the data) the data is plotted on the chart. 
@@ -43,4 +55,8 @@ This is useful in case of manual inspection and singal integrity checks. In this
 - [ ] Settings-file with load and save + apply
 - [ ] Settings for chart export
 And possibly some more :)
+
+### Contribution
+Oh, hell yeah. Please :)
+
 
