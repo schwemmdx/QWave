@@ -72,19 +72,21 @@ protected:
 
     // Color definitions
 
-    QColor xVectorColor{QColor(175, 82, 222)};         // Purple for X vector
-    QColor addedSeriesColor{QColor(52, 199, 89)};      // Light blue for added series
-    QColor defaultForegroundColor{QColor(29, 29, 31)}; // Default text color (Monokai Foreground)
+    QColor xVectorColor{Monokai::AccentColor};         // Purple for X vector
+    QColor addedSeriesColor{Monokai::PrimaryColor};      // Light blue for added series
+    QColor defaultForegroundColor{Monokai::SecondaryLabel}; // Default text color (Monokai Foreground)
 
     // State tracking for the X vector
     QVector<double> xVectorData;
     QModelIndex xVectorIndex;
 
-    QColor rootColor{QColor(0, 122, 255)};
-    QColor childColor{QColor(29, 29, 31)};
-    QColor metaDataColor{QColor(142, 142, 147)};
+    QColor rootColor{Monokai::FocusBorderColor};
+    QColor childColor{Monokai::SecondaryLabel};
+    QColor metaDataColor{Monokai::TertiaryLabel};
 
-    QIcon rootIcon, childIcon, metaDataIcon;
+    QIcon rootIcon{":materials/dark_theme/folder_open.png"};
+    QIcon childIcon{":materials/dark_theme/file_copy.png"};
+    QIcon metaDataIcon;
 };
 
 #endif // HIRACDATA_H

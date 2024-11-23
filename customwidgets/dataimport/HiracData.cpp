@@ -91,6 +91,10 @@ void HiracData::setupContextMenu(QTreeView *treeView)
             subMenu.addAction("NumPy Byte Array (*.npy)");
             subMenu.addAction("JavaScript Object Notation (*.json)");
             menu.addMenu(&subMenu);
+            menu.addSeparator();
+            menu.addAction("Collapse all",
+            [treeView](){treeView->collapseAll();});
+            menu.addAction("Expand all",[treeView](){treeView->expandToDepth(0);});
         }
 
         // Execute the menu at the global position
