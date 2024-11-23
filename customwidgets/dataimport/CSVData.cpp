@@ -87,6 +87,7 @@ void CSVData::loadData(const QString &dataPath, QStandardItemModel *model)
     // Create the root item representing the file
     QFileInfo info(dataPath);
     QStandardItem *rootItem = new QStandardItem(info.fileName());
+    rootItem->setIcon(rootIcon);
     rootItem->setToolTip(dataPath);
     rootItem->setForeground(rootColor);
     rootItem->setEditable(false);
@@ -96,6 +97,7 @@ void CSVData::loadData(const QString &dataPath, QStandardItemModel *model)
     for (int i = 0; i < headers.size(); ++i)
     {
         QStandardItem *childItem = new QStandardItem(headers[i]);
+        childItem->setIcon(childIcon);
         childItem->setForeground(childColor);
         childItem->setEditable(false);
 
