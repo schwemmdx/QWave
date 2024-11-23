@@ -150,30 +150,31 @@ void CustomChart::setupLinAxis()
     xAxisLin = new QValueAxis;
 
     // Define label brush for light theme
-    QBrush labelBrush(Qt::black);
+    QBrush labelBrush(Monokai::SecondaryLabel);
 
     // Set axis line pen (dark for light theme)
-    QPen axisPen(Qt::black);
-    axisPen.setWidthF(1.5);
+    QPen axisPen(Monokai::TertiaryBackground);
+    axisPen.setWidthF(1);
 
     // Set grid pen (soft gray for light theme)
-    QPen gridPen(QColor(200, 200, 200, 100)); // Light gray with transparency
+    QPen gridPen(Monokai::TertiaryBackground); // Light gray with transparency
     gridPen.setStyle(Qt::DotLine);            // Dotted for a sleek look
 
     // Set minor grid pen
-    QPen minorGridPen(QColor(220, 220, 220, 80)); // Lighter gray
+    QPen minorGridPen(Monokai::TertiaryBackground); // Lighter gray
     minorGridPen.setStyle(Qt::DashLine);
 
     // Apply styles to yLeftLin
-    yLeftLin->setLabelFormat("%2.0e"); // Exponential format
+    yLeftLin->setLabelFormat("%1.0e"); // Exponential format
     yLeftLin->setLabelsBrush(labelBrush);
     yLeftLin->setLinePen(axisPen);
     yLeftLin->setGridLinePen(gridPen);
     yLeftLin->setMinorGridLinePen(minorGridPen);
     yLeftLin->setRange(-1, 1); // Default range
+    yLeftLin->setTitleBrush(labelBrush);
 
     // Apply styles to yRightLin
-    yRightLin->setLabelFormat("%1.1e"); // Exponential format
+    yRightLin->setLabelFormat("%1.0e"); // Exponential format
     yRightLin->setLabelsBrush(labelBrush);
     yRightLin->setLinePen(axisPen);
     yRightLin->setGridLinePen(gridPen);
@@ -181,31 +182,37 @@ void CustomChart::setupLinAxis()
     yRightLin->hide(); // Auto-hide right axis
 
     // Apply styles to xAxisLin
-    xAxisLin->setLabelFormat("%1.1e"); // Exponential format
+    xAxisLin->setLabelFormat("%1.0e"); // Exponential format
     xAxisLin->setLabelsBrush(labelBrush);
     xAxisLin->setLinePen(axisPen);
     xAxisLin->setGridLinePen(gridPen);
     xAxisLin->setMinorGridLinePen(minorGridPen);
-    xAxisLin->setTickCount(6); // 6 ticks for better spacing
+    //xAxisLin->setTickCount(6); // 6 ticks for better spacing
     xAxisLin->setTitleBrush(labelBrush);
     xAxisLin->setLabelsAngle(0);         // Horizontal labels for readability
     xAxisLin->setGridLineVisible(false); // Hide grid lines on x-axis
     xAxisLin->setRange(-10, 10);         // Default range
 
     // Optional: Add axis titles
-    QFont titleFont("Arial", 12, QFont::Bold); // Bold font for axis titles
+    QFont titleFont("San Francisco", 10);
+    
     xAxisLin->setTitleFont(titleFont);
     yLeftLin->setTitleFont(titleFont);
     yRightLin->setTitleFont(titleFont);
 
     xAxisLin->setTitleText("X Axis"); // Example title
     yLeftLin->setTitleText("Y Axis"); // Example title
-
+    
+    
     // Enable smooth transitions
     setAnimationOptions(QChart::SeriesAnimations);
 
-    // Set chart drop shadow for depth
-    setBackgroundRoundness(5); // Rounded corners for light theme
+    foreach(auto &ax,QList({yLeftLin,yRightLin,xAxisLin}))
+    {
+        ax->setGridLineVisible(false);
+        ax->setMinorGridLineVisible(false);
+    }
+  
 }
 
 void CustomChart::setupLogAxis()
@@ -216,7 +223,7 @@ void CustomChart::setupLogAxis()
     xAxisLog = new QLogValueAxis;
 
     // Set label format, base, brush, and general styling
-    QBrush labelBrush(Altium::HighLight2.lighter());
+    QBrush labelBrush(Monokai::TertiaryLabel);
     applyAxisStyles(yLeftLog, "%1.0e", labelBrush);
     applyAxisStyles(yRightLog, "%1.0e", labelBrush);
     applyAxisStyles(xAxisLog, "%1.0e", labelBrush);
@@ -231,6 +238,10 @@ void CustomChart::setupLogAxis()
     xAxisLog->setLinePen(QPen(Qt::black, 1.5));
     yLeftLog->setLinePen(QPen(Qt::black, 1.5));
     yRightLog->setLinePen(QPen(Qt::black, 1.5));
+    foreach(auto & ax, QList({yRightLog,yLeftLog,xAxisLog}))
+    {
+       
+    }
 }
 
 void CustomChart::replaceAxis(QAbstractAxis *oldAx, QAbstractAxis *newAx, enum Qt::AlignmentFlag align)

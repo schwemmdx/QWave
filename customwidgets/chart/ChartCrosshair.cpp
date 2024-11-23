@@ -29,9 +29,9 @@ ChartCrosshair::ChartCrosshair(CustomChart *chart) : m_xLine(new QGraphicsLineIt
     m_xText->document()->setDocumentMargin(5);
     m_yLeftText->document()->setDocumentMargin(5);
     m_yRightText->document()->setDocumentMargin(5);
-    m_xText->setDefaultTextColor(Altium::BackGround2.darker());
-    m_yLeftText->setDefaultTextColor(Altium::BackGround2.darker());
-    m_yRightText->setDefaultTextColor(Altium::BackGround2.darker());
+    m_xText->setDefaultTextColor(Monokai::PrimaryLabel);
+    m_yLeftText->setDefaultTextColor(Monokai::PrimaryLabel);
+    m_yRightText->setDefaultTextColor(Monokai::PrimaryLabel);
 
     xLine = new QLineF();
     yLine = new QLineF();

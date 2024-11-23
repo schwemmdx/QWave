@@ -28,7 +28,7 @@ private:
 
     QChart* pChart;
     QLineF* line;
-    QColor markerRed{Altium::HighLight2};
+    QColor markerRed{Monokai::AccentColor};
 
     QPen markerPen{markerRed,2};
     QVector<QGraphicsTextItem*> yValues;

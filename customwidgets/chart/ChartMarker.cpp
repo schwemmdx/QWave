@@ -119,3 +119,31 @@ void ChartMarker::remove(void)
 
     // this->~ChartMarker();
 }
+
+void ChartMarker::resizeEvent(QResizeEvent *event)
+{
+    Q_UNUSED(event); // Prevent unused parameter warning if not directly using the event
+
+    if (!pChart)
+        return;
+
+    // Update the line position to match the new chart geometry
+    line->setLine(line->x1(), pChart->plotArea().top(), line->x1(), pChart->plotArea().bottom());
+    m_line->setLine(*line);
+
+    // Update the position of marker text
+    m_text->setPos(line->x1() - m_text->boundingRect().width() / 2.0,
+                   pChart->plotArea().bottom() - m_text->boundingRect().height() * 0.9);
+
+    // Update the position of the marker number
+    m_markerNumber->setPos(line->x1() - 0.5 * m_markerNumber->boundingRect().width() / 2.0,
+                           pChart->plotArea().top() - m_markerNumber->boundingRect().height() / 2);
+
+    // Update the positions of all intersecting point values
+    int i = 20; // Start with an offset for stacked text
+    foreach (auto &yVal, yValues)
+    {
+        yVal->setPos(line->x1() - 3, pChart->plotArea().top() + i);
+        i += 20;
+    }
+}

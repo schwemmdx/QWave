@@ -6,7 +6,6 @@
 #include <QFontDatabase>
 #include <QColor>
 
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -14,9 +13,10 @@ int main(int argc, char *argv[])
     a.setStyle("Fusion");
 
     int fontId = QFontDatabase::addApplicationFont(":/materials/fonts/SF-Pro.ttf");
-    if (fontId == -1) {
-    qWarning() << "Failed to load font!";
-    return -1;
+    if (fontId == -1)
+    {
+        qWarning() << "Failed to load font!";
+        return -1;
     }
     /*
     QFile styleFile("./themes/mac.qss"); // Ensure the QSS file is in your resources
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         qDebug() << "cannot load style!\n";
     }
     */
-   
+
     QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
     QFont appFont(fontFamily);
     appFont.setPointSize(12);
@@ -38,6 +38,15 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.set_pMain(&a);
+    /*
+         QFile file("./themes/monokai.qss");
+        if (file.open(QFile::ReadOnly | QFile::Text)) {
+            QString stylesheet = file.readAll();
+            a.setStyleSheet(stylesheet);
+        } else {
+            qWarning("Could not open stylesheet file.");
+        }
+    */
     w.setWindowState(Qt::WindowMaximized);
     w.show();
     return a.exec();

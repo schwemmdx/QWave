@@ -7,6 +7,7 @@
 #include <QtWidgets/QGraphicsItem>
 
 #include "CustomChart.h"
+#include "ThemeColors.h"
 
 class ChartCrosshair
 {
@@ -33,8 +34,8 @@ private:
     QCursor crosshairCursor{Qt::BlankCursor}; //(QPixmap(":/icons/icons/icons8-target-24.png"))};
     bool visibility;
 
-    QColor grayCol{QColor(142, 142, 147, 85)};
-    QColor textCol{QColor("white")};
+    QColor grayCol{Monokai::HighlightColor};
+    QColor textCol{Monokai::SystemBackground};
 };
 
 #endif // CROSSHAIR_H

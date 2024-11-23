@@ -59,15 +59,18 @@ private:
     bool useLogX{false};
 
     QVector<QColor> neonColors = {
-    QColor(255, 0, 255), // Neon Pink
-    QColor(0, 255, 255), // Neon Cyan
-    QColor(255, 255, 0), // Neon Yellow
-    QColor(0, 255, 0), // Neon Green
-    QColor(255, 0, 0), // Neon Red
-    QColor(0, 0, 255), // Neon Blue
-    QColor(255, 128, 0), // Neon Orange
-    QColor(0, 128, 255), // Neon Purple
-    };
+    QColor(31, 119, 180),   // Blue
+    QColor(255, 127, 14),   // Orange
+    QColor(44, 160, 44),    // Green
+    QColor(214, 39, 40),    // Red
+    QColor(148, 103, 189),  // Purple
+    QColor(140, 86, 75),    // Brown
+    QColor(227, 119, 194),  // Pink
+    QColor(127, 127, 127),  // Gray
+    QColor(188, 189, 34),   // Yellow-Green
+    QColor(23, 190, 207)    // Cyan
+};
+
 };
 
 

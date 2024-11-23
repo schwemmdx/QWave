@@ -45,7 +45,59 @@ ChartContainer::ChartContainer(QWidget *parent)
     connect(chart, &CustomChart::newTraceSelection, this, [this](CustomSeries *pSeries)
             { emit newTraceSelection(pSeries); });
     connect(this, &ChartContainer::customContextMenuRequested, this, &ChartContainer::onCustomContextMenu);
+
+    // Chart Background
+    chart->setBackgroundBrush(Monokai::SystemBackground);
+    chart->setBackgroundPen(QPen(Monokai::SystemBackground, 1));
+    setBackgroundBrush(QBrush(Monokai::SystemBackground));
+    // Plot Area Background
+    QBrush plotAreaBrush(Monokai::SystemBackground);
+    plotAreaBrush.setStyle(Qt::Dense1Pattern);
+    chart->setPlotAreaBackgroundBrush(plotAreaBrush);
+    chart->setPlotAreaBackgroundVisible(true);
+
+    // Title
+    chart->setTitleBrush(Monokai::PrimaryLabel);
+    QFont titleFont = chart->titleFont();
+    titleFont.setPointSize(10);
+    titleFont.setBold(true);
+    chart->setTitleFont(titleFont);
+
+    // Axes
+    for (QAbstractAxis *axis : chart->axes()) {
+        // Axis Line
+        axis->setLinePen(QPen(Monokai::SecondaryLabel, 1));
+
+        // Axis Labels
+        axis->setLabelsBrush(Monokai::PrimaryLabel);
+        
+        QFont labelFont = axis->labelsFont();
+        labelFont.setPointSize(9);
+        axis->setLabelsFont(labelFont);
+
+        // Grid Lines
+        axis->setGridLinePen(QPen(Monokai::TertiaryBackground, 0.5, Qt::DashLine));
+
+        // Minor Grid Lines
+        axis->setMinorGridLinePen(QPen(Monokai::TertiaryBackground, 0.5, Qt::DotLine));
+
+        // Shades between grid lines
+        //axis->setShadesBrush(QBrush(Monokai::PrimaryFill));
+        //axis->setShadesVisible(true);
+    }
+
+    // Legend
+    QLegend *legend = chart->legend();
+    legend->setBrush(Monokai::SecondaryBackground);
+    legend->setLabelBrush(Monokai::SecondaryLabel);
+    QFont legendFont = legend->font();
+    legendFont.setPointSize(10);
+    legend->setFont(legendFont);
+    legend->setBorderColor(Monokai::BorderColor);
+    
+   
 }
+
 
 ChartContainer::~ChartContainer()
 {
@@ -338,67 +390,11 @@ std::tuple<int, int> ChartContainer::getNumSeriesPerAxis(void)
     return std::tie(l, r);
 }
 
-/*
-
-void ChartContainer::addSeriesToChart(const QString &label, const QVector<double> &xData, const QVector<double> &yData, Qt::Alignment alignment) {
-    if (seriesMap.contains(label)) {
-        qDebug() << "Series with label" << label << "already exists.";
-        return;
+void ChartContainer::resizeEvent(QResizeEvent *event)
+{
+    foreach (auto &marker, chartMarkers)
+    {
+        marker->resizeEvent(event);
     }
-
-    // Create the series
-    QtCharts::QLineSeries *series = new QtCharts::QLineSeries();
-    for (int i = 0; i < xData.size() && i < yData.size(); ++i) {
-        series->append(xData[i], yData[i]);
-    }
-    series->setName(label);
-
-    // Add series to the chart
-    chart->addSeries(series);
-
-    // Attach to X axis (common to all series)
-    QtCharts::QValueAxis *xAxis = dynamic_cast<QtCharts::QValueAxis *>(chart->axisX());
-    if (!xAxis) {
-        xAxis = new QtCharts::QValueAxis();
-        chart->addAxis(xAxis, Qt::AlignBottom);
-    }
-    series->attachAxis(xAxis);
-
-    // Attach to appropriate Y axis based on alignment
-    if (alignment == Qt::AlignLeft) {
-        QtCharts::QValueAxis *yAxis = dynamic_cast<QtCharts::QValueAxis *>(chart->axisY(Qt::AlignLeft));
-        if (!yAxis) {
-            yAxis = new QtCharts::QValueAxis();
-            chart->addAxis(yAxis, Qt::AlignLeft);
-        }
-        series->attachAxis(yAxis);
-    } else if (alignment == Qt::AlignRight) {
-        QtCharts::QValueAxis *yAxis = dynamic_cast<QtCharts::QValueAxis *>(chart->axisY(Qt::AlignRight));
-        if (!yAxis) {
-            yAxis = new QtCharts::QValueAxis();
-            chart->addAxis(yAxis, Qt::AlignRight);
-        }
-        series->attachAxis(yAxis);
-    }
-
-    // Store the series in the map
-    seriesMap.insert(label, series);
-
-    qDebug() << "Added series with label:" << label << "to"
-             << (alignment == Qt::AlignLeft ? "left" : "right") << "Y-axis.";
+    QChartView::resizeEvent(event);
 }
-
-void ChartContainer::removeSeriesFromChart(const QString &label) {
-    if (!seriesMap.contains(label)) {
-        qDebug() << "Series with label" << label << "does not exist.";
-        return;
-    }
-
-    // Retrieve the series and remove it from the chart
-    QLineSeries *series = seriesMap.value(label);
-    removeSeries(series);
-    seriesMap.remove(label);
-    delete series;
-
-    qDebug() << "Removed series with label:" << label;
-}*/

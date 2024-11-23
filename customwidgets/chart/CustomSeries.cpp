@@ -8,7 +8,6 @@
 #include <QMenu>
 
 #include "CustomSeries.h"
-#include "Message.h"
 #include "MessageQueue.h"
 #include "ScientificFormatter.h"
 #include <ThemeColors.h>
@@ -75,7 +74,7 @@ void CustomSeries::onHover(const QPointF &point,bool state)
 {
     MessageQueue* q = MessageQueue::instance();
     q->addMessage("x: "+ScientificFormatter::toScientificSuffix(point.x())+
-    "\ny: "+ScientificFormatter::toScientificSuffix(point.y()),Altium::LightText);
+    "\ny: "+ScientificFormatter::toScientificSuffix(point.y()),Monokai::PrimaryLabel);
     
 }
 
@@ -83,7 +82,6 @@ void CustomSeries::onPointPress(const QPointF &point)
 {
     qDebug() << "Point" << point;
 }
-
 
 
 

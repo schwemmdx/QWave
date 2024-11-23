@@ -14,7 +14,7 @@
 #include "ThemeColors.h"
 #include "OptionsDialog.h"
 #include "MessageQueue.h"
-#include "Message.h"
+
 #include "CustomChart.h"
 #include "CSVData.h"
 
@@ -28,17 +28,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     dataView = new QTreeView();
     csvData = new CSVData();
+    tools = new ActionListWidget();
 
     ui->centralwidget->adjustSize();
     ui->mainLayout->addWidget(chartContainer, 1);
     ui->stackedWidget->addWidget(dataView);
+    ui->stackedWidget->addWidget(tools);
     ui->stackedWidget->setMinimumWidth(300);
-
-    pOptionDlg = new OptionsDialog();
+    isStackWidgetVisible = false;
+    ui->stackedWidget->hide();
+    pOptionDlg = new OptionsDialog(this);
     pOptionDlg->hide();
 
     loadStyles();
-
     ui->actiontoggleCursorDock->setChecked(false);
 
     connect(chartContainer, &ChartContainer::newTraceSelection, this, &MainWindow::selectedSeriesChanged);
@@ -49,6 +51,47 @@ MainWindow::MainWindow(QWidget *parent)
 
     toggleStackWidgetShort = new QShortcut(QKeySequence("Ctrl+B"), this);
     connect(toggleStackWidgetShort, &QShortcut::activated, this, &MainWindow::toggleStackWidget);
+
+    QPalette palette;
+
+    // Base Colors
+    palette.setColor(QPalette::Window, Monokai::SystemBackground);        // Window background
+    palette.setColor(QPalette::WindowText, Monokai::PrimaryLabel);          // Text in windows
+    palette.setColor(QPalette::Base, Monokai::SystemBackgroundDark);         // Background for text editing widgets
+    palette.setColor(QPalette::AlternateBase, Monokai::SystemBackgroundDark); // Alternate row background
+    palette.setColor(QPalette::ToolTipBase, Monokai::SecondaryBackground);  // ToolTip background
+    palette.setColor(QPalette::ToolTipText, Monokai::PrimaryLabel);         // ToolTip text
+    // Button Colors
+    palette.setColor(QPalette::Button, Monokai::SecondaryBackground); // Button background
+    palette.setColor(QPalette::ButtonText, Monokai::PrimaryLabel);    // Button text
+    palette.setColor(QPalette::BrightText, Monokai::PrimaryLabel);    // Highlighted text (red for emphasis)
+
+    // Highlight and Disabled
+    palette.setColor(QPalette::Highlight, Monokai::TertiaryBackground);            // Selected items highlight
+    palette.setColor(QPalette::HighlightedText, Monokai::PrimaryLabel);            // Selected items text
+    palette.setColor(QPalette::Disabled, QPalette::Text, Monokai::SecondaryLabel); // Disabled text
+
+    // Text and Labels
+    palette.setColor(QPalette::Text, Monokai::PrimaryColor);               // Normal text
+    palette.setColor(QPalette::PlaceholderText, Monokai::QuaternaryLabel); // Placeholder text
+
+    // Shadows and Fills
+    palette.setColor(QPalette::Shadow, QColor(0, 0, 0, 128));     // Shadow
+    palette.setColor(QPalette::Light, Monokai::SecondaryFill);    // Light color for gradients
+    palette.setColor(QPalette::Midlight, Monokai::PrimaryFill);   // Mid-light for subtle fills
+    palette.setColor(QPalette::Dark, Monokai::SystemBackgroundDark);  // Darker background areas
+    palette.setColor(QPalette::Mid, Monokai::TertiaryBackground); // Mid-point in gradient backgrounds
+    pApplication->setPalette(palette);
+
+    QString tooltipStyle = R"(
+    QToolTip {
+        background-color: #272822; /* Monokai background */
+        color: #F8F8F2; /* Monokai text color */
+        border: 0px solid #66D9EF; /* Monokai blue for the border */
+        border-radius: 4px; /* Optional rounded corners */
+    }
+)";
+pApplication->setStyleSheet(tooltipStyle);
 }
 
 MainWindow::~MainWindow()
@@ -74,10 +117,10 @@ void MainWindow::toggleStackWidget()
 void MainWindow::applyNewOptions()
 {
     auto mgr = ThemeManager::instance();
-    if (mgr.setTheme(pOptionDlg->getTheme()))
-    {
-        pApplication->setPalette(mgr.palette());
-    }
+    // if (mgr.setTheme(pOptionDlg->getTheme()))
+    //{
+    //     pApplication->setPalette(mgr.palette());
+    // }
 
     // load the style selected.
 
@@ -130,36 +173,53 @@ void MainWindow::unselectExcept(CustomSeries *traceClicked)
     }
 }
 
+
 void MainWindow::on_actionImportData_triggered()
 {
-    QString file = QFileDialog::getOpenFileName(this, QString("Open Data for inspection"), openDlgStartPath, QString("*.csv"));
+    QStringList files = QFileDialog::getOpenFileNames(
+        this, QString("Open Data for inspection"), openDlgStartPath, QString("*.csv"));
 
-    if (file.isEmpty())
+    if (files.isEmpty())
     {
         return;
     }
-    openDlgStartPath = QFileInfo(file).absolutePath();
-    csvData->disconnect(this);
 
-    connect(csvData, &HiracData::dataLoadStarted, this, [file]()
-            {
-        QFileInfo f(file);
-        MessageQueue* q = MessageQueue::instance();
-        q->addInfo("Loading "+f.fileName()+ " from "+f.filePath()); }, Qt::UniqueConnection);
-
-    connect(csvData, &HiracData::dataLoadFinished, this, [file]()
-            {
-        QFileInfo f(file);
-        MessageQueue* x = MessageQueue::instance();
-        x->addInfo("Load of "+f.fileName()+ " complete."); }, Qt::UniqueConnection);
-
-    csvData->appendData(dataView, file);
+    ui->stackedWidget->show();
     ui->stackedWidget->setCurrentWidget(dataView);
+
+    // Process files one by one
+    processNextFile(files);
 }
 
-void MainWindow::Ondoubleclicktree(int QModelIndex)
+void MainWindow::processNextFile(QStringList files)
 {
+    if (files.isEmpty())
+        return; // All files processed
+
+    QString currentFile = files.takeFirst(); // Get the first file and remove it from the list
+
+    openDlgStartPath = QFileInfo(currentFile).absolutePath();
+    csvData->disconnect(this); // Disconnect previous signals
+
+    connect(csvData, &HiracData::dataLoadStarted, this, [currentFile]() {
+        QFileInfo f(currentFile);
+        MessageQueue *q = MessageQueue::instance();
+        q->addInfo("Loading " + f.fileName() + " from " + f.filePath());
+    });
+
+    connect(csvData, &HiracData::dataLoadFinished, this, [this, files, currentFile]() {
+        QFileInfo f(currentFile);
+        MessageQueue *x = MessageQueue::instance();
+        x->addInfo("Load of " + f.fileName() + " complete.");
+
+        // Process the next file after the current one is done
+        processNextFile(files);
+    });
+
+    csvData->appendData(dataView, currentFile); // Start loading the current file
 }
+
+
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
@@ -199,9 +259,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void MainWindow::on_actioncreateData_triggered()
-{
-}
 
 void MainWindow::on_actionCrosshair_Mode_triggered()
 {
@@ -254,7 +311,6 @@ void MainWindow::on_actiontoggleDataDock_toggled(bool arg1)
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-    QWidget::resizeEvent(event);
 
     // Margins for the MessageQueue widget
     const int marginRight = 0;
@@ -270,24 +326,26 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
     // Set the geometry of the MessageQueue
     msgQ->setGeometry(x, y, msgQSize.width(), msgQSize.height());
+
+    QWidget::resizeEvent(event);
 }
 
 void MainWindow::on_action_ToggleYLeft_triggered(bool checked)
 {
     MessageQueue *q = MessageQueue::instance();
-    q->addMessage("Left y-axis log scaling: " + QString::number(checked), Altium::LightText);
+    q->addMessage("Left y-axis log scaling: " + QString::number(checked), Monokai::PrimaryLabel);
     chartContainer->chart->setLogYLScale(checked);
 }
 
 void MainWindow::on_action_toggleXlog_triggered(bool checked)
 {
     MessageQueue *q = MessageQueue::instance();
-    q->addMessage("X-axis log scaling: " + QString::number(checked), Altium::LightText);
+    q->addMessage("X-axis log scaling: " + QString::number(checked), Monokai::PrimaryLabel);
     chartContainer->chart->setLogXScale(checked);
 }
 
 void MainWindow::on_actionToggleYRightLog_triggered(bool checked)
 {
     MessageQueue *q = MessageQueue::instance();
-    q->addMessage("Right y-axis log scaling: " + QString::number(checked), Altium::LightText);
+    q->addMessage("Right y-axis log scaling: " + QString::number(checked), Monokai::PrimaryLabel);
 }

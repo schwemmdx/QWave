@@ -17,8 +17,7 @@ XCursor::XCursor(QChart* chart):
     m_line->hide();
     m_markerNumber->hide();
     m_markerNumber->document()->setDocumentMargin(5);
-    m_markerNumber->setDefaultTextColor(Altium::BackGround.darker());
-
+    m_markerNumber->setDefaultTextColor(Monokai::PrimaryLabel);
     m_markerNumber->setScale(1.5);
 }
 

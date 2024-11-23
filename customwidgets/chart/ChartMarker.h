@@ -6,6 +6,7 @@
 #include <QtCharts/QChartGlobal>
 #include <QChart>
 #include <QHoverEvent>
+#include <QResizeEvent>
 #include <QWidget>
 
 #include "ThemeColors.h"
@@ -22,6 +23,8 @@ public:
     void passEvent(QMouseEvent *);
     bool isUnderMouse(QMouseEvent *);
     void remove(void);
+    void resizeEvent(QResizeEvent *event);
+
     QList<QPointF> intersectPoints;
 
 private:
@@ -32,7 +35,7 @@ private:
 
     QChart *pChart;
     QLineF *line;
-    QColor markerColor{QColor(142, 142, 147, 100)};
+    QColor markerColor{Monokai::TertiaryBackground};
     // QColor(255,184,108)};
     QPen markerPen{QPen(markerColor, 1.25)};
     QVector<QGraphicsTextItem *> yValues;
