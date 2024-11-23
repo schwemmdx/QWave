@@ -60,17 +60,26 @@
    <property name="enabled">
     <bool>true</bool>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="minimumSize">
     <size>
      <width>0</width>
      <height>0</height>
     </size>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
    <property name="autoFillBackground">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="movable">
     <bool>false</bool>
@@ -102,7 +111,7 @@
   </widget>
   <widget class="QToolBar" name="appTools">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -146,7 +155,7 @@
   <action name="actionOptions">
    <property name="icon">
     <iconset resource="../../resources.qrc">
-     <normaloff>:/materials/light_theme/settings.png</normaloff>:/materials/light_theme/settings.png</iconset>
+     <normaloff>:/materials/dark_theme/settings.png</normaloff>:/materials/dark_theme/settings.png</iconset>
    </property>
    <property name="text">
     <string>Options</string>
@@ -161,7 +170,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resources.qrc">
-     <normaloff>:/materials/light_theme/crop.png</normaloff>:/materials/light_theme/crop.png</iconset>
+     <normaloff>:/materials/dark_theme/crop.png</normaloff>:/materials/dark_theme/crop.png</iconset>
    </property>
    <property name="text">
     <string>Cursor Tools</string>
@@ -176,7 +185,7 @@
   <action name="actionImportData">
    <property name="icon">
     <iconset resource="../../resources.qrc">
-     <normaloff>:/materials/light_theme/folder_open.png</normaloff>:/materials/light_theme/folder_open.png</iconset>
+     <normaloff>:/materials/dark_theme/folder_open.png</normaloff>:/materials/dark_theme/folder_open.png</iconset>
    </property>
    <property name="text">
     <string>Import Data</string>
@@ -191,7 +200,7 @@
   <action name="actionsaveScene">
    <property name="icon">
     <iconset resource="../../resources.qrc">
-     <normaloff>:/materials/light_theme/save_alt.png</normaloff>:/materials/light_theme/save_alt.png</iconset>
+     <normaloff>:/materials/dark_theme/save_alt.png</normaloff>:/materials/dark_theme/save_alt.png</iconset>
    </property>
    <property name="text">
     <string>Export ...</string>
@@ -233,7 +242,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resources.qrc">
-     <normaloff>:/materials/light_theme/border_all.png</normaloff>:/materials/light_theme/border_all.png</iconset>
+     <normaloff>:/materials/dark_theme/border_all.png</normaloff>:/materials/dark_theme/border_all.png</iconset>
    </property>
    <property name="text">
     <string>Crosshair Mode </string>
@@ -281,7 +290,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resources.qrc">
-     <normaloff>:/materials/light_theme/arrow_upward.png</normaloff>:/materials/light_theme/arrow_upward.png</iconset>
+     <normaloff>:/materials/dark_theme/arrow_upward.png</normaloff>:/materials/dark_theme/arrow_upward.png</iconset>
    </property>
    <property name="text">
     <string>ToggleYLog</string>
@@ -299,7 +308,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resources.qrc">
-     <normaloff>:/materials/light_theme/arrow_forward.png</normaloff>:/materials/light_theme/arrow_forward.png</iconset>
+     <normaloff>:/materials/dark_theme/arrow_forward.png</normaloff>:/materials/dark_theme/arrow_forward.png</iconset>
    </property>
    <property name="text">
     <string>Toggle Log X</string>
@@ -317,7 +326,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../resources.qrc">
-     <normaloff>:/materials/light_theme/arrow_upward.png</normaloff>:/materials/light_theme/arrow_upward.png</iconset>
+     <normaloff>:/materials/dark_theme/arrow_upward.png</normaloff>:/materials/dark_theme/arrow_upward.png</iconset>
    </property>
    <property name="text">
     <string>yRightLog</string>
