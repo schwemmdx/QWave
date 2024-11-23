@@ -11,12 +11,12 @@ MessageQueue::MessageQueue(QWidget *parent)
     
     setStyleSheet("background: transparent;");
     setAttribute(Qt::WA_TransparentForMouseEvents);
-    setContentsMargins(10, 10, 10, 10);
+    setContentsMargins(5, 5, 5, 5);
     m_layout->setAlignment(Qt::AlignBottom);
     setLayout(m_layout);
 
     // Adjust initial geometry if needed
-    setGeometry(0, 0, 400, 600);
+    setGeometry(0, 0, 450, 600);
 }
 
 MessageQueue* MessageQueue::instance(QWidget *parent) {
@@ -40,17 +40,17 @@ const QColor &textColor,const QColor &borderColor, int timeoutMs, const QIcon &i
 
 void MessageQueue::addInfo(const QString &text)
 {
-    addMessage(text,Qt::black,Monokai::Blue,5000,QIcon(":materials/light_theme/info.png"));
+    addMessage(text,Monokai::SecondaryLabel,Monokai::BorderColor,5000,QIcon(":materials/dark_theme/info.png"));
 }
 
 void MessageQueue::addWarning(const QString &text)
 {
-    addMessage(text,Qt::black,Monokai::Orange,5000,QIcon(":materials/light_theme/warning.png"));
+    addMessage(text,Monokai::SecondaryLabel,Monokai::WarningColor,5000,QIcon(":materials/dark_theme/warning.png"));
 }
 
 void MessageQueue::addError(const QString &text)
 {
-    addMessage(text,Qt::black,Monokai::Red,5000,QIcon(":materials/light_theme/error.png"));
+    addMessage(text,Monokai::SecondaryLabel,Monokai::ErrorColor,5000,QIcon(":materials/dark_theme/error.png"));
 }
 
 

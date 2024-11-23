@@ -14,8 +14,8 @@ class Message : public QWidget {
 
 public:
     explicit Message(const QString &text, const QIcon &icon= QIcon(), 
-                     const QColor &textColor = Qt::black,
-                     const QColor &borderColor= Monokai::Foreground,
+                     const QColor &textColor = Monokai::SecondaryLabel,
+                     const QColor &borderColor= Monokai::BorderColor,
                      int timeoutMs = 3000, QWidget *parent = nullptr);
 
 signals:

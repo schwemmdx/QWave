@@ -17,8 +17,8 @@ class MessageQueue : public QWidget {
 
 public:
     static MessageQueue* instance(QWidget *parent = nullptr);
-    void addMessage(const QString &text, const QColor &textColor = Monokai::Foreground, 
-    const QColor &borderColor=Monokai::Foreground,
+    void addMessage(const QString &text, const QColor &textColor = Monokai::PrimaryLabel, 
+    const QColor &borderColor=Monokai::BorderColor,
     int timeoutMs = 5000, const QIcon &icon = QIcon());
 
     void addInfo(const QString &text);

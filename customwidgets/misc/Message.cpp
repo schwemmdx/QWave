@@ -17,7 +17,7 @@ Message::Message(const QString &text, const QIcon &icon,
     borderFrame->setObjectName("borderFrame"); // Optional: for debugging or styling
     borderFrame->setStyleSheet(
         "QFrame#borderFrame { "
-        "   background-color: " + QColor(Qt::white).name() + "; "
+        "   background-color: " + QColor(Monokai::SecondaryBackground).name() + "; "
         "   border: 1px solid " + borderColor.name() + "; "
         "   border-radius: 5px; "
         "}"
@@ -38,13 +38,13 @@ Message::Message(const QString &text, const QIcon &icon,
     iconLabel->setPixmap(icon.pixmap(32, 32));
     iconLabel->setFixedSize(32, 32);
     iconLabel->setAlignment(Qt::AlignTop);
-    iconLabel->setStyleSheet("background: "+QColor(Qt::white).name()+";"); // Ensure no background is applied
+    iconLabel->setStyleSheet("background: "+QColor(Monokai::SecondaryBackground).name()+";"); // Ensure no background is applied
     contentLayout->addWidget(iconLabel);
 
     // Add the text
     textLabel = new QLabel(text, borderFrame); // Parent is the borderFrame
     textLabel->setStyleSheet(
-        "background: "+QColor(Qt::white).name()+";" // Ensure no background is applied
+        "background: "+QColor(Monokai::SecondaryBackground).name()+";" // Ensure no background is applied
         "color: " + textColor.name() + ";"
         "font-size: 14px;"
     );
