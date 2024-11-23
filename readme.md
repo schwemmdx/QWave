@@ -1,3 +1,9 @@
+
+![Qt](https://img.shields.io/badge/Qt-%23217346.svg?style=for-the-badge&logo=Qt&logoColor=white)  ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black) ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white) 
+![Cpp](https://img.shields.io/badge/Cpp)
+
+
+
 ## QWave - Data Visualizer
 The purpose of this software is primarily dispaying of 
 measurement data aquired from oscilloscopes from the rigol family.
