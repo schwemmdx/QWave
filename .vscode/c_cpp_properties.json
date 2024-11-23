@@ -1,15 +1,36 @@
 {
     "configurations": [
-        {
-            "name": "CMake",
-            "intelliSenseMode": "linux-gcc-x64", // Replace with your compiler, e.g., msvc-x64, clang-x64
-            "includePath": [],
-            "compilerPath": "",
-            "browse": {
-                "path": []
-            },
-            "configurationProvider": "ms-vscode.cmake-tools"
-        }
+      {
+        "name": "Linux",
+        "includePath": [
+          "${workspaceFolder}/**"
+        ],
+        "defines": [],
+        "compilerPath": "/usr/bin/g++",
+        "cStandard": "c17",
+        "cppStandard": "c++17",
+        "intelliSenseMode": "gcc-x64",
+        "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+        "compilerArgs": [
+          "-Wall",               // Enables most common warnings
+          "-Wextra",             // Enables extra warnings
+          "-Werror",             // Treat warnings as errors
+          "-Wunused",            // Warn on unused variables, functions, parameters, etc.
+          "-Wunused-parameter",  // Specifically warn on unused parameters
+          "-Wunused-function",   // Warn on unused functions
+          "-Wunused-variable",   // Warn on unused variables
+          "-Wunused-macros",     // Warn on unused macros
+          "-Wunused-private-field", // Detect unused private members
+          "-Wredundant-decls",   // Warn on redundant declarations
+          "-Wunneeded-internal-declaration", // Warn on unneeded internal declarations
+          "-Wheader-hygiene",    // Warn if headers pollute the global namespace
+          "-Werror=unused-include", // Treat unused headers as errors
+          "-Wshadow",            // Warn on shadowed variables
+          "-Wnon-virtual-dtor",  // Warn if a class with virtual functions has a non-virtual destructor
+          "-Woverloaded-virtual" // Warn when a virtual function is hidden by a non-virtual function
+        ]
+      }
     ],
     "version": 4
-}
+  }
+  

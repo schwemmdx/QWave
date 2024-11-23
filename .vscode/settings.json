@@ -1,63 +1,23 @@
 {
-    // General
-    "workbench.startupEditor": "none", // No welcome page on startup
-    "workbench.editor.showTabs": "none", // Enable tabs for better navigation
-    "workbench.editor.closeEmptyGroups": true, // Automatically close empty editor groups
-    "window.zoomLevel": 0, // No zoom to save memory
-    // Disable Minimap
-    "editor.minimap.enabled": false,
-    "editor.quickSuggestions": {
-        "other": "on",
-        "comments": "off",
-        "strings": "off"
-    }, // Disable inline suggestions
-    "editor.suggestOnTriggerCharacters": true, // Disable suggestions on trigger characters
-    "editor.wordBasedSuggestions": "matchingDocuments", // Disable word-based suggestions
-    "editor.parameterHints.enabled": true, // Disable parameter hints
-    // File Explorer Optimizations
-    "explorer.autoReveal": false, // Disable auto-reveal in file explorer
-    "files.autoSave": "onFocusChange", // Turn off auto-saving files
-    "files.watcherExclude": {
-        "**/node_modules/**": true,
-        "**/.git/**": true,
-        "**/dist/**": true,
-        "**/.vscode/**": true
-    },
-    // Limit Editor History
-    "workbench.editor.limit.enabled": true,
-    "workbench.editor.limit.perEditorGroup": true,
-    // Git Optimization
-    "git.enabled": true, // Enable Git but reduce polling
-    "git.autorefresh": false, // Disable auto-refresh
-    "git.pollingInterval": 30000, // Increase polling interval for Git
-    // Reduce Appearance Overhead
-    "workbench.iconTheme": null, // No custom icon theme
-    //"workbench.colorTheme": "Monokai Pro Light", // Simple default theme
-    "editor.cursorBlinking": "solid", // Disable cursor animation
-    "editor.cursorSmoothCaretAnimation": "off", // Disable smooth caret animation
-    // Telemetry and Updates
-    "telemetry.enableTelemetry": false, // Disable telemetry
-    "update.enableWindowsBackgroundUpdates": false, // Disable background 
-    // Language Features
-    "python.analysis.completeFunctionParens": false, // Disable function parentheses completion in Python
-    // Performance Improvements
-    "editor.largeFileOptimizations": true, // Optimize handling of large files
-    "editor.renderWhitespace": "all", // Do not render whitespace
-    "editor.renderControlCharacters": true, // Do not render control characters
-    "workbench.enableExperiments": false, // Disable experimental features
-    // Extensions Control
-    "extensions.ignoreRecommendations": true, // Disable extension recommendations
-    "extensions.autoCheckUpdates": false, // Turn off auto-check for extension updates
-    "extensions.autoUpdate": false, // Disable extension auto-updates
-    "workbench.editor.untitled.hint": "hidden", // Hide untitled file hints
-    // Terminal
-    "terminal.integrated.scrollback": 500, // Limit terminal scrollback
-    "terminal.integrated.rendererType": "dom", // Use DOM-based rendering for low resource usage
-    // Auto-closing Brackets and Quotes
-    "editor.autoClosingBrackets": "never",
-    "editor.autoClosingQuotes": "never",
-    // Disable Built-in Extensions (optional, adjust as needed)
-    "extensions.experimental.useCustomInstall": false,
-    //clang formatting 
-    "editor.formatOnSave": true
+    // Enable the C/C++ extension's IntelliSense engine
+    "C_Cpp.intelliSenseEngine": "default",
+
+    // Path to your compile_commands.json file
+    "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json",
+    "C_Cpp.errorSquiggles": "enabled",
+   "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+  "C_Cpp.codeAnalysis.clangTidy.path": "usr/bin/clang-tidy", // Update this path if clang-tidy is not in your PATH
+  "C_Cpp.codeAnalysis.clangTidy.checks.enabled": [
+    "modernize-*", // Modern C++ best practices
+    "readability-*", // Readability improvements
+    "bugprone-*", // Detect common bugs
+    "performance-*", // Performance-related checks
+    "cppcoreguidelines-*", // C++ Core Guidelines
+    "clang-analyzer-*", // Static analysis checks
+    "portability-*", // Portability checks
+    "misc-unused-*" // Miscellaneous checks
+  ],
+
+  "C_Cpp.codeAnalysis.runAutomatically": true, // Enable automatic code analysis
+
 }
