@@ -13,7 +13,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-project(QWave)
+
 
 if(WIN32)
     set(Qt6_DIR C:/Qt/6.8.0/mingw_64/lib/cmake/Qt6)
@@ -47,6 +47,8 @@ include_directories(
 # Specify UI sources
 set(UI_SOURCES
     ${UI_DIR}/MainWindow.ui
+    ${UI_DIR}/DetailsDialog.ui
+    ${UI_DIR}/OptionsDialog.ui
 )
 
 # Specify project sources
@@ -63,6 +65,7 @@ set(PROJECT_SOURCES
     # Import-related classes
     ${DATA_IMPORT_DIR}/HiracData.cpp
     ${DATA_IMPORT_DIR}/CSVData.cpp
+
     # Dialogs
     ${DIALOG_DIR}/DetailsDialog.cpp
     ${DIALOG_DIR}/OptionsDialog.cpp
@@ -73,7 +76,7 @@ set(PROJECT_SOURCES
     ${MISC_DIR}/ThemeManager.cpp
     
     # StackWidget classes
-   
+   ${STACKWIDGET_DIR}/MultiColumnToolbar.cpp
     # UI files
     ${UI_SOURCES}
     resources.qrc
