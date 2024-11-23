@@ -1,0 +1,202 @@
+/* General Widget Styles */
+QWidget {
+    background-color: rgb(39, 40, 34); /* Monokai SystemBackground */
+    color: rgb(248, 248, 242);         /* Monokai PrimaryLabel */
+    border: none;
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+}
+
+/* Buttons */
+QPushButton {
+    background-color: rgb(50, 50, 50); /* Monokai SecondaryBackground */
+    color: rgb(248, 248, 242);         /* Monokai PrimaryLabel */
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+QPushButton:hover {
+    background-color: rgb(60, 60, 60); /* Monokai TertiaryBackground */
+}
+
+QPushButton:pressed {
+    background-color: rgb(39, 40, 34); /* Monokai Darker Background */
+    border: 1px solid rgb(166, 226, 46); /* Monokai Green */
+    color: rgb(249, 38, 114);           /* Monokai Pink */
+}
+
+QPushButton:disabled {
+    background-color: rgb(39, 40, 34);
+    color: rgb(117, 113, 94); /* Monokai SecondaryLabel */
+    border: 1px solid rgb(117, 113, 94);
+}
+
+/* Line Edits */
+QLineEdit, QTextEdit, QPlainTextEdit {
+    background-color: rgb(50, 50, 50); /* Monokai SecondaryBackground */
+    color: rgb(248, 248, 242);         /* Monokai PrimaryLabel */
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+    border-radius: 5px;
+    padding: 5px;
+}
+
+QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus {
+    border: 1px solid rgb(166, 226, 46); /* Monokai Green */
+}
+
+/* Placeholder Text */
+QLineEdit[placeholderText], QTextEdit[placeholderText] {
+    color: rgb(117, 113, 94); /* Monokai QuaternaryLabel */
+}
+
+/* ComboBox */
+QComboBox {
+    background-color: rgb(50, 50, 50);
+    color: rgb(248, 248, 242);
+    border: 1px solid rgb(102, 217, 239);
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: rgb(39, 40, 34);
+    color: rgb(248, 248, 242);
+    selection-background-color: rgb(60, 60, 60); /* Monokai Highlight */
+    selection-color: rgb(248, 248, 242);
+    border: 1px solid rgb(166, 226, 46);
+}
+
+/* Scrollbars */
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: rgb(39, 40, 34); /* Monokai SystemBackground */
+    border: none;
+    width: 10px;
+    height: 10px;
+}
+
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+    background: rgb(166, 226, 46); /* Monokai Green */
+    border-radius: 5px;
+}
+
+QScrollBar::add-line, QScrollBar::sub-line {
+    background: rgb(50, 50, 50); /* Monokai SecondaryBackground */
+}
+
+/* ListView and TreeView */
+QListView, QTreeView {
+    background-color: rgb(50, 50, 50); /* Monokai SecondaryBackground */
+    alternate-background-color: rgb(60, 60, 60); /* Monokai TertiaryBackground */
+    color: rgb(248, 248, 242); /* Monokai PrimaryLabel */
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+}
+
+QListView::item:selected, QTreeView::branch:selected {
+    background-color: rgb(60, 60, 60); /* Monokai Highlight */
+    color: rgb(248, 248, 242);
+    border: none;
+}
+
+/* Tabs */
+QTabWidget::pane {
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+    background: rgb(39, 40, 34); /* Monokai SystemBackground */
+}
+
+QTabBar::tab {
+    background: rgb(50, 50, 50); /* Monokai SecondaryBackground */
+    color: rgb(248, 248, 242);
+    padding: 8px;
+    border: 1px solid rgb(102, 217, 239);
+    border-radius: 5px;
+}
+
+QTabBar::tab:selected {
+    background: rgb(60, 60, 60); /* Monokai Highlight */
+    color: rgb(248, 248, 242);
+}
+
+/* GroupBox */
+QGroupBox {
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    background-color: transparent;
+    padding: 0 5px;
+    color: rgb(166, 226, 46); /* Monokai Green */
+}
+
+/* ProgressBar */
+QProgressBar {
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+    background-color: rgb(39, 40, 34); /* Monokai SystemBackground */
+    color: rgb(248, 248, 242);
+    border-radius: 5px;
+    text-align: center;
+}
+
+QProgressBar::chunk {
+    background-color: rgb(166, 226, 46); /* Monokai Green */
+}
+
+/* ToolTips */
+QToolTip {
+    background-color: rgb(50, 50, 50); /* Monokai SecondaryBackground */
+    color: rgb(248, 248, 242); /* Monokai PrimaryLabel */
+    border: 1px solid rgb(32, 32, 32); /* Monokai Cyan */
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* Menus */
+QMenu {
+    background-color: rgb(39, 40, 34); /* Monokai SystemBackground */
+    color: rgb(248, 248, 242); /* Monokai PrimaryLabel */
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+}
+
+QMenu::item:selected {
+    background-color: rgb(60, 60, 60); /* Monokai Highlight */
+    color: rgb(248, 248, 242);
+}
+
+/* Checkboxes and Radio Buttons */
+QCheckBox, QRadioButton {
+    color: rgb(248, 248, 242); /* Monokai PrimaryLabel */
+    spacing: 5px;
+}
+
+QCheckBox::indicator, QRadioButton::indicator {
+    width: 15px;
+    height: 15px;
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+    border-radius: 5px;
+    background: rgb(50, 50, 50); /* Monokai SecondaryBackground */
+}
+
+QCheckBox::indicator:checked, QRadioButton::indicator:checked {
+    background: rgb(166, 226, 46); /* Monokai Green */
+    border: 1px solid rgb(166, 226, 46);
+}
+
+/* Slider */
+QSlider::groove:horizontal, QSlider::groove:vertical {
+    background: rgb(50, 50, 50); /* Monokai SecondaryBackground */
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+    height: 6px;
+    border-radius: 3px;
+}
+
+QSlider::handle:horizontal, QSlider::handle:vertical {
+    background: rgb(166, 226, 46); /* Monokai Green */
+    border: 1px solid rgb(102, 217, 239); /* Monokai Cyan */
+    width: 15px;
+    height: 15px;
+    border-radius: 7px;
+}
