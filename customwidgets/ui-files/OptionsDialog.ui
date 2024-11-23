@@ -83,7 +83,7 @@
      <widget class="QWidget" name="generalSettings">
       <attribute name="icon">
        <iconset>
-        <normalon>:/materials/light_theme/tune.png</normalon>
+        <normalon>:/materials/dark_theme/tune.png</normalon>
        </iconset>
       </attribute>
       <attribute name="title">
@@ -151,7 +151,7 @@
          </property>
          <property name="icon">
           <iconset resource="../../resources.qrc">
-           <normaloff>:/materials/light_theme/build.png</normaloff>:/materials/light_theme/build.png</iconset>
+           <normaloff>:/materials/dark_theme/build.png</normaloff>:/materials/dark_theme/build.png</iconset>
          </property>
         </widget>
        </item>
@@ -177,7 +177,7 @@
      <widget class="QWidget" name="tab_2">
       <attribute name="icon">
        <iconset>
-        <normalon>:/materials/light_theme/save_alt.png</normalon>
+        <normalon>:/materials/dark_theme/save_alt.png</normalon>
        </iconset>
       </attribute>
       <attribute name="title">
@@ -233,7 +233,7 @@
      <widget class="QWidget" name="chartSettings">
       <attribute name="icon">
        <iconset>
-        <normalon>:/materials/light_theme/show_chart.png</normalon>
+        <normalon>:/materials/dark_theme/show_chart.png</normalon>
        </iconset>
       </attribute>
       <attribute name="title">
