@@ -76,7 +76,7 @@ set(PROJECT_SOURCES
     ${MISC_DIR}/ThemeManager.cpp
     
     # StackWidget classes
-   ${STACKWIDGET_DIR}/MultiColumnToolbar.cpp
+   ${STACKWIDGET_DIR}/SettingsTree.cpp
     # UI files
     ${UI_SOURCES}
     resources.qrc
@@ -87,6 +87,7 @@ qt_add_executable(QWave
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
     resources.qrc
+    
 )
 
 # Link Qt libraries

@@ -12,7 +12,7 @@
 #include "CustomSeries.h"
 #include "ChartContainer.h"
 #include "ThemeManager.h"
-#include "MultiColumnToolbar.h"
+#include "SettingsTree.h"
 #include "OptionsDialog.h"
 
 #include "CSVData.h"
@@ -65,8 +65,8 @@ private:
     QHBoxLayout *mainLayout;
 
     CustomSeries *focusTrace{nullptr};
-    OptionsDialog *pOptionDlg;
-    ActionListWidget* tools;
+    SettingsTree *settings;
+   
     QCursor measureCursor{};
     ChartContainer *chartContainer;
     QString openDlgStartPath{QDir::homePath()};

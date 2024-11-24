@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "./ui_MainWindow.h"
+#include "ui_MainWindow.h"
 
 #include "ChartContainer.h"
 #include <QtCharts/QtCharts>
@@ -12,7 +12,7 @@
 #include <QDir>
 
 #include "ThemeColors.h"
-#include "OptionsDialog.h"
+#include "SettingsTree.h"
 #include "MessageQueue.h"
 
 #include "CustomChart.h"
@@ -28,23 +28,37 @@ MainWindow::MainWindow(QWidget *parent)
 
     dataView = new QTreeView();
     csvData = new CSVData();
-    tools = new ActionListWidget();
-
+    settings = new SettingsTree(this);
+    settings->addSetting("Graph","X Major Grid",false,SettingsTree::Bool,[](const QVariant &newValue) {
+        qDebug() << "X Major Grid changed to:" << newValue.toBool();
+    });
+    
+    settings->addSetting("Graph","Y Left Major Grid",false,SettingsTree::Bool,nullptr);
+    settings->addSetting("Graph","Y Right Major Grid",false,SettingsTree::Bool,nullptr);
+    settings->addSetting("Graph","X Minor Grid",false,SettingsTree::Bool,nullptr);
+    settings->addSetting("Graph","Y Left Minor Grid",false,SettingsTree::Bool,nullptr);
+    settings->addSetting("Graph","Y Right Minor Grid",false,SettingsTree::Bool,nullptr);
+    settings->addSetting("Graph Elements","Trace Width",1.0,SettingsTree::Float
+    ,nullptr);
+    settings->addSetting("Graph Elements","Font","San Francisco",SettingsTree::Font,nullptr);
+    settings->addSetting("Export Parameters","BG Color","white",SettingsTree::Color,nullptr);
+ 
+    
+    
     ui->centralwidget->adjustSize();
     ui->mainLayout->addWidget(chartContainer, 1);
     ui->stackedWidget->addWidget(dataView);
-    ui->stackedWidget->addWidget(tools);
+    ui->stackedWidget->addWidget(settings);
     ui->stackedWidget->setMinimumWidth(300);
     isStackWidgetVisible = false;
     ui->stackedWidget->hide();
-    pOptionDlg = new OptionsDialog(this);
-    pOptionDlg->hide();
+    
 
     loadStyles();
     ui->actiontoggleCursorDock->setChecked(false);
 
     connect(chartContainer, &ChartContainer::newTraceSelection, this, &MainWindow::selectedSeriesChanged);
-    connect(pOptionDlg, &OptionsDialog::applySettings, this, &MainWindow::applyNewOptions);
+   
 
     connect(csvData, &CSVData::addSeries, chartContainer, &ChartContainer::addSeriesToChart);
     connect(csvData, &CSVData::removeSeries, chartContainer, &ChartContainer::removeSeriesFromChart);
@@ -116,20 +130,7 @@ void MainWindow::toggleStackWidget()
 
 void MainWindow::applyNewOptions()
 {
-    auto mgr = ThemeManager::instance();
-    // if (mgr.setTheme(pOptionDlg->getTheme()))
-    //{
-    //     pApplication->setPalette(mgr.palette());
-    // }
-
-    // load the style selected.
-
-    QFile styleFile(qssFiles[pOptionDlg->getSelectedStyle()]);
-    if (styleFile.open(QFile::ReadOnly))
-    {
-        pApplication->setStyleSheet(styleFile.readAll());
-    }
-    // save the options to the QSettings File
+   
 }
 
 void MainWindow::loadStyles()
@@ -146,7 +147,7 @@ void MainWindow::loadStyles()
         qssFiles[fileInfo.fileName()] = fileInfo.absolutePath();
     }
 
-    pOptionDlg->populateStyles(qssFiles.keys());
+   
 }
 
 void MainWindow::selectedSeriesChanged(CustomSeries *traceClicked)
@@ -284,7 +285,8 @@ void MainWindow::set_pMain(QApplication *pApp)
 
 void MainWindow::on_actionOptions_triggered()
 {
-    pOptionDlg->show();
+    ui->stackedWidget->setCurrentWidget(settings);
+    ui->stackedWidget->show();
 }
 
 void MainWindow::on_actiontoggleCursorDock_toggled(bool arg1)
