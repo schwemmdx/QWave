@@ -2,29 +2,47 @@
 #define MESSAGE_H
 
 #include <QWidget>
-#include <QLabel>
-#include <QFrame>
 #include <QTimer>
-#include <QIcon>
+#include <QProgressBar>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QFrame>
+#include <QPushButton>
 
-#include "ThemeColors.h"
+// Enum to define message types
+enum MessageType {
+    MSG_VOLATILE = 0,
+    MSG_PROGRESS,
+    MSG_WARNING,
+    MSG_PERSISTANT,
+};
 
 class Message : public QWidget {
     Q_OBJECT
 
 public:
-    explicit Message(const QString &text, const QIcon &icon= QIcon(), 
-                     const QColor &textColor = Monokai::SecondaryLabel,
-                     const QColor &borderColor= Monokai::BorderColor,
-                     int timeoutMs = 3000, QWidget *parent = nullptr);
+    explicit Message(const QString &text, MessageType msgType, const QIcon &icon,
+                     const QColor &textColor, const QColor &borderColor, 
+                     int timeoutMs, QWidget *parent = nullptr);
+
+public slots:
+    void updateProgress(int value); // Slot to update progress bar
+    void startFadeOut();            // Slot to start fading out the message
+    void updateText(const QString &newText);
+
+    //void setMode(MessageType msgType); // Slot to change message mode
 
 signals:
-    void expired(Message *message);
+    void expired(Message *message); // Signal emitted when the message expires
 
 private:
-    QLabel *textLabel;       // Label for the message text
-    QTimer *expirationTimer; // Timer for auto-expiration
-    void startFadeOut();     // Trigger fade-out animation
+    MessageType type;
+    QLabel *textLabel;
+    QPushButton *closeBtn;
+    QProgressBar *progressBar;
+    QTimer *expirationTimer;
+
+    void setupLayout(const QString &text, const QIcon &icon, const QColor &textColor, const QColor &borderColor);
 };
 
 #endif // MESSAGE_H

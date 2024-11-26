@@ -105,7 +105,9 @@ MainWindow::MainWindow(QWidget *parent)
         border-radius: 4px; /* Optional rounded corners */
     }
 )";
-pApplication->setStyleSheet(tooltipStyle);
+    pApplication->setStyleSheet(tooltipStyle);
+    MessageQueue::instance(this)->addInfo("You are running a debug build");
+
 }
 
 MainWindow::~MainWindow()
@@ -192,32 +194,52 @@ void MainWindow::on_actionImportData_triggered()
     processNextFile(files);
 }
 
-void MainWindow::processNextFile(QStringList files)
-{
-    if (files.isEmpty())
+void MainWindow::processNextFile(QStringList files) {
+    if (files.isEmpty()) {
         return; // All files processed
+    }
 
-    QString currentFile = files.takeFirst(); // Get the first file and remove it from the list
-
-    openDlgStartPath = QFileInfo(currentFile).absolutePath();
-    csvData->disconnect(this); // Disconnect previous signals
-
-    connect(csvData, &HiracData::dataLoadStarted, this, [currentFile]() {
-        QFileInfo f(currentFile);
-        MessageQueue *q = MessageQueue::instance();
-        q->addInfo("Loading " + f.fileName() + " from " + f.filePath());
-    });
-
-    connect(csvData, &HiracData::dataLoadFinished, this, [this, files, currentFile]() {
-        QFileInfo f(currentFile);
-        MessageQueue *x = MessageQueue::instance();
-        x->addInfo("Load of " + f.fileName() + " complete.");
-
-        // Process the next file after the current one is done
+    QString currentFile = files.takeFirst(); // Get the first file and remove 
+    if (currentFile.isEmpty() || !QFileInfo::exists(currentFile)) {
+        MessageQueue::instance(this)->addError("Invalid file: " + currentFile);
         processNextFile(files);
-    });
+        return;
+    }
+    //it from the list
+    openDlgStartPath = QFileInfo(currentFile).absolutePath();
 
-    csvData->appendData(dataView, currentFile); // Start loading the current file
+    // Create a unique progress message for this file
+    QFileInfo fileInfo(currentFile);
+    
+    Message *fileMessage = MessageQueue::instance(this)->addProgressMessage("Starting to load " + fileInfo.fileName() + "...");
+    // Notify the start of file loading
+    /*connect(csvData, &HiracData::dataLoadStarted, this, [fileMessage, currentFile]() {
+        fileMessage->updateText("Loading started: " + QFileInfo(currentFile).fileName());
+    }, Qt::UniqueConnection);
+*/
+    // Update progress dynamically
+    connect(csvData, &HiracData::dataLoadProgress, this, [fileMessage](int progress) {
+        if (fileMessage) {
+            progress = std::clamp(progress, 0, 100); // Ensure progress is within valid range
+            fileMessage->updateProgress(progress);
+            fileMessage->updateText("Loading progress: " + QString::number(progress) + "%");
+        }
+    }, Qt::UniqueConnection);
+
+    // Notify when the file load is complete
+    connect(csvData, &HiracData::dataLoadFinished, this, [this, files, currentFile, fileMessage]() {
+        //disconnect(csvData, nullptr, this, nullptr); 
+        if (fileMessage) {
+            fileMessage->updateText("Finished loading: " + QFileInfo(currentFile).fileName());
+            fileMessage->updateProgress(100); // Ensure progress bar is full
+        }
+
+        // Process the next file in the list
+        processNextFile(files);
+    }, Qt::UniqueConnection);
+
+    // Handle errors during file loading
+    csvData->appendData(dataView,currentFile);
 }
 
 
@@ -313,41 +335,46 @@ void MainWindow::on_actiontoggleDataDock_toggled(bool arg1)
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-
     // Margins for the MessageQueue widget
-    const int marginRight = 0;
-    const int marginBottom = 20;
+    const int marginRight = 5;  // Add a small margin from the right edge
+    const int marginBottom = 25; // Distance from the bottom toolbar
 
     // Get the instance of the MessageQueue
     MessageQueue *msgQ = MessageQueue::instance(this);
 
+    // Calculate the height dynamically if the MessageQueue adjusts its size based on messages
+    QSize msgQSize = msgQ->sizeHint(); // Use sizeHint for more accurate size
+    int width = msgQSize.width();      // Use the MessageQueue's preferred width
+    int height = msgQSize.height();    // Use the MessageQueue's preferred height
+
     // Calculate the position for the MessageQueue
-    QSize msgQSize = msgQ->size(); // Use its current size
-    int x = width() - msgQSize.width() - marginRight;
-    int y = height() - msgQSize.height() - marginBottom;
+    int x = this->width() - width - marginRight;
+    int y = this->height() - height - marginBottom;
 
     // Set the geometry of the MessageQueue
-    msgQ->setGeometry(x, y, msgQSize.width(), msgQSize.height());
+    msgQ->setGeometry(x, y, width, height);
 
-    QWidget::resizeEvent(event);
+    // Call the base class implementation
+    QMainWindow::resizeEvent(event);
 }
+
 
 void MainWindow::on_action_ToggleYLeft_triggered(bool checked)
 {
-    MessageQueue *q = MessageQueue::instance();
-    q->addMessage("Left y-axis log scaling: " + QString::number(checked), Monokai::PrimaryLabel);
+    MessageQueue *q = MessageQueue::instance(this);
+    q->addInfo("Left y-axis log scaling: " + QString::number(checked));
     chartContainer->chart->setLogYLScale(checked);
 }
 
 void MainWindow::on_action_toggleXlog_triggered(bool checked)
 {
-    MessageQueue *q = MessageQueue::instance();
-    q->addMessage("X-axis log scaling: " + QString::number(checked), Monokai::PrimaryLabel);
+    MessageQueue *q = MessageQueue::instance(this);
+    q->addInfo("X-axis log scaling: " + QString::number(checked));
     chartContainer->chart->setLogXScale(checked);
 }
 
 void MainWindow::on_actionToggleYRightLog_triggered(bool checked)
 {
-    MessageQueue *q = MessageQueue::instance();
-    q->addMessage("Right y-axis log scaling: " + QString::number(checked), Monokai::PrimaryLabel);
+    MessageQueue *q = MessageQueue::instance(this);
+    q->addInfo("Right y-axis log scaling: " + QString::number(checked));
 }

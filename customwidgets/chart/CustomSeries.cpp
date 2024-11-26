@@ -72,10 +72,7 @@ void CustomSeries::selected(const QPointF &point)
 
 void CustomSeries::onHover(const QPointF &point,bool state)
 {
-    MessageQueue* q = MessageQueue::instance();
-    q->addMessage("x: "+ScientificFormatter::toScientificSuffix(point.x())+
-    "\ny: "+ScientificFormatter::toScientificSuffix(point.y()),Monokai::PrimaryLabel);
-    
+
 }
 
 void CustomSeries::onPointPress(const QPointF &point)

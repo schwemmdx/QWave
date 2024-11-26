@@ -15,6 +15,7 @@
 #include "SettingsTree.h"
 #include "OptionsDialog.h"
 
+#include "Message.h"
 #include "CSVData.h"
 
 QT_BEGIN_NAMESPACE
@@ -73,6 +74,7 @@ private:
     QShortcut *toggleStackWidgetShort;
     bool isStackWidgetVisible{true};
     QMap<QString, QString> qssFiles;
+    Message* progressMessage{nullptr};
 
     void unselectExcept(CustomSeries *);
     void applyNewOptions();

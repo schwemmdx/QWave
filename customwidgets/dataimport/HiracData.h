@@ -42,8 +42,10 @@ signals:
     // Signals to communicate with ChartContainer
     void addSeries(const QString &label, const QVector<double> &xData, const QVector<double> &yData, Qt::Alignment alignment);
     void removeSeries(const QString &label);
+    
     void dataLoadStarted();
     void dataLoadProgress(int progress);
+    void dataLoadError(QString errorMsg);
     void dataLoadFinished();
 
 public slots:
