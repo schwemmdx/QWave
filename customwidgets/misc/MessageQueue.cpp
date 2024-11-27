@@ -12,6 +12,8 @@ MessageQueue::MessageQueue(QWidget *parent)
     // Style and layout
     setStyleSheet("background: transparent;");
     setContentsMargins(5, 5, 5, 5);
+    setFixedWidth(400);
+    setFixedHeight(600);
     m_layout->setAlignment(Qt::AlignBottom);
     setLayout(m_layout);
 }
@@ -24,11 +26,11 @@ MessageQueue* MessageQueue::instance(QWidget *parent) {
 }
 
 void MessageQueue::addInfo(const QString &text) {
-    addMessage(text, MSG_VOLATILE, Monokai::PrimaryLabel, Monokai::SecondaryLabel, 5000, QIcon(":materials/dark_theme/info.png"));
+    addMessage(text, MSG_VOLATILE, Monokai::PrimaryLabel, Monokai::SecondaryLabel, 2500, QIcon(":materials/dark_theme/info.png"));
 }
 
 void MessageQueue::addWarning(const QString &text) {
-    addMessage(text, MSG_VOLATILE, Monokai::PrimaryLabel, Monokai::WarningColor, 5000, QIcon(":materials/dark_theme/warning.png"));
+    addMessage(text, MSG_VOLATILE, Monokai::PrimaryLabel, Monokai::WarningColor, 3000, QIcon(":materials/dark_theme/warning.png"));
 }
 
 void MessageQueue::addError(const QString &text) {
@@ -36,7 +38,7 @@ void MessageQueue::addError(const QString &text) {
 }
 Message* MessageQueue::addProgressMessage(const QString &text) {
     // Create a progress message
-    Message *progressMessage = addMessage(text, MSG_PROGRESS, Monokai::PrimaryLabel, Monokai::SecondaryLabel, 500, QIcon(":materials/dark_theme/progress.png"));
+    Message *progressMessage = addMessage(text, MSG_PROGRESS, Monokai::PrimaryLabel, Monokai::SecondaryLabel, 1000, QIcon(":materials/dark_theme/progress.png"));
 
     // Show the message
     showMessage(progressMessage);

@@ -98,13 +98,13 @@ void HiracData::setupContextMenu(QTreeView *treeView)
         }
 
         // Execute the menu at the global position
-        menu.exec(treeView->viewport()->mapToGlobal(pos)); }, Qt::UniqueConnection);
+        menu.exec(treeView->viewport()->mapToGlobal(pos)); });
 
     // Disconnect previous connections to prevent duplicates
     // treeView->disconnect(this);
 
     // Connect the signal for item click
-    connect(treeView, &QTreeView::clicked, this, &HiracData::handleItemClick, Qt::UniqueConnection);
+    connect(treeView, &QTreeView::clicked, this, &HiracData::handleItemClick);
 }
 
 void HiracData::onSetAsXVector(QTreeView *treeView, const QModelIndex &index)

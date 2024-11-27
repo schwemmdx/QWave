@@ -17,6 +17,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(WIN32)
     set(Qt6_DIR C:/Qt/6.8.0/mingw_64/lib/cmake/Qt6)
+    add_definitions(-DQT_CONSOLE_APPLICATION)
 endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Charts Gui)
@@ -85,6 +86,7 @@ set(PROJECT_SOURCES
 # Add the executable and link the necessary Qt libraries
 qt_add_executable(QWave
     MANUAL_FINALIZATION
+     
     ${PROJECT_SOURCES}
     resources.qrc
     
@@ -109,7 +111,7 @@ if(WIN32)
         Qt6Widgets.dll
         Qt6OpenGlWidgets.dll
         opengl32sw.dll
-        D3DCompiler_47.dll
+        #D3DCompiler_47.dll
         libgcc_s_seh-1.dll
         libstdc++-6.dll
         libwinpthread-1.dll

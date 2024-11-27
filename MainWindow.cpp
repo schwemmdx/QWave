@@ -11,6 +11,8 @@
 #include <QStringList>
 #include <QDir>
 
+#include <QDebug>
+
 #include "ThemeColors.h"
 #include "SettingsTree.h"
 #include "MessageQueue.h"
@@ -49,7 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->mainLayout->addWidget(chartContainer, 1);
     ui->stackedWidget->addWidget(dataView);
     ui->stackedWidget->addWidget(settings);
-    ui->stackedWidget->setMinimumWidth(300);
+    ui->stackedWidget->setMinimumWidth(250);
     isStackWidgetVisible = false;
     ui->stackedWidget->hide();
     
@@ -106,7 +108,8 @@ MainWindow::MainWindow(QWidget *parent)
     }
 )";
     pApplication->setStyleSheet(tooltipStyle);
-    MessageQueue::instance(this)->addInfo("You are running a debug build");
+    MessageQueue::instance(this)->addWarning("You are running a debug build");
+
 
 }
 
@@ -179,6 +182,8 @@ void MainWindow::unselectExcept(CustomSeries *traceClicked)
 
 void MainWindow::on_actionImportData_triggered()
 {
+    MessageQueue::instance(this)->addInfo("Start Processing...");
+    
     QStringList files = QFileDialog::getOpenFileNames(
         this, QString("Open Data for inspection"), openDlgStartPath, QString("*.csv"));
 
@@ -191,6 +196,7 @@ void MainWindow::on_actionImportData_triggered()
     ui->stackedWidget->setCurrentWidget(dataView);
 
     // Process files one by one
+    
     processNextFile(files);
 }
 
@@ -210,13 +216,14 @@ void MainWindow::processNextFile(QStringList files) {
 
     // Create a unique progress message for this file
     QFileInfo fileInfo(currentFile);
-    
+
+
     Message *fileMessage = MessageQueue::instance(this)->addProgressMessage("Starting to load " + fileInfo.fileName() + "...");
     // Notify the start of file loading
-    /*connect(csvData, &HiracData::dataLoadStarted, this, [fileMessage, currentFile]() {
+    connect(csvData, &HiracData::dataLoadStarted, this, [fileMessage, currentFile]() {
         fileMessage->updateText("Loading started: " + QFileInfo(currentFile).fileName());
-    }, Qt::UniqueConnection);
-*/
+    });
+
     // Update progress dynamically
     connect(csvData, &HiracData::dataLoadProgress, this, [fileMessage](int progress) {
         if (fileMessage) {
@@ -224,22 +231,27 @@ void MainWindow::processNextFile(QStringList files) {
             fileMessage->updateProgress(progress);
             fileMessage->updateText("Loading progress: " + QString::number(progress) + "%");
         }
-    }, Qt::UniqueConnection);
+    });
 
     // Notify when the file load is complete
     connect(csvData, &HiracData::dataLoadFinished, this, [this, files, currentFile, fileMessage]() {
-        //disconnect(csvData, nullptr, this, nullptr); 
+        disconnect(csvData, nullptr, this, nullptr);
         if (fileMessage) {
             fileMessage->updateText("Finished loading: " + QFileInfo(currentFile).fileName());
             fileMessage->updateProgress(100); // Ensure progress bar is full
+            processNextFile(files);
         }
 
         // Process the next file in the list
-        processNextFile(files);
-    }, Qt::UniqueConnection);
+
+    });
 
     // Handle errors during file loading
+    qDebug() << "Loading " << currentFile ;
+
     csvData->appendData(dataView,currentFile);
+    //MessageQueue::instance(this)->addInfo("Loaded "+currentFile);
+
 }
 
 
@@ -343,7 +355,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     MessageQueue *msgQ = MessageQueue::instance(this);
 
     // Calculate the height dynamically if the MessageQueue adjusts its size based on messages
-    QSize msgQSize = msgQ->sizeHint(); // Use sizeHint for more accurate size
+    QSize msgQSize = msgQ->size(); // Use sizeHint for more accurate size
     int width = msgQSize.width();      // Use the MessageQueue's preferred width
     int height = msgQSize.height();    // Use the MessageQueue's preferred height
 

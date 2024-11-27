@@ -27,7 +27,7 @@ Message::Message(const QString &text, MessageType msgType, const QIcon &icon,
     expirationTimer->setSingleShot(true);
     expirationTimer->setInterval(timeoutMs);
    
-    setFixedWidth(400);
+
     connect(expirationTimer, &QTimer::timeout, this, &Message::startFadeOut);
     connect(closeBtn, &QPushButton::clicked, this, &Message::startFadeOut);
 
@@ -124,7 +124,7 @@ void Message::startFadeOut() {
     setGraphicsEffect(fadeEffect);
 
     QPropertyAnimation *fadeAnimation = new QPropertyAnimation(fadeEffect, "opacity");
-    fadeAnimation->setDuration(500);
+    fadeAnimation->setDuration(1000);
     fadeAnimation->setStartValue(1.0);
     fadeAnimation->setEndValue(0.0);
 

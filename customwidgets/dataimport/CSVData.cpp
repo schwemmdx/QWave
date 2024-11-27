@@ -60,8 +60,8 @@ void CSVData::loadData(const QString &dataPath, QStandardItemModel *model) {
     emit dataLoadProgress(100);
     emit dataLoadFinished(); // Notify that loading is complete
 }
-
 */
+
 void CSVData::loadData(const QString &dataPath, QStandardItemModel *model) {
     emit dataLoadProgress(1);
 
@@ -163,4 +163,5 @@ void CSVData::loadData(const QString &dataPath, QStandardItemModel *model) {
     emit dataLoadProgress(100);
     emit dataLoadFinished();
 }
+
 

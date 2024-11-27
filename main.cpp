@@ -33,8 +33,9 @@ int main(int argc, char *argv[])
 
     QString fontFamily = QFontDatabase::applicationFontFamilies(fontId).at(0);
     QFont appFont(fontFamily);
-    appFont.setPointSize(12);
-    a.setFont(appFont);
+    appFont.setBold(false);
+    appFont.setPointSize(11);
+    //a.setFont(appFont);
 
     MainWindow w;
     w.set_pMain(&a);
